@@ -28,14 +28,14 @@ class Presta
                 "<prestashop>
                     <language>
                         <id></id>
-                        <name>#{tab[0]}(#{tab[0]})</name>
-                        <iso_code>#{tab[1]}</iso_code>
-                        <locale>#{tab[2]}</locale>
-                        <language_code>#{tab[3]}</language_code>
-                        <active>#{tab[4]}</active>
-                        <is_rtl>#{tab[5]}</is_rtl>
-                        <date_format_lite>#{tab[6]}</date_format_lite>
-                        <date_format_full>#{tab[7]}</date_format_full>
+                        <name>#{tab[:name]}(#{tab[:name]})</name>
+                        <iso_code>#{tab[:iso_code]}</iso_code>
+                        <locale>#{tab[:locale]}</locale>
+                        <language_code>#{tab[:language_code]}</language_code>
+                        <active>#{tab[:active]}</active>
+                        <is_rtl>#{tab[:is_rtl]}</is_rtl>
+                        <date_format_lite>#{tab[:date_format_lite]}</date_format_lite>
+                        <date_format_full>#{tab[:date_format_full]}</date_format_full>
                     </language>
                 </prestashop>",
 
@@ -56,38 +56,38 @@ class Presta
             "<prestashop>
                 <customer>
                     <id></id>
-                    <id_default_group href=\"http://localhost:8080/api/groups/\">#{tab[0]}</id_default_group>
-                    <id_lang href=\"http://localhost:8080/api/languages/\">#{tab[1]}</id_lang>
-                    <newsletter_date_add>#{tab[2]}</newsletter_date_add>
-                    <ip_registration_newsletter>#{tab[3]}</ip_registration_newsletter>
-                    <last_passwd_gen>#{tab[4]}</last_passwd_gen>
-                    <secure_key>#{tab[5]}</secure_key>
-                    <deleted>#{tab[6]}</deleted>
-                    <passwd>#{tab[7]}</passwd>
-                    <lastname>#{tab[8]}</lastname>
-                    <firstname>#{tab[9]}</firstname>
-                    <email>#{tab[10]}</email>
-                    <id_gender>#{tab[11]}</id_gender>
-                    <birthday>#{tab[12]}</birthday>
-                    <newsletter>#{tab[13]}</newsletter>
-                    <optin>#{tab[14]}</optin>
-                    <website>#{tab[15]}</website>
-                    <company>#{tab[16]}</company>
-                    <siret>#{tab[17]}</siret>
-                    <ape>#{tab[18]}</ape>
-                    <outstanding_allow_amount>#{tab[19]}</outstanding_allow_amount>
-                    <show_public_prices>#{tab[20]}</show_public_prices>
-                    <id_risk>#{tab[21]}</id_risk>
-                    <max_payment_days>#{tab[22]}</max_payment_days>
-                    <active>#{tab[23]}</active>
-                    <note>#{tab[24]}</note>
-                    <is_guest>#{tab[25]}</is_guest>
-                    <id_shop>#{tab[26]}</id_shop>
-                    <id_shop_group>#{tab[27]}</id_shop_group>
-                    <date_add>#{tab[28]}</date_add>
-                    <date_upd>#{tab[29]}</date_upd>
-                    <reset_password_token>#{tab[30]}</reset_password_token>
-                    <reset_password_validity>#{tab[31]}</reset_password_validity>
+                    <id_default_group href=\"http://localhost:8080/api/groups/\">#{tab[:d_default_group]}</id_default_group>
+                    <id_lang href=\"http://localhost:8080/api/languages/\">#{tab[:id_lang]}</id_lang>
+                    <newsletter_date_add>#{tab[:ip_registration_newsletter]}</newsletter_date_add>
+                    <ip_registration_newsletter>#{tab[:ip_registration_newsletter]}</ip_registration_newsletter>
+                    <last_passwd_gen>#{tab[:last_passwd_gen]}</last_passwd_gen>
+                    <secure_key>#{tab[:secure_key]}</secure_key>
+                    <deleted>#{tab[:deleted]}</deleted>
+                    <passwd>#{tab[:passwd]}</passwd>
+                    <lastname>#{tab[:lastname]}</lastname>
+                    <firstname>#{tab[:firstname]}</firstname>
+                    <email>#{tab[:email]}</email>
+                    <id_gender>#{tab[:id_gender]}</id_gender>
+                    <birthday>#{tab[:birthday]}</birthday>
+                    <newsletter>#{tab[:newsletter]}</newsletter>
+                    <optin>#{tab[:optin]}</optin>
+                    <website>#{tab[:website]}</website>
+                    <company>#{tab[:company]}</company>
+                    <siret>#{tab[:siret]}</siret>
+                    <ape>#{tab[:ape]}</ape>
+                    <outstanding_allow_amount>#{tab[:outstanding_allow_amount]}</outstanding_allow_amount>
+                    <show_public_prices>#{tab[:show_public_prices]}</show_public_prices>
+                    <id_risk>#{tab[:id_risk]}</id_risk>
+                    <max_payment_days>#{tab[:max_payment_days]}</max_payment_days>
+                    <active>#{tab[:active]}</active>
+                    <note>#{tab[:note]}</note>
+                    <is_guest>#{tab[:is_guest]}</is_guest>
+                    <id_shop>#{tab[:id_shop]}</id_shop>
+                    <id_shop_group>#{tab[:id_shop_group]}</id_shop_group>
+                    <date_add>#{tab[:date_add]}</date_add>
+                    <date_upd>#{tab[:date_upd]}</date_upd>
+                    <reset_password_token>#{tab[:reset_password_token]}</reset_password_token>
+                    <reset_password_validity>#{tab[:reset_password_validity]}</reset_password_validity>
                     <associations>
                         <groups nodeType=\"group\" api=\"groups\">
                         <group href=\"http://localhost:8080/api/groups/\">
@@ -107,7 +107,7 @@ class Presta
         puts customer.body, customer.code        
     end
 
-    
+
     
    
     
@@ -122,7 +122,7 @@ end
 
 #Presta.add_shop(tab)
 
-#Presta.post_customer($customer1)
+Presta.post_customer($customer1)
 
 
 
