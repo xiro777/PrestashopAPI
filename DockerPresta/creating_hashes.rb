@@ -73,5 +73,3 @@ class Create
 end
 
 h1 = Create.create_customer_hash(3,1,"0000-00-00 00:00:00","","2022-07-07 04:59:11","09dbbc486ceeb311e0d7814915f947fc",0,"prestashop","Morawski","Kacper","kacper.morawski2@wp.pl",1,"0000-00-00",0,1,"","","","","0.000000",0,0,0,0,"",0,1,1,"2022-07-07 10:59:11","2022-07-07 10:59:11","","0000-00-00 00:00:00",3)
-h2 = Create.create_customer_hash
-puts h2

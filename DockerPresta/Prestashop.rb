@@ -4,11 +4,13 @@ require 'pp'
 require 'json'
 require 'uri'
 require_relative 'dane_presta.rb'
+require_relative 'creating_hashes.rb'
 
 class Presta
     
     include HTTParty
     include PrestaData
+    include Create
 
     @auth = {username: "9UUNVSHIC7EL4ZBAXB6LG18HLREFQPMG", password: ""}
 
@@ -113,7 +115,7 @@ class Presta
     
 end
 
-
+############## TESTING METHODS #############
 
 #print Presta.getaddresses(1)
 
@@ -122,7 +124,7 @@ end
 
 #Presta.add_shop(tab)
 
-Presta.post_customer($customer1)
+#Presta.post_customer($customer1)
 
 
 
