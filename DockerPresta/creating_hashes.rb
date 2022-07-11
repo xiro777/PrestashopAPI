@@ -1,4 +1,4 @@
-class Create
+module Create
     
     def self.create_customer_hash(id_default_group = nil,
         id_lang = nil,
