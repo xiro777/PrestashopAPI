@@ -20,7 +20,7 @@ services:
       - presta
   
   presta:
-    image: prestashop/prestashop:1.7
+    image: prestashop/prestashop:latest
     container_name: presta
     volumes:
       - ./presta:/home/admin/Documents/LennyLambJob/DockerPresta/data:delegated
@@ -30,6 +30,10 @@ services:
       - 8080:80
     networks:
       - presta
+  php:
+    image: php:7.4
+      
+
 
 networks:
   presta:
