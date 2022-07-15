@@ -49,13 +49,13 @@ module PrestaDane
     ]
 
     $order = Hash[
-        :id_address_delivery => 5,
-        :id_address_invoice => 5,
-        :id_cart => 6,
+        :id_address_delivery => 1,
+        :id_address_invoice => 1,
+        :id_cart => 8,
         :id_currency => 1,
         :id_lang => 1,
         :id_customer => 2,
-        :id_carrier => 2,
+        :id_carrier => 1,
         :current_state => 10,
         :module => "ps_wirepayment",
         :invoice_number => 0,
@@ -63,14 +63,14 @@ module PrestaDane
         :delivery_number => 0,
         :delivery_date => "0000-00-00 00:00:00",
         :valid => 0,
-        :date_add => "2022-07-11 09:17:27",
-        :date_upd => "2022-07-11 09:17:28",
+        :date_add => "2022-07-15 09:17:27",
+        :date_upd => "2022-07-22 09:17:28",
         :shipping_number => "true",
         :note => "",
         :id_shop_group => 1,
         :id_shop => 1,
         :secure_key => "b44a6d9efd7a0076a0fbce6b15eaf3b1",
-        :payment => "Bank wire",
+        :payment => "Payments by check",
         :recyclable => 0,
         :gift => 0,
         :gift_message => "",
@@ -78,14 +78,14 @@ module PrestaDane
         :total_discounts => 0.000000,
         :total_discounts_tax_incl => 0.000000,
         :total_discounts_tax_excl => 0.000000,
-        :total_paid => 30.900000,
-        :total_paid_tax_incl => 30.300000,
-        :total_paid_tax_excl => 30.900000,
+        :total_paid => 19.900000,
+        :total_paid_tax_incl => 12.300000,
+        :total_paid_tax_excl => 19.900000,
         :total_paid_real => 0.000000,
-        :total_products => 23.900000,
-        :total_products_wt => 23.900000,
+        :total_products => 12.900000,
+        :total_products_wt => 19.900000,
         :total_shipping => 7.000000,
-        :total_shipping_tax_incl => 8.400000,
+        :total_shipping_tax_incl => 7.000000,
         :total_shipping_tax_excl => 7.000000,
         :carrier_tax_rate => 0.000,
         :total_wrapping => 0.000000,
@@ -95,8 +95,20 @@ module PrestaDane
         :round_type => 0,
         :conversion_rate => 1.000000,
         :reference => "",
-        :order_row  =>"order_row", 
-        :virtualEntity => "true",
+        #:order_row  =>"order_row", 
+        #:virtualEntity => "true",
+        :product_id => 20,
+        :product_attribute_id => 23,
+        :product_quantity => 1,
+        :product_name => "Przedmiot 123",
+        :product_reference => "demo-100",
+        :product_ean13 => "",
+        :product_isbn =>"",
+        :product_upc =>"",
+        :product_price => 12.900000,
+        :id_customization => 0 ,
+        :unit_price_tax_incl => 0.000000,
+        :unit_price_tax_excl => 0.000000
     ]   
     $product= Hash[
         :id_manufacturer => 1,
@@ -138,7 +150,7 @@ module PrestaDane
         :minimal_quantity=>1,
         :low_stock_threshold=>0,
         :low_stock_alert=>0,
-        :price=>12.900000,
+        :price=>25.000000,
         :wholesale_price=>0.000000,
         :unity=>"",
         :unit_price_ratio=>0.000000,
@@ -168,9 +180,9 @@ module PrestaDane
         #:meta_title1=>"",
         :link_rewrite=>"",
         #:link_rewrite1=>"",
-        :name=>"Przedmiot 123",
+        :name=>"Nowy przedmiot",
         #:name1=>"",
-        :description=>"dsadasdasdasdadsada",
+        :description=>"alamakota",
         #:description1=>"",
         :description_short=>"aa",
         #:description_short1=>"",
@@ -334,17 +346,17 @@ module PrestaDane
 
 
 
-    $carts = 
+    $cart = 
     Hash[
-        :id_address_delivery => 5,
-        :id_address_invoice => 5,
+        :id_address_delivery => 1,
+        :id_address_invoice => 1,
         :id_currency => 1,
-        :id_customer => 2,
-        :id_guest => 1,
+        :id_customer => 1,
+        :id_guest => 0,
         :id_lang => 1,
         :id_shop_group => 1,
         :id_shop => 1,
-        :id_carrier => 2,
+        :id_carrier => 1,
         :recyclable => 0,
         :gift => 0,
         :gift_message => "",
@@ -352,27 +364,13 @@ module PrestaDane
         :delivery_option => "{\"3\":\"2,\"}",
         :secure_key => "b44a6d9efd7a0076a0fbce6b15eaf3b1",
         :allow_seperated_package => 0,
-        :date_add => "2022-07-11 09:17:24",
-        :date_upd => "2022-07-11 09:17:24",
-        :id_product => 15,
-        :id_product_attribute => 23,
-        :id_address_delivery1 => 3,
+        :date_add => "2022-07-15 09:17:24",
+        :date_upd => "2022-07-22 09:17:24",
+        :id_product => 20,
+        :id_product_attribute => 0,
+        :id_address_delivery1 => 1,
         :id_customization => 0,
         :quantity => 1
-   ]
-
-   $order_payment = Hash[
-    :order_reference => "XKBKNABJK",
-    :id_currency => 1,
-    :amount => 61.800000,
-    :payment_method => "Payment by check",
-    :conversion_rate => 1.000000,
-    :transaction_id => 1,
-    :card_number => "12345678901234567890123456",
-    :card_brand => "Visa",
-    :card_expiration => "08/22",
-    :card_holder=> "Morawski",
-    :date_add => "0000-00-00 00:00:00"
    ]
 
    $stock_availables = Hash[
@@ -386,6 +384,158 @@ module PrestaDane
         :location =>""
    ]
     
+   $order_states = Hash[
+    :unremovable =>1,
+    :delivery =>0,
+    :hidden =>0,
+    :send_email =>1,
+    :module_name =>"",
+    :invoice =>0,
+    :color =>"#34209E",
+    :logable =>0,
+    :shipped =>0,
+    :paid =>0,
+    :pdf_delivery =>0,
+    :pdf_invoice =>0,
+    :deleted =>0,
+    :name => "cos tam",
+    :template => "outstock"]
+
+    $order_slip = Hash[
+    :id_customer => 1,
+    :id_order => 5,
+    :conversion_rate => 1.000000,
+    :total_products_tax_excl => 0.000000,
+    :total_products_tax_incl =>0.000000,
+    :total_shipping_tax_excl =>0.000000,
+    :total_shipping_tax_incl =>0.000000,
+    :amount => 1,
+    :shipping_cost => 0.000000,
+    :shipping_cost_amount =>0.000000,
+    :partial => 0,
+    :date_add => "2022-07-14 09:01:15",
+    :date_upd => "2022-07-14 09:01:15",
+    :order_slip_type => 1,
+    :id_order_detail => 1,
+    :product_quantity => 1,
+    :amount_tax_excl => 0.000000,
+    :amount_tax_incl =>0.000000
+    ]
+
+
+    $order_payment = Hash[
+        :order_reference => "XKBKNABJK",
+        :id_currency => 1,
+        :amount => 61.800000,
+        :payment_method => "Payment by check",
+        :conversion_rate => 1.000000,
+        :transaction_id => 1,
+        :card_number => "12345678901234567890123456",
+        :card_brand => "Visa",
+        :card_expiration => "08/22",
+        :card_holder=> "Morawski",
+        :date_add => "2022-07-14 09:01:15"
+       ]
+
+    $order_invoice = Hash[
+        :id_order => 1,
+        :number => 1,
+        :delivery_number =>1,
+        :delivery_date =>"2022-07-14 09:01:15",
+        :total_discount_tax_excl => 0.000000,
+        :total_discount_tax_incl => 0.000000,
+        :total_paid_tax_excl => 0.000000,
+        :total_paid_tax_incl => 0.000000,
+        :total_products => 0.000000,
+        :total_products_wt => 0.000000,
+        :total_shipping_tax_excl => 0.000000,
+        :total_shipping_tax_incl => 0.000000,
+        :shipping_tax_computation_method => 0.000000,
+        :total_wrapping_tax_excl => 0.000000,
+        :total_wrapping_tax_incl => 0.000000,
+        :shop_address =>"lalalala",
+        :note =>"",
+        :date_add =>"2022-07-14 09:01:15"]
+
+    $order_history = Hash[
+        :id_employee =>1,
+        :id_order_state =>1,
+        :id_order => 1,
+        :date_add =>"2022-07-14 09:01:15"
+    ]
+
+    $order_detail = Hash[
+        :id_order =>1,
+        :product_id =>20,
+        :product_attribute_id =>1,
+        :product_quantity_reinjected =>0,
+        :group_reduction =>0.00,
+        :discount_quantity_applied =>0,
+        :download_hash =>"",
+        :download_deadline =>"0000-00-00 00:00:00",
+        :id_order_invoice =>0,
+        :id_warehouse =>0,
+        :id_shop =>1,
+        :id_customization =>0,
+        :product_name =>"cokolwiek",
+        :product_quantity =>1,
+        :product_quantity_in_stock =>1,
+        :product_quantity_return =>0,
+        :product_quantity_refunded =>0,
+        :product_price =>12.900000,
+        :reduction_percent =>0.00,
+        :reduction_amount =>0.000000,
+        :reduction_amount_tax_incl =>0.000000,
+        :reduction_amount_tax_excl =>0.000000,
+        :product_quantity_discount =>0.000000,
+        :product_ean13 =>"",
+        :product_isbn =>"",
+        :product_upc =>"",
+        :product_mpn =>"",
+        :product_reference =>"demo-100",
+        :product_supplier_reference =>"",
+        :product_weight =>0.000000,
+        :tax_computation_method =>0,
+        :id_tax_rules_group =>0,
+        :ecotax =>0.000000,
+        :ecotax_tax_rate => 0.000,
+        :download_nb =>0,
+        :unit_price_tax_incl =>12.900000,
+        :unit_price_tax_excl =>12.900000,
+        :total_price_tax_incl =>12.900000,
+        :total_price_tax_excl =>12.900000,
+        :total_shipping_price_tax_excl =>0.000000,
+        :total_shipping_price_tax_incl =>0.000000,
+        :purchase_supplier_price =>0.000000,
+        :original_product_price =>12.900000,
+        :original_wholesale_price =>0.000000,
+        :total_refunded_tax_excl =>0.000000,
+        :total_refunded_tax_incl =>0.000000,
+        :tax_id => 1
+    ]
+
+    $order_cart_rule = Hash[
+        :id_order =>1,
+        :id_cart_rule =>1,
+        :id_order_invoice =>1,
+        :name =>"cart rule",
+        :value =>0.000000,
+        :value_tax_excl => 0.000000,
+        :free_shipping =>0,
+        :deleted =>0
+    ]
+
+    $order_carrier = Hash[
+        :id_order =>1,
+        :id_carrier => 1,
+        :id_order_invoice =>1,
+        :weight =>0.000000,
+        :shipping_cost_tax_excl =>0.000000,
+        :shipping_cost_tax_incl =>0.000000,
+        :tracking_number => 0,
+        :date_add =>"2022-07-14 09:01:15"
+    ]
+
 end
 
     

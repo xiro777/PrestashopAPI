@@ -304,3 +304,79 @@ def self.post_product(product)
   })
   puts prod.body, prod.code,prod.response
 end
+
+
+
+
+#order body
+
+"<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
+                <order>
+                <id></id>
+                <id_address_delivery href=\"http://localhost:8080/api/addresses/\">#{order[:id_address_delivery]}</id_address_delivery>
+                <id_address_invoice href=\"http://localhost:8080/api/addresses/\">#{order[:id_address_invoice]}</id_address_invoice>
+                <id_cart href=\"http://localhost:8080/api/carts/\">#{order[:id_cart]}</id_cart>
+                <id_currency href=\"http://localhost:8080/api/currencies/\">#{order[:id_currency]}</id_currency>
+                <id_lang href=\"http://localhost:8080/api/languages/\">#{order[:id_lang]}</id_lang>
+                <id_customer href=\"http://localhost:8080/api/customers/\">#{order[:id_customer]}</id_customer>
+                <id_carrier href=\"http://localhost:8080/api/carriers/\">#{order[:id_carrier]}</id_carrier>
+                <current_state href=\"http://localhost:8080/api/order_states/\">#{order[:current_state]}</current_state>
+                <module>#{order[:module]}</module>
+                <invoice_number>#{order[:invoice_number]}</invoice_number>
+                <invoice_date>#{order[:invoice_date]}</invoice_date>
+                <delivery_number>#{order[:delivery_number]}</delivery_number>
+                <delivery_date>#{order[:delivery_date]}</delivery_date>
+                <valid>#{order[:valid]}</valid>
+                <date_add>#{order[:date_add]}</date_add>
+                <date_upd>#{order[:date_upd]}</date_upd>
+                <shipping_number notFilterable=\"#{order[:shipping_number]}\"></shipping_number>
+                <note>#{order[:note]}</note>
+                <id_shop_group>#{order[:id_shop_group]}</id_shop_group>
+                <id_shop>#{order[:id_shop]}</id_shop>
+                <secure_key>#{order[:secure_key]}</secure_key>
+                <payment>#{order[:payment]}</payment>
+                <recyclable>#{order[:recyclable]}</recyclable>
+                <gift>#{order[:gift]}</gift>
+                <gift_message>#{order[:gift_message]}</gift_message>
+                <mobile_theme>#{order[:mobile_theme]}</mobile_theme>
+                <total_discounts>#{order[:total_discounts]}</total_discounts>
+                <total_discounts_tax_incl>#{order[:total_discounts_tax_incl]}</total_discounts_tax_incl>
+                <total_discounts_tax_excl>#{order[:total_discounts_tax_excl]}</total_discounts_tax_excl>
+                <total_paid>#{order[:total_paid]}</total_paid>
+                <total_paid_tax_incl>#{order[:total_paid_tax_incl]}</total_paid_tax_incl>
+                <total_paid_tax_excl>#{order[:total_paid_tax_excl]}</total_paid_tax_excl>
+                <total_paid_real>#{order[:total_paid_real]}</total_paid_real>
+                <total_products>#{order[:total_products]}</total_products>
+                <total_products_wt>#{order[:total_products_wt]}</total_products_wt>
+                <total_shipping>#{order[:total_shipping]}</total_shipping>
+                <total_shipping_tax_incl>#{order[:total_shipping_tax_incl]}</total_shipping_tax_incl>
+                <total_shipping_tax_excl>#{order[:total_shipping_tax_excl]}</total_shipping_tax_excl>
+                <carrier_tax_rate>#{order[:carrier_tax_rate]}</carrier_tax_rate>
+                <total_wrapping>#{order[:total_wrapping]}</total_wrapping>
+                <total_wrapping_tax_incl>#{order[:total_wrapping_tax_incl]}</total_wrapping_tax_incl>
+                <total_wrapping_tax_excl>#{order[:total_wrapping_tax_excl]}</total_wrapping_tax_excl>
+                <round_mode>#{order[:round_mode]}</round_mode>
+                <round_type>#{order[:round_type]}</round_type>
+                <conversion_rate>#{order[:conversion_rate]}</conversion_rate>
+                <reference>#{order[:reference]}</reference>
+                <associations>
+                <order_rows nodeType=\"order_row\" virtualEntity=\"true\">
+                    <order_row>
+                        <id></id>
+                        <product_id href=\"http://localhost:8080/api/products/\">#{order[:product_id]}</product_id>
+                        <product_attribute_id>#{order[:product_attribute_id]}</product_attribute_id>
+                        <product_quantity>#{order[:product_quantity]}</product_quantity>
+                        <product_name>#{order[:product_name]}</product_name>
+                        <product_reference>#{order[:product_reference]}</product_reference>
+                        <product_ean13>#{order[:product_ean13]}</product_ean13>
+                        <product_isbn>#{order[:product_isbn]}</product_isbn>
+                        <product_upc>#{order[:product_upc]}</product_upc>
+                        <product_price>#{order[:product_price]}</product_price>
+                        <id_customization href=\"http://localhost:8080/api/customizations/\">#{order[:id_customization]}</id_customization>
+                        <unit_price_tax_incl>#{order[:unit_price_tax_incl]}</unit_price_tax_incl>
+                        <unit_price_tax_excl>#{order[:unit_price_tax_excl]}</unit_price_tax_excl>
+                    </order_row>
+                </order_rows>
+                </associations>
+                </order>
+                </prestashop>"
