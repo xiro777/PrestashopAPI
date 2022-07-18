@@ -380,3 +380,59 @@ end
                 </associations>
                 </order>
                 </prestashop>"
+
+
+                <id></id>
+                        <product_id href=\"http://localhost:8080/api/products/\">#{order[:product_id]}</product_id>
+                        <product_attribute_id>#{order[:product_attribute_id]}</product_attribute_id>
+                        <product_quantity>#{order[:product_quantity]}</product_quantity>
+                        <product_name>#{order[:product_name]}</product_name>
+                        <product_reference>#{order[:product_reference]}</product_reference>
+                        <product_ean13>#{order[:product_ean13]}</product_ean13>
+                        <product_isbn>#{order[:product_isbn]}</product_isbn>
+                        <product_upc>#{order[:product_upc]}</product_upc>
+                        <product_price>#{order[:product_price]}</product_price>
+                        <id_customization href=\"http://localhost:8080/api/customizations/\">#{order[:id_customization]}</id_customization>
+                        <unit_price_tax_incl>#{order[:unit_price_tax_incl]}</unit_price_tax_incl>
+                        <unit_price_tax_excl>#{order[:unit_price_tax_excl]}</unit_price_tax_excl>
+
+
+
+
+cart
+
+
+<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
+        <cart>
+          <id></id>
+          <id_address_delivery>#{carts[:id_address_delivery]}</id_address_delivery>
+          <id_address_invoice>#{carts[:id_address_invoice]}</id_address_invoice>
+          <id_currency>#{carts[:id_currency]}</id_currency>
+          <id_customer>#{carts[:id_customer]}</id_customer>
+          <id_guest>#{carts[:id_guest]}</id_guest>
+          <id_lang>#{carts[:id_lang]}</id_lang>
+          <id_shop_group>#{carts[:id_shop_group]}</id_shop_group>
+          <id_shop>#{carts[:id_shop]}</id_shop>
+          <id_carrier>#{carts[:id_carrier]}</id_carrier>
+          <recyclable>#{carts[:recyclable]}</recyclable>
+          <gift>#{carts[:gif]}</gift>
+          <gift_message>#{carts[:gift_message]}</gift_message>
+          <mobile_theme>#{carts[:mobile_theme]}</mobile_theme>
+          <delivery_option>#{carts[:delivery_option]}</delivery_option>
+          <secure_key>#{carts[:secure_key]}</secure_key>
+          <allow_seperated_package>#{carts[:allow_seperated_package]}</allow_seperated_package>
+          <date_add>#{carts[:date_add]}</date_add>
+          <date_upd>#{carts[:date_upd]}</date_upd>
+          <associations>
+            <cart_rows>
+              <cart_row>
+                <id_product>#{carts[:id_product]}</id_product>
+                <id_product_attribute>#{carts[:id_product_attribute]}</id_product_attribute>
+                <id_address_delivery>#{carts[:id_address_delivery]}</id_address_delivery>
+                <id_customization>#{carts[:id_customization]}</id_customization>
+                <quantity>#{carts[:quantity]}</quantity>
+              </cart_row>
+            </cart_rows>
+          </associations>
+        </cart>
+      </prestashop>

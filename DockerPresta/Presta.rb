@@ -2,7 +2,6 @@ require 'open-uri'
 require 'httparty'
 require 'prestashop'
 require 'pp'
-require 'json'
 require 'uri'
 require_relative 'dane_presta.rb'
 require_relative 'creating_hashes.rb'
@@ -13,7 +12,8 @@ class Presta
     include PrestaDane
     include Create
 
-    @auth = {username: "9B8UF6QYM9TEANVC8KMHLISUZD412H2F", password: ""}
+    @api_key = 'QR76XYPX1KM739U6FRMUZVXH44QR7J1W'
+    @auth = {username: "QR76XYPX1KM739U6FRMUZVXH44QR7J1W", password: ""}
     @api_url = "http://localhost:8080/api/" 
     def initialize      
     end
@@ -241,40 +241,30 @@ class Presta
     cart = HTTParty.post("#{@api_url}carts/",
     {
         body:
-        "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
+        "<prestashop>
         <cart>
-          <id></id>
-          <id_address_delivery>#{carts[:id_address_delivery]}</id_address_delivery>
-          <id_address_invoice>#{carts[:id_address_invoice]}</id_address_invoice>
-          <id_currency>#{carts[:id_currency]}</id_currency>
-          <id_customer>#{carts[:id_customer]}</id_customer>
-          <id_guest>#{carts[:id_guest]}</id_guest>
-          <id_lang>#{carts[:id_lang]}</id_lang>
-          <id_shop_group>#{carts[:id_shop_group]}</id_shop_group>
-          <id_shop>#{carts[:id_shop]}</id_shop>
-          <id_carrier>#{carts[:id_carrier]}</id_carrier>
-          <recyclable>#{carts[:recyclable]}</recyclable>
-          <gift>#{carts[:gif]}</gift>
-          <gift_message>#{carts[:gift_message]}</gift_message>
-          <mobile_theme>#{carts[:mobile_theme]}</mobile_theme>
-          <delivery_option>#{carts[:delivery_option]}</delivery_option>
-          <secure_key>#{carts[:secure_key]}</secure_key>
-          <allow_seperated_package>#{carts[:allow_seperated_package]}</allow_seperated_package>
-          <date_add>#{carts[:date_add]}</date_add>
-          <date_upd>#{carts[:date_upd]}</date_upd>
-          <associations>
-            <cart_rows>
-              <cart_row>
-                <id_product>#{carts[:id_product]}</id_product>
-                <id_product_attribute>#{carts[:id_product_attribute]}</id_product_attribute>
-                <id_address_delivery>#{carts[:id_address_delivery]}</id_address_delivery>
-                <id_customization>#{carts[:id_customization]}</id_customization>
-                <quantity>#{carts[:quantity]}</quantity>
-              </cart_row>
-            </cart_rows>
-          </associations>
+         <id/>
+         <id_address_delivery>#{carts[:id_address_delivery]}</id_address_delivery>
+         <id_address_invoice>#{carts[:id_address_invoice]}</id_address_invoice>
+         <id_currency>#{carts[:id_currency]}</id_currency>
+         <id_customer>#{carts[:id_customer]}</id_customer>
+         <id_guest>#{carts[:id_guest]}</id_guest>
+         <id_lang>#{carts[:id_lang]}</id_lang>
+         <id_carrier>#{carts[:id_carrier]}</id_carrier>
+         <recyclable>#{carts[:recyclable]}</recyclable>
+         <gift>#{carts[:gift]}</gift>
+         <gift_message>#{carts[:gift_message]}</gift_message>
+         <associations>
+          <cart_rows>
+           <cart_row>
+         <id_product>#{carts[:id_product]}</id_product>
+         <id_product_attribute>#{carts[:id_product_attribute]}</id_product_attribute>
+         <quantity>#{carts[:quantity]}</quantity>
+           </cart_row>
+          </cart_rows>
+         </associations>
         </cart>
-      </prestashop>",
+        </prestashop>",
         basic_auth: @auth,
         header: {
             'Content-Type' => 'application/x-www-form-urlencoded',
@@ -282,8 +272,9 @@ class Presta
         }
     })
     puts cart.body,cart.code
-end
-    
+    end
+
+   
 
     def self.delete_carts(id)
         carts = HTTParty.delete("#{@api_url}carts/#{id}",
@@ -598,16 +589,99 @@ end
           {
               body:
               "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
-                <order>
-                <id></id>
-                <id_address_delivery href=\"http://localhost:8080/api/addresses/\">#{order[:id_address_delivery]}</id_address_delivery>
-                <id_address_invoice href=\"http://localhost:8080/api/addresses/\">#{order[:id_address_invoice]}</id_address_invoice>
-                <id_cart href=\"http://localhost:8080/api/carts/\">#{order[:id_cart]}</id_cart>
-                <id_currency href=\"http://localhost:8080/api/currencies/\">#{order[:id_currency]}</id_currency>
-                <id_lang href=\"http://localhost:8080/api/languages/\">#{order[:id_lang]}</id_lang>
-                <id_customer href=\"http://localhost:8080/api/customers/\">#{order[:id_customer]}</id_customer>
-                <id_carrier href=\"http://localhost:8080/api/carriers/\">#{order[:id_carrier]}</id_carrier>
-                <current_state href=\"http://localhost:8080/api/order_states/\">#{order[:current_state]}</current_state>
+              <order>
+                  <id></id>
+                  <id_address_delivery>#{order[:id_address_delivery]}</id_address_delivery>
+                  <id_address_invoice>#{order[:id_address_invoice]}</id_address_invoice>
+                  <id_cart>#{order[:id_cart]}</id_cart>
+                  <id_currency>#{order[:id_currency]}</id_currency>
+                  <id_lang>#{order[:id_lang]}</id_lang>
+                  <id_customer>#{order[:id_customer]}</id_customer>
+                  <id_carrier>#{order[:id_carrier]}</id_carrier>
+                  <current_state>#{order[:current_state]}</current_state>
+                  <module>#{order[:module]}</module>
+                  <invoice_number>#{order[:invoice_number]}</invoice_number>
+                  <invoice_date>#{order[:invoice_date]}</invoice_date>
+                  <delivery_number>#{order[:delivery_number]}</delivery_number>
+                  <delivery_date>#{order[:delivery_date]}</delivery_date>
+                  <valid>#{order[:valid]}</valid>
+                  <date_add>#{order[:date_add]}</date_add>
+                  <date_upd>#{order[:date_upd]}</date_upd>
+                  <shipping_number>#{order[:shipping_number]}</shipping_number>
+                  <note>#{order[:note]}</note>
+                  <id_shop_group>#{order[:id_shop_group]}</id_shop_group>
+                  <id_shop>#{order[:id_shop]}</id_shop>
+                  <secure_key>#{order[:secure_key]}</secure_key>
+                  <payment>#{order[:payment]}</payment>
+                  <recyclable>#{order[:recyclable]}</recyclable>
+                  <gift>#{order[:gift]}</gift>
+                  <gift_message>#{order[:gift_message]}</gift_message>
+                  <mobile_theme>#{order[:mobile_theme]}</mobile_theme>
+                  <total_discounts>#{order[:total_discounts]}</total_discounts>
+                  <total_discounts_tax_incl>#{order[:total_discounts_tax_incl]}</total_discounts_tax_incl>
+                  <total_discounts_tax_excl>#{order[:total_discounts_tax_excl]}</total_discounts_tax_excl>
+                  <total_paid>#{order[:total_paid]}</total_paid>
+                  <total_paid_tax_incl>#{order[:total_paid_tax_incl]}</total_paid_tax_incl>
+                  <total_paid_tax_excl>#{order[:total_paid_tax_excl]}</total_paid_tax_excl>
+                  <total_paid_real>#{order[:total_paid_real]}</total_paid_real>
+                  <total_products>#{order[:total_products]}</total_products>
+                  <total_products_wt>#{order[:total_products_wt]}</total_products_wt>
+                  <total_shipping>#{order[:total_shipping]}</total_shipping>
+                  <total_shipping_tax_incl>#{order[:total_shipping_tax_incl]}</total_shipping_tax_incl>
+                  <total_shipping_tax_excl>#{order[:total_shipping_tax_excl]}</total_shipping_tax_excl>
+                  <carrier_tax_rate>#{order[:carrier_tax_rate]}</carrier_tax_rate>
+                  <total_wrapping>#{order[:total_wrapping]}</total_wrapping>
+                  <total_wrapping_tax_incl>#{order[:total_wrapping_tax_incl]}</total_wrapping_tax_incl>
+                  <total_wrapping_tax_excl>#{order[:total_wrapping_tax_excl]}</total_wrapping_tax_excl>
+                  <round_mode>#{order[:round_mode]}</round_mode>
+                  <round_type>#{order[:round_type]}</round_type>
+                  <conversion_rate>#{order[:conversion_rate]}</conversion_rate>
+                  <reference>#{order[:reference]}</reference>
+                  <associations>
+                      <order_rows>
+                          <order_row>
+                          <id></id>
+                          <product_id>#{order[:product_id]}</product_id>
+                          <product_attribute_id>#{order[:product_attribute_id]}</product_attribute_id>
+                          <product_quantity>#{order[:product_quantity]}</product_quantity>
+                          <product_name>#{order[:product_name]}</product_name>
+                          <product_reference>#{order[:product_reference]}</product_reference>
+                          <product_ean13>#{order[:product_ean13]}</product_ean13>
+                          <product_isbn>#{order[:product_isbn]}</product_isbn>
+                          <product_upc>#{order[:product_upc]}</product_upc>
+                          <product_price>#{order[:product_price]}</product_price>
+                          <id_customization>#{order[:id_customization]}</id_customization>
+                          <unit_price_tax_incl>#{order[:unit_price_tax_incl]}</unit_price_tax_incl>
+                          <unit_price_tax_excl>#{order[:unit_price_tax_excl]}</unit_price_tax_excl>
+                          </order_row>
+                      </order_rows>
+                  </associations>
+              </order>
+          </prestashop>",
+              basic_auth: @auth,
+              header: {
+                "Content-Type" => 'text/xml',
+                "charset" => 'utf-8'
+               }
+          })
+          puts ord.body, ord.code
+  end
+
+  def self.update_order(id,order)
+    ord  = HTTParty.put("#{@api_url}orders/",
+        {
+            body:
+            "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
+            <order>
+                <id>#{id}</id>
+                <id_address_delivery>#{order[:id_address_delivery]}</id_address_delivery>
+                <id_address_invoice>#{order[:id_address_invoice]}</id_address_invoice>
+                <id_cart>#{order[:id_cart]}</id_cart>
+                <id_currency>#{order[:id_currency]}</id_currency>
+                <id_lang>#{order[:id_lang]}</id_lang>
+                <id_customer>#{order[:id_customer]}</id_customer>
+                <id_carrier>#{order[:id_carrier]}</id_carrier>
+                <current_state>#{order[:current_state]}</current_state>
                 <module>#{order[:module]}</module>
                 <invoice_number>#{order[:invoice_number]}</invoice_number>
                 <invoice_date>#{order[:invoice_date]}</invoice_date>
@@ -616,7 +690,7 @@ end
                 <valid>#{order[:valid]}</valid>
                 <date_add>#{order[:date_add]}</date_add>
                 <date_upd>#{order[:date_upd]}</date_upd>
-                <shipping_number notFilterable=\"#{order[:shipping_number]}\"></shipping_number>
+                <shipping_number>#{order[:shipping_number]}</shipping_number>
                 <note>#{order[:note]}</note>
                 <id_shop_group>#{order[:id_shop_group]}</id_shop_group>
                 <id_shop>#{order[:id_shop]}</id_shop>
@@ -647,10 +721,10 @@ end
                 <conversion_rate>#{order[:conversion_rate]}</conversion_rate>
                 <reference>#{order[:reference]}</reference>
                 <associations>
-                <order_rows nodeType=\"order_row\" virtualEntity=\"true\">
-                    <order_row>
+                    <order_rows>
+                        <order_row>
                         <id></id>
-                        <product_id href=\"http://localhost:8080/api/products/\">#{order[:product_id]}</product_id>
+                        <product_id>#{order[:product_id]}</product_id>
                         <product_attribute_id>#{order[:product_attribute_id]}</product_attribute_id>
                         <product_quantity>#{order[:product_quantity]}</product_quantity>
                         <product_name>#{order[:product_name]}</product_name>
@@ -659,22 +733,22 @@ end
                         <product_isbn>#{order[:product_isbn]}</product_isbn>
                         <product_upc>#{order[:product_upc]}</product_upc>
                         <product_price>#{order[:product_price]}</product_price>
-                        <id_customization href=\"http://localhost:8080/api/customizations/\">#{order[:id_customization]}</id_customization>
+                        <id_customization>#{order[:id_customization]}</id_customization>
                         <unit_price_tax_incl>#{order[:unit_price_tax_incl]}</unit_price_tax_incl>
                         <unit_price_tax_excl>#{order[:unit_price_tax_excl]}</unit_price_tax_excl>
-                    </order_row>
-                </order_rows>
+                        </order_row>
+                    </order_rows>
                 </associations>
-                </order>
-                </prestashop>",
-              basic_auth: @auth,
-              header: {
-                "Content-Type" => 'text/xml',
-                "charset" => 'utf-8'
-               }
-          })
-          puts ord.body, ord.code
-  end
+            </order>
+        </prestashop>",
+            basic_auth: @auth,
+            header: {
+              "Content-Type" => 'text/xml',
+              "charset" => 'utf-8'
+             }
+        })
+        puts ord.body, ord.code
+end
 
   def self.delete_order(id)
       order = HTTParty.delete("#{@api_url}orders/#{id}",
@@ -1140,7 +1214,7 @@ end
                     </available_later>
                     <associations>
                         <categories nodeType=\"category\" api=\"categories\">
-                
+                   
                         </categories>
                         <images nodeType=\"image\" api=\"images\">
 
@@ -1178,6 +1252,7 @@ end
                     "charset" => 'utf-8'
                 }
         })
+        puts prod.body, prod.code
       end
 
       def self.delete_product(id)
@@ -1189,132 +1264,76 @@ end
       def self.update_product(id,product)
         prod = HTTParty.put("#{@api_url}products/",
         {
-          body:"<prestashop xmlns:ns0=\"http://www.w3.org/1999/xlink\">
-          <product>
-             <id>#{id}</id>
-             <id_manufacturer>#{product[:id_manufacturer]}</id_manufacturer>
-             <id_supplier>#{product[:id_supplier]}</id_supplier>
-             <id_category_default>#{product[:id_category_default]}</id_category_default>
-             <new>#{product[:new]}</new>
-             <cache_default_attribute>#{product[:cache_default_attribute]}</cache_default_attribute>
-             <id_default_image notFilterable=\"true\">#{product[:id_default_image]}</id_default_image>
-             <id_default_combination notFilterable=\"true\">#{product[:id_default_combination]}</id_default_combination>
-             <id_tax_rules_group>#{product[:id_tax_rules_group]}</id_tax_rules_group>
-             <type notFilterable=\"true\">#{product[:type]}</type>
-             <id_shop_default>#{product[:id_shop_default]}</id_shop_default>
-             <reference>#{product[:reference]}</reference>
-             <supplier_reference>#{product[:supplier_reference]}</supplier_reference>
-             <location>#{product[:location]}</location>
-             <width>#{product[:width]}</width>
-             <height>#{product[:height]}</height>
-             <depth>#{product[:depth]}</depth>
-             <weight>#{product[:weight]}</weight>
-             <quantity_discount>#{product[:quantity_discount]}</quantity_discount>
-             <ean13>#{product[:ean13]}</ean13>
-             <isbn>#{product[:isbn]}</isbn>
-             <upc>#{product[:upc]}</upc>
-             <mpn>#{product[:mpn]}</mpn>
-             <cache_is_pack>#{product[:cache_is_pack]}</cache_is_pack>
-             <cache_has_attachments>#{product[:cache_has_attachments]}</cache_has_attachments>
-             <is_virtual>#{product[:is_virtual]}</is_virtual>
-             <state>#{product[:state]}</state>
-             <additional_delivery_times>#{product[:additional_delivery_times]}</additional_delivery_times>
-             <delivery_in_stock>
-                 <language id=\"1\">#{product[:delivery_in_stock]}</language>
-             </delivery_in_stock>
-             <delivery_out_stock>
-                 <language id=\"1\">#{product[:delivery_out_stock]}</language>
-             </delivery_out_stock>
-             <product_type>#{product[:product_type]}</product_type>
-             <on_sale>#{product[:on_sale]}</on_sale>
-             <online_only>#{product[:online_only]}</online_only>
-             <ecotax>#{product[:ecotax]}</ecotax>
-             <minimal_quantity>#{product[:minimal_quantity]}</minimal_quantity>
-             <low_stock_threshold>#{product[:low_stock_threshold]}</low_stock_threshold>
-             <low_stock_alert>#{product[:low_stock_alert]}</low_stock_alert>
-             <price>#{product[:price]}</price>
-             <wholesale_price>#{product[:wholesale_price]}</wholesale_price>
-             <unity>#{product[:unity]}</unity>
-             <unit_price_ratio>#{product[:unit_price_ratio]}</unit_price_ratio>
-             <additional_shipping_cost>#{product[:additional_shipping_cost]}</additional_shipping_cost>
-             <customizable>#{product[:customizable]}</customizable>
-             <text_fields>#{product[:text_fields]}</text_fields>
-             <uploadable_files>#{product[:uploadable_files]}</uploadable_files>
-             <active>#{product[:active]}</active>
-             <redirect_type>#{product[:redirect_type]}</redirect_type>
-             <id_type_redirected>#{product[:id_type_redirected]}</id_type_redirected>
-             <available_for_order>#{product[:available_for_order]}</available_for_order>
-             <available_date>#{product[:available_date]}</available_date>
-             <show_condition>#{product[:show_condition]}</show_condition>
-             <condition>#{product[:condition]}</condition>
-             <show_price>#{product[:show_price]}</show_price>
-             <indexed>#{product[:indexed]}</indexed>
-             <visibility>#{product[:visibility]}</visibility>
-             <advanced_stock_management>#{product[:advanced_stock_management]}</advanced_stock_management>
-             <date_add>#{product[:date_add]}</date_add>
-             <date_upd>#{product[:date_upd]}</date_upd>
-             <pack_stock_type>#{product[:pack_stock_type]}</pack_stock_type>
-             <meta_description>
-                 <language id=\"1\">#{product[:meta_description]}</language>
-             </meta_description>
-             <meta_keywords>
-                 <language id=\"1\">#{product[:meta_keywords]}</language>
-             </meta_keywords>
-             <meta_title>
-                 <language id=\"1\">#{product[:meta_title]}</language>
-             </meta_title>
-             <link_rewrite>
-                 <language id=\"1\">#{product[:link_rewrite]}</language>
-             </link_rewrite>
-             <name>
-                 <language id=\"1\">#{product[:name]}</language>
-             </name>
-             <description>
-                 <language id=\"1\">#{product[:desciption]}</language>
-             </description>
-             <description_short>
-                 <language id=\"1\">#{product[:description_short]}</language>
-             </description_short>
-             <available_now>
-                 <language id=\"1\">#{product[:available_now]}</language>
-             </available_now>
-             <available_later>
-                  <language id=\"1\">#{product[:available_later]}</language>
-             </available_later>
-             <associations>
-                 <categories nodeType=\"category\" api=\"categories\">
-         
-                 </categories>
-                 <images nodeType=\"image\" api=\"images\">
-
-                 </images>
-                 <combinations nodeType=\"combination\" api=\"combinations\">
-
-                 </combinations>
-                 <product_option_values nodeType=\"product_option_value\" api=\"product_option_values\">
-
-                 </product_option_values>
-                 <product_features nodeType=\"product_feature\" api=\"product_features\">
-
-                 </product_features>
-                 <tags nodeType=\"tag\" api=\"tags\">
-
-                 </tags>
-                 <stock_availables nodeType=\"stock_available\" api=\"stock_availables\">
-
-                 </stock_availables>
-                 <attachments nodeType=\"attachment\" api=\"attachments\">
-
-                 </attachments>
-                 <accessories nodeType=\"product\" api=\"products\">
-
-                 </accessories>
-                 <product_bundle nodeType=\"product\" api=\"products\">
-
-                 </product_bundle>
-             </associations>
-         </product>
-      </prestashop>",
+          body:"<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
+          <order>
+          <id></id>
+          <id_address_delivery href=\"http://localhost:8080/api/addresses/\">#{order[:id_address_delivery]}</id_address_delivery>
+          <id_address_invoice href=\"http://localhost:8080/api/addresses/\">#{order[:id_address_invoice]}</id_address_invoice>
+          <id_cart href=\"http://localhost:8080/api/carts/\">#{order[:id_cart]}</id_cart>
+          <id_currency href=\"http://localhost:8080/api/currencies/\">#{order[:id_currency]}</id_currency>
+          <id_lang href=\"http://localhost:8080/api/languages/\">#{order[:id_lang]}</id_lang>
+          <id_customer href=\"http://localhost:8080/api/customers/\">#{order[:id_customer]}</id_customer>
+          <id_carrier href=\"http://localhost:8080/api/carriers/\">#{order[:id_carrier]}</id_carrier>
+          <current_state href=\"http://localhost:8080/api/order_states/\">#{order[:current_state]}</current_state>
+          <module>#{order[:module]}</module>
+          <invoice_number>#{order[:invoice_number]}</invoice_number>
+          <invoice_date>#{order[:invoice_date]}</invoice_date>
+          <delivery_number>#{order[:delivery_number]}</delivery_number>
+          <delivery_date>#{order[:delivery_date]}</delivery_date>
+          <valid>#{order[:valid]}</valid>
+          <date_add>#{order[:date_add]}</date_add>
+          <date_upd>#{order[:date_upd]}</date_upd>
+          <shipping_number notFilterable=\"#{order[:shipping_number]}\"></shipping_number>
+          <note>#{order[:note]}</note>
+          <id_shop_group>#{order[:id_shop_group]}</id_shop_group>
+          <id_shop>#{order[:id_shop]}</id_shop>
+          <secure_key>#{order[:secure_key]}</secure_key>
+          <payment>#{order[:payment]}</payment>
+          <recyclable>#{order[:recyclable]}</recyclable>
+          <gift>#{order[:gift]}</gift>
+          <gift_message>#{order[:gift_message]}</gift_message>
+          <mobile_theme>#{order[:mobile_theme]}</mobile_theme>
+          <total_discounts>#{order[:total_discounts]}</total_discounts>
+          <total_discounts_tax_incl>#{order[:total_discounts_tax_incl]}</total_discounts_tax_incl>
+          <total_discounts_tax_excl>#{order[:total_discounts_tax_excl]}</total_discounts_tax_excl>
+          <total_paid>#{order[:total_paid]}</total_paid>
+          <total_paid_tax_incl>#{order[:total_paid_tax_incl]}</total_paid_tax_incl>
+          <total_paid_tax_excl>#{order[:total_paid_tax_excl]}</total_paid_tax_excl>
+          <total_paid_real>#{order[:total_paid_real]}</total_paid_real>
+          <total_products>#{order[:total_products]}</total_products>
+          <total_products_wt>#{order[:total_products_wt]}</total_products_wt>
+          <total_shipping>#{order[:total_shipping]}</total_shipping>
+          <total_shipping_tax_incl>#{order[:total_shipping_tax_incl]}</total_shipping_tax_incl>
+          <total_shipping_tax_excl>#{order[:total_shipping_tax_excl]}</total_shipping_tax_excl>
+          <carrier_tax_rate>#{order[:carrier_tax_rate]}</carrier_tax_rate>
+          <total_wrapping>#{order[:total_wrapping]}</total_wrapping>
+          <total_wrapping_tax_incl>#{order[:total_wrapping_tax_incl]}</total_wrapping_tax_incl>
+          <total_wrapping_tax_excl>#{order[:total_wrapping_tax_excl]}</total_wrapping_tax_excl>
+          <round_mode>#{order[:round_mode]}</round_mode>
+          <round_type>#{order[:round_type]}</round_type>
+          <conversion_rate>#{order[:conversion_rate]}</conversion_rate>
+          <reference>#{order[:reference]}</reference>
+          <associations>
+          <order_rows nodeType=\"order_row\" virtualEntity=\"true\">
+              <order_row>
+                  <id></id>
+                  <product_id href=\"http://localhost:8080/api/products/\">#{order[:product_id]}</product_id>
+                  <product_attribute_id>#{order[:product_attribute_id]}</product_attribute_id>
+                  <product_quantity>#{order[:product_quantity]}</product_quantity>
+                  <product_name>#{order[:product_name]}</product_name>
+                  <product_reference>#{order[:product_reference]}</product_reference>
+                  <product_ean13>#{order[:product_ean13]}</product_ean13>
+                  <product_isbn>#{order[:product_isbn]}</product_isbn>
+                  <product_upc>#{order[:product_upc]}</product_upc>
+                  <product_price>#{order[:product_price]}</product_price>
+                  <id_customization href=\"http://localhost:8080/api/customizations/\">#{order[:id_customization]}</id_customization>
+                  <unit_price_tax_incl>#{order[:unit_price_tax_incl]}</unit_price_tax_incl>
+                  <unit_price_tax_excl>#{order[:unit_price_tax_excl]}</unit_price_tax_excl>
+              </order_row>
+          </order_rows>
+          </associations>
+          </order>
+          </prestashop>",
           basic_auth: @auth,
           header: {
             "Content-Type" => 'text/xml',
@@ -1362,15 +1381,20 @@ end
 #Usuwanie dziala
 #Presta.delete_carts(5)
 
-#dodaje tyle ze wysypuje blad
+#dziala
 #Presta.post_carts($cart)
 
 
 
 
+
+#zeby postowac order potrzeba dodac nie wykonany carts bo wywala blad
 #Presta.post_order($order)
 
-#Presta.delete_order(5)
+#Presta.delete_order(8)
+
+#??
+#Presta.update_order(10,$order)
 
 #Presta.post_order_states($order_states)
 
@@ -1393,7 +1417,7 @@ end
 
 #puts Presta.get_product(1)
 
-Presta.post_product($product)
+#Presta.post_product($product)
 
 #Presta.delete_product(21)
 
