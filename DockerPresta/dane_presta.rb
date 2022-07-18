@@ -11,7 +11,7 @@ module PrestaDane
         :passwd => "prestashop",                         
         :lastname => "Morawski",                            
         :firstname => "Kacper",                              
-        :email => "kacper.morawski3@wp.pl",              
+        :email => "kacper.morawski5@wp.pl",              
         :id_gender => 1,                                     
         :birthday => "0000-00-00",                          
         :newsletter => 0,                                     
@@ -51,7 +51,7 @@ module PrestaDane
     $order = Hash[
         :id_address_delivery => 5,
         :id_address_invoice => 5,
-        :id_cart => 12,
+        :id_cart => 15,
         :id_currency => 1,
         :id_lang => 1,
         :id_customer => 1,
