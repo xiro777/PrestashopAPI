@@ -10,7 +10,7 @@
 #
 #   DESCRIPTION: File contains class with request sent to Prestashop API 
 #
-#   Version: v.0.1
+#   Version: v.0.2
 #
 #   PRESTASHOP: v.1.7.8.6
 #
