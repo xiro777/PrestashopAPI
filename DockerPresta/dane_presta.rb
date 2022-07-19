@@ -216,6 +216,80 @@ module PrestaDane
         :product_id => 10
     ]
 
+    $employee = Hash[
+        :id_lang => 1,
+        :last_passwd_gen => "2022-07-19 03:17:31",
+        :stats_date_from => "2022-06-19",
+        :stats_date_to => "2022-07-19",
+        :stats_compare_from => "2022-07-19 03:17:31",
+        :stats_compare_to => "2022-07-19 03:17:31",
+        :passwd => "presta",
+        :lastname => "B",
+        :firstname => "B",
+        :email => "root1@root.com",
+        :active => 1,
+        :id_profile =>2,
+        :bo_color => "",
+        :default_tab =>1,
+        :bo_theme => "default",
+        :bo_css => "theme.css",
+        :bo_width => 0,
+        :bo_menu => 1,
+        :stats_compare_option => 1,
+        :preselect_date_range => "",
+        :id_last_order => 0,
+        :id_last_customer_message => 0,
+        :id_last_customer => 0,
+        :reset_password_token => "",
+        :reset_password_validity => "0000-00-00 00:00:00",
+        :has_enabled_gravatar => 0
+    ]
+
+    $configuration = Hash[
+        :value => 1,
+        :name => "ALE",
+        :id_shop_group => "",
+        :id_shop =>"",
+        :date_add =>"2022-07-19 09:17:24",
+        :date_upd =>"2022-07-19 09:17:24"
+    ]
+
+    $translated_configurations = Hash[
+        :value => "#IN",
+        :date_add => "2022-07-19 03:17:31",
+        :date_upd => "2022-07-19 03:17:31",
+        :name => "PS_INVOICE_KEK",
+        :id_shop_group => '',
+        :id_shop =>''
+
+    ]
+
+    $tax_rule_group = Hash[
+        :name => "PL- PODATEK 200%",
+        :active => 1,
+        :deleted =>0,
+        :date_add =>"2022-07-19 09:17:29",
+        :date_upd =>"2022-07-19 09:17:29"
+    ]
+
+    $tax_rule = Hash[
+        :id_tax_rules_group =>1,
+        :id_state =>4,
+        :id_country =>20,
+        :zipcode_from =>0,
+        :zipcode_to =>0,
+        :id_tax =>53,
+        :behavior =>1,
+        :description =>""
+    ]
+
+    $tax = Hash[
+        :rate => 10.000,
+        :active => 1,
+        :deleted => 0,
+        :name => "NOWY TAX"
+    ]
+
     $categories = Hash[
         :id_parent => 0,
         :active => 1,
@@ -280,8 +354,39 @@ module PrestaDane
         :meta_keywords =>"",
         :meta_keywords1 => "",
         :address_id => 6
-    
 
+    ]
+
+    $address = Hash[
+        :id_customer => 1,
+        :id_manufacturer =>0,
+        :id_supplier =>0,
+        :id_warehouse =>0,
+        :id_country =>21,
+        :id_state =>0,
+        :alias =>"KACPER",
+        :company =>"KACPER",
+        :lastname =>"KACPER",
+        :firstname =>"KACPER",
+        :vat_number =>0000,
+        :address1 =>"PAPAP",
+        :address2 =>"",
+        :postcode =>26300,
+        :city =>"OPOCZNO",
+        :other =>'',
+        :phone =>978654321,
+        :phone_mobile =>123456789,
+        :dni =>0000,
+        :deleted =>0,
+        :date_add =>"2022-07-19 09:18:22",
+        :date_upd =>"2022-07-19 09:18:22"
+    ]
+
+    $contact = Hash[
+        :email => "root3@root.com",
+        :customer_service => 1,
+        :name => "JEDNAK NIE",
+        :desciption => "AAAA"
     ]
 
     $tag = Hash[
@@ -343,6 +448,65 @@ module PrestaDane
     ]
 
 
+    $carrier = Hash[
+        :deleted => 0,
+        :is_module => 0,
+        :id_tax_rules_group => 1,
+        :id_reference => 1,
+        :name => "MA MA",
+        :active => 1,
+        :is_free => 1,
+        :url => '',
+        :shipping_handling => 0,
+        :shipping_external =>0,
+        :range_behavior =>0,
+        :shipping_method =>1,
+        :max_width =>0,
+        :max_height =>0,
+        :max_depth =>0,
+        :max_weight =>0.000000,
+        :grade =>0,
+        :external_module_name =>'',
+        :need_range =>0,
+        :position =>0,
+        :delay =>"Carrier 1 ala"
+    ]
+
+    $cart_rule = Hash[
+        :id_customer => 1,
+        :date_from => "2022-07-19 09:18:22",
+        :date_to => "2022-07-19 09:18:22",
+        :description => "",
+        :quantity => 1,
+        :quantity_per_user => 1,
+        :priority => 1,
+        :partial_use => 1,
+        :code => '',
+        :minimum_amount => 1,
+        :minimum_amount_tax =>0,
+        :minimum_amount_currency =>0,
+        :minimum_amount_shipping =>0,
+        :country_restriction =>0,
+        :carrier_restriction =>0,
+        :group_restriction =>0,
+        :cart_rule_restriction =>0,
+        :product_restriction =>0,
+        :shop_restriction =>0,
+        :free_shipping => 1,
+        :reduction_percent =>0,
+        :reduction_amount =>0,
+        :reduction_tax =>0,
+        :reduction_currency =>0,
+        :reduction_product =>0,
+        :reduction_exclude_special =>0,
+        :gift_product =>0,
+        :gift_product_attribute =>0,
+        :highlight =>0,
+        :active =>1,
+        :date_add =>"2022-07-19 09:18:22",
+        :date_upd =>"2022-07-19 09:18:22",
+        :name =>"LALASDAS"
+    ]
 
     $cart = 
     Hash[
