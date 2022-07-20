@@ -164,12 +164,12 @@ class Presta
       puts add.body, add.code
     end
 
-    def self.getaddresses(id)
+    def self.getaddresses(id:)
         address = HTTParty.get("#{@api_url}addresses/#{id}", basic_auth: @auth )
         puts address.body,address.code
     end
 
-    def self.delete_address(id)
+    def self.delete_address(id:)
       add = HTTParty.delete("#{@api_url}addresses/#{id}",
       {
           basic_auth: @auth
@@ -245,11 +245,9 @@ class Presta
             <mime>#{mime}</mime>
             <name>
               <language id=\"1\">#{name}</language>
-              <language id=\"2\">#{name1}</language>
             </name>
             <description>
               <language id=\"1\">#{desciption}</language>
-              <language id=\"2\">#{desciption1}</language>
             </description>
             <associations>
               <products>
@@ -269,7 +267,7 @@ class Presta
       puts attach.body, attach.code
     end
 
-    def self.delete_attachments(id)
+    def self.delete_attachments(id:)
       attach = HTTParty.delete("#{@api_url}attachments/#{id}",
       {
           basic_auth: @auth
@@ -277,7 +275,7 @@ class Presta
       puts attach.body, attach.code
     end
 
-    def self.get_attachments(id)
+    def self.get_attachments(id:)
       attach = HTTParty.get("#{@api_url}attachments/#{id}",
       {
           basic_auth: @auth
@@ -287,35 +285,57 @@ class Presta
 
     ##### CARRIERS ####################################################################################################################################################
 
-    def self.post_carriers(carrier)
+    def self.post_carriers(
+      deleted:0,
+      is_module:0,
+      id_tax_rules_group:0,
+      id_reference:0,
+      name:,
+      active:,
+      is_free:0,
+      url:'',
+      shipping_handling:0,
+      shipping_external:0,
+      range_behavior:0,
+      shipping_method:0,
+      max_width:0,
+      max_height:0,
+      max_depth:0,
+      max_weight:0,
+      grade:0,
+      external_module_name:'',
+      need_range:0,
+      position:0,
+      delay:
+    )
       carr = HTTParty.post("#{@api_url}carriers/",
       {
           body:
           "<prestashop>
             <carrier>
               <id></id>
-              <deleted>#{carrier[:deleted]}</deleted>
-              <is_module>#{carrier[:is_module]}</is_module>
-              <id_tax_rules_group>#{carrier[:id_tax_rules_group]}</id_tax_rules_group>
-              <id_reference>#{carrier[:id_reference]}</id_reference>
-              <name>#{carrier[:name]}</name>
-              <active>#{carrier[:active]}</active>
-              <is_free>#{carrier[:is_free]}</is_free>
-              <url>#{carrier[:url]}</url>
-              <shipping_handling>#{carrier[:shipping_handling]}</shipping_handling>
-              <shipping_external>#{carrier[:shipping_external]}</shipping_external>
-              <range_behavior>#{carrier[:range_behavior]}</range_behavior>
-              <shipping_method>#{carrier[:shipping_method]}</shipping_method>
-              <max_width>#{carrier[:max_width]}</max_width>
-              <max_height>#{carrier[:max_height]}</max_height>
-              <max_depth>#{carrier[:max_depth]}</max_depth>
-              <max_weight>#{carrier[:max_weight]}</max_weight>
-              <grade>#{carrier[:grade]}</grade>
-              <external_module_name>#{carrier[:external_module_name]}</external_module_name>
-              <need_range>#{carrier[:need_range]}</need_range>
-              <position>#{carrier[:position]}</position>
+              <deleted>#{deleted}</deleted>
+              <is_module>#{is_module}</is_module>
+              <id_tax_rules_group>#{id_tax_rules_group}</id_tax_rules_group>
+              <id_reference>#{id_reference}</id_reference>
+              <name>#{name}</name>
+              <active>#{active}</active>
+              <is_free>#{is_free}</is_free>
+              <url>#{url}</url>
+              <shipping_handling>#{shipping_handling}</shipping_handling>
+              <shipping_external>#{shipping_external}</shipping_external>
+              <range_behavior>#{range_behavior}</range_behavior>
+              <shipping_method>#{shipping_method}</shipping_method>
+              <max_width>#{max_width}</max_width>
+              <max_height>#{max_height}</max_height>
+              <max_depth>#{max_depth}</max_depth>
+              <max_weight>#{max_weight}</max_weight>
+              <grade>#{grade}</grade>
+              <external_module_name>#{external_module_name}</external_module_name>
+              <need_range>#{need_range}</need_range>
+              <position>#{position}</position>
               <delay>
-               <language id=\"1\">#{carrier[:delay]}</language>
+               <language id=\"1\">#{delay}</language>
               </delay>
             </carrier>
           </prestashop>",
@@ -328,38 +348,61 @@ class Presta
       puts carr.body,carr.code
     end
 
-    def self.update_carriers(id,carrier)
+    def self.update_carriers(
+      id:,
+      deleted:0,
+      is_module:0,
+      id_tax_rules_group:0,
+      id_reference:0,
+      name:,
+      active:,
+      is_free:0,
+      url:'',
+      shipping_handling:0,
+      shipping_external:0,
+      range_behavior:0,
+      shipping_method:0,
+      max_width:0,
+      max_height:0,
+      max_depth:0,
+      max_weight:0,
+      grade:0,
+      external_module_name:'',
+      need_range:0,
+      position:0,
+      delay:
+    )
       carr = HTTParty.put("#{@api_url}carriers/#{id}",
       {
           body:
           "<prestashop>
-            <carrier>
-              <id>#{id}</id>
-              <deleted>#{carrier[:deleted]}</deleted>
-              <is_module>#{carrier[:is_module]}</is_module>
-              <id_tax_rules_group>#{carrier[:id_tax_rules_group]}</id_tax_rules_group>
-              <id_reference>#{carrier[:id_reference]}</id_reference>
-              <name>#{carrier[:name]}</name>
-              <active>#{carrier[:active]}</active>
-              <is_free>#{carrier[:is_free]}</is_free>
-              <url>#{carrier[:url]}</url>
-              <shipping_handling>#{carrier[:shipping_handling]}</shipping_handling>
-              <shipping_external>#{carrier[:shipping_external]}</shipping_external>
-              <range_behavior>#{carrier[:range_behavior]}</range_behavior>
-              <shipping_method>#{carrier[:shipping_method]}</shipping_method>
-              <max_width>#{carrier[:max_width]}</max_width>
-              <max_height>#{carrier[:max_height]}</max_height>
-              <max_depth>#{carrier[:max_depth]}</max_depth>
-              <max_weight>#{carrier[:max_weight]}</max_weight>
-              <grade>#{carrier[:grade]}</grade>
-              <external_module_name>#{carrier[:external_module_name]}</external_module_name>
-              <need_range>#{carrier[:need_range]}</need_range>
-              <position>#{carrier[:position]}</position>
-              <delay>
-               <language id=\"1\">#{carrier[:delay]}</language>
-              </delay>
-            </carrier>
-          </prestashop>",
+          <carrier>
+            <id>#{id}</id>
+            <deleted>#{deleted}</deleted>
+            <is_module>#{is_module}</is_module>
+            <id_tax_rules_group>#{id_tax_rules_group}</id_tax_rules_group>
+            <id_reference>#{id_reference}</id_reference>
+            <name>#{name}</name>
+            <active>#{active}</active>
+            <is_free>#{is_free}</is_free>
+            <url>#{url}</url>
+            <shipping_handling>#{shipping_handling}</shipping_handling>
+            <shipping_external>#{shipping_external}</shipping_external>
+            <range_behavior>#{range_behavior}</range_behavior>
+            <shipping_method>#{shipping_method}</shipping_method>
+            <max_width>#{max_width}</max_width>
+            <max_height>#{max_height}</max_height>
+            <max_depth>#{max_depth}</max_depth>
+            <max_weight>#{max_weight}</max_weight>
+            <grade>#{grade}</grade>
+            <external_module_name>#{external_module_name}</external_module_name>
+            <need_range>#{need_range}</need_range>
+            <position>#{position}</position>
+            <delay>
+             <language id=\"1\">#{delay}</language>
+            </delay>
+          </carrier>
+        </prestashop>",
           basic_auth: @auth,
           header: {
             "Content-Type" => 'text/xml',
@@ -369,7 +412,7 @@ class Presta
       puts carr.body,carr.code
     end
 
-    def self.get_carriers(id)
+    def self.get_carriers(id:)
       carr = HTTParty.get("#{@api_url}carriers/#{id}",
       {
           basic_auth: @auth
@@ -377,7 +420,7 @@ class Presta
       puts carr.body,carr.code
     end
 
-    def self.delete_carriers(id)
+    def self.delete_carriers(id:)
       carr = HTTParty.delete("#{@api_url}carriers/#{id}",
       {
           basic_auth: @auth 
@@ -387,47 +430,81 @@ class Presta
 
     ##### CART RULES ###################################################################################################################################################
 
-    def self.post_cart_rules(cart_rule)
+    def self.post_cart_rules(
+      id_customer:0,
+      date_from:,
+      date_to:,
+      description:"",
+      quantity:0,
+      quantity_per_user:0,
+      priority:0,
+      partial_use:0,
+      code:"",
+      minimum_amount:0,
+      minimum_amount_tax:0,
+      minimum_amount_currency:0,
+      minimum_amount_shipping:0,
+      country_restriction:0,
+      carrier_restriction:0,
+      group_restriction:0,
+      cart_rule_restriction:0,
+      product_restriction:0,
+      shop_restriction:0,
+      free_shipping:0,
+      reduction_percent:0,
+      reduction_amount:0,
+      reduction_tax:0,
+      reduction_currency:0,
+      reduction_product:0,
+      reduction_exclude_special:0,
+      gift_product:0,
+      gift_product_attribute:0,
+      highlight:0,
+      active:0,
+      date_add:"",
+      date_upd:"",
+      name:,
+    )
       cart = HTTParty.post("#{@api_url}cart_rules/",
       {
           body:
           "<prestashop>
             <cart_rule>
               <id></id>
-              <id_customer>#{cart_rule[:id_customer]}</id_customer>
-              <date_from>#{cart_rule[:date_from]}</date_from>
-              <date_to>#{cart_rule[:date_to]}</date_to>
-              <description>#{cart_rule[:description]}</description>
-              <quantity>#{cart_rule[:quantity]}</quantity>
-              <quantity_per_user>#{cart_rule[:quantity_per_user]}</quantity_per_user>
-              <priority>#{cart_rule[:priority]}</priority>
-              <partial_use>#{cart_rule[:partial_use]}</partial_use>
-              <code>#{cart_rule[:code]}</code>
-              <minimum_amount>#{cart_rule[:minimum_amount]}</minimum_amount>
-              <minimum_amount_tax>#{cart_rule[:minimum_amount_tax]}</minimum_amount_tax>
-              <minimum_amount_currency>#{cart_rule[:minimum_amount_currency]}</minimum_amount_currency>
-              <minimum_amount_shipping>#{cart_rule[:minimum_amount_shipping]}</minimum_amount_shipping>
-              <country_restriction>#{cart_rule[:country_restriction]}</country_restriction>
-              <carrier_restriction>#{cart_rule[:carrier_restriction]}</carrier_restriction>
-              <group_restriction>#{cart_rule[:group_restriction]}</group_restriction>
-              <cart_rule_restriction>#{cart_rule[:cart_rule_restriction]}</cart_rule_restriction>
-              <product_restriction>#{cart_rule[:product_restriction]}</product_restriction>
-              <shop_restriction>#{cart_rule[:shop_restriction]}</shop_restriction>
-              <free_shipping>#{cart_rule[:free_shipping]}</free_shipping>
-              <reduction_percent>#{cart_rule[:reduction_percent]}</reduction_percent>
-              <reduction_amount>#{cart_rule[:reduction_amount]}</reduction_amount>
-              <reduction_tax>#{cart_rule[:reduction_tax]}</reduction_tax>
-              <reduction_currency>#{cart_rule[:reduction_currency]}</reduction_currency>
-              <reduction_product>#{cart_rule[:reduction_product]}</reduction_product>
-              <reduction_exclude_special>#{cart_rule[:reduction_exclude_special]}</reduction_exclude_special>
-              <gift_product>#{cart_rule[:gift_product]}</gift_product>
-              <gift_product_attribute>#{cart_rule[:gift_product_attribute]}</gift_product_attribute>
-              <highlight>#{cart_rule[:highlight]}</highlight>
-              <active>#{cart_rule[:active]}</active>
-              <date_add>#{cart_rule[:date_add]}</date_add>
-              <date_upd>#{cart_rule[:date_upd]}</date_upd>
+              <id_customer>#{id_customer}</id_customer>
+              <date_from>#{date_from}</date_from>
+              <date_to>#{date_to}</date_to>
+              <description>#{description}</description>
+              <quantity>#{quantity}</quantity>
+              <quantity_per_user>#{quantity_per_user}</quantity_per_user>
+              <priority>#{priority}</priority>
+              <partial_use>#{partial_use}</partial_use>
+              <code>#{code}</code>
+              <minimum_amount>#{minimum_amount}</minimum_amount>
+              <minimum_amount_tax>#{minimum_amount_tax}</minimum_amount_tax>
+              <minimum_amount_currency>#{minimum_amount_currency}</minimum_amount_currency>
+              <minimum_amount_shipping>#{minimum_amount_shipping}</minimum_amount_shipping>
+              <country_restriction>#{country_restriction}</country_restriction>
+              <carrier_restriction>#{carrier_restriction}</carrier_restriction>
+              <group_restriction>#{group_restriction}</group_restriction>
+              <cart_rule_restriction>#{cart_rule_restriction}</cart_rule_restriction>
+              <product_restriction>#{product_restriction}</product_restriction>
+              <shop_restriction>#{shop_restriction}</shop_restriction>
+              <free_shipping>#{free_shipping}</free_shipping>
+              <reduction_percent>#{reduction_percent}</reduction_percent>
+              <reduction_amount>#{reduction_amount}</reduction_amount>
+              <reduction_tax>#{reduction_tax}</reduction_tax>
+              <reduction_currency>#{reduction_currency}</reduction_currency>
+              <reduction_product>#{reduction_product}</reduction_product>
+              <reduction_exclude_special>#{reduction_exclude_special}</reduction_exclude_special>
+              <gift_product>#{gift_product}</gift_product>
+              <gift_product_attribute>#{gift_product_attribute}</gift_product_attribute>
+              <highlight>#{highlight}</highlight>
+              <active>#{active}</active>
+              <date_add>#{date_add}</date_add>
+              <date_upd>#{date_upd}</date_upd>
               <name>
-                <language id=\"1\">#{cart_rule[:name]}</language>
+                <language id=\"1\">#{name}</language>
               </name>
             </cart_rule>
           </prestashop>",
@@ -440,50 +517,85 @@ class Presta
       puts cart.body,cart.code
     end
 
-    def self.update_cart_rules(id,cart_rule)
+    def self.update_cart_rules(
+      id:,
+      id_customer:0,
+      date_from:,
+      date_to:,
+      description:"",
+      quantity:0,
+      quantity_per_user:0,
+      priority:0,
+      partial_use:0,
+      code:"",
+      minimum_amount:0,
+      minimum_amount_tax:0,
+      minimum_amount_currency:0,
+      minimum_amount_shipping:0,
+      country_restriction:0,
+      carrier_restriction:0,
+      group_restriction:0,
+      cart_rule_restriction:0,
+      product_restriction:0,
+      shop_restriction:0,
+      free_shipping:0,
+      reduction_percent:0,
+      reduction_amount:0,
+      reduction_tax:0,
+      reduction_currency:0,
+      reduction_product:0,
+      reduction_exclude_special:0,
+      gift_product:0,
+      gift_product_attribute:0,
+      highlight:0,
+      active:0,
+      date_add:"",
+      date_upd:"",
+      name:,
+    )
       cart = HTTParty.put("#{@api_url}cart_rules/#{id}",
       {
           body:
           "<prestashop>
-            <cart_rule>
-              <id>#{id}</id>
-              <id_customer>#{cart_rule[:id_customer]}</id_customer>
-              <date_from>#{cart_rule[:date_from]}</date_from>
-              <date_to>#{cart_rule[:date_to]}</date_to>
-              <description>#{cart_rule[:description]}</description>
-              <quantity>#{cart_rule[:quantity]}</quantity>
-              <quantity_per_user>#{cart_rule[:quantity_per_user]}</quantity_per_user>
-              <priority>#{cart_rule[:priority]}</priority>
-              <partial_use>#{cart_rule[:partial_use]}</partial_use>
-              <code>#{cart_rule[:code]}</code>
-              <minimum_amount>#{cart_rule[:minimum_amount]}</minimum_amount>
-              <minimum_amount_tax>#{cart_rule[:minimum_amount_tax]}</minimum_amount_tax>
-              <minimum_amount_currency>#{cart_rule[:minimum_amount_currency]}</minimum_amount_currency>
-              <minimum_amount_shipping>#{cart_rule[:minimum_amount_shipping]}</minimum_amount_shipping>
-              <country_restriction>#{cart_rule[:country_restriction]}</country_restriction>
-              <carrier_restriction>#{cart_rule[:carrier_restriction]}</carrier_restriction>
-              <group_restriction>#{cart_rule[:group_restriction]}</group_restriction>
-              <cart_rule_restriction>#{cart_rule[:cart_rule_restriction]}</cart_rule_restriction>
-              <product_restriction>#{cart_rule[:product_restriction]}</product_restriction>
-              <shop_restriction>#{cart_rule[:shop_restriction]}</shop_restriction>
-              <free_shipping>#{cart_rule[:free_shipping]}</free_shipping>
-              <reduction_percent>#{cart_rule[:reduction_percent]}</reduction_percent>
-              <reduction_amount>#{cart_rule[:reduction_amount]}</reduction_amount>
-              <reduction_tax>#{cart_rule[:reduction_tax]}</reduction_tax>
-              <reduction_currency>#{cart_rule[:reduction_currency]}</reduction_currency>
-              <reduction_product>#{cart_rule[:reduction_product]}</reduction_product>
-              <reduction_exclude_special>#{cart_rule[:reduction_exclude_special]}</reduction_exclude_special>
-              <gift_product>#{cart_rule[:gift_product]}</gift_product>
-              <gift_product_attribute>#{cart_rule[:gift_product_attribute]}</gift_product_attribute>
-              <highlight>#{cart_rule[:highlight]}</highlight>
-              <active>#{cart_rule[:active]}</active>
-              <date_add>#{cart_rule[:date_add]}</date_add>
-              <date_upd>#{cart_rule[:date_upd]}</date_upd>
-              <name>
-                <language id=\"1\">#{cart_rule[:name]}</language>
-              </name>
-            </cart_rule>
-          </prestashop>",
+          <cart_rule>
+            <id>#{id}</id>
+            <id_customer>#{id_customer}</id_customer>
+            <date_from>#{date_from}</date_from>
+            <date_to>#{date_to}</date_to>
+            <description>#{description}</description>
+            <quantity>#{quantity}</quantity>
+            <quantity_per_user>#{quantity_per_user}</quantity_per_user>
+            <priority>#{priority}</priority>
+            <partial_use>#{partial_use}</partial_use>
+            <code>#{code}</code>
+            <minimum_amount>#{minimum_amount}</minimum_amount>
+            <minimum_amount_tax>#{minimum_amount_tax}</minimum_amount_tax>
+            <minimum_amount_currency>#{minimum_amount_currency}</minimum_amount_currency>
+            <minimum_amount_shipping>#{minimum_amount_shipping}</minimum_amount_shipping>
+            <country_restriction>#{country_restriction}</country_restriction>
+            <carrier_restriction>#{carrier_restriction}</carrier_restriction>
+            <group_restriction>#{group_restriction}</group_restriction>
+            <cart_rule_restriction>#{cart_rule_restriction}</cart_rule_restriction>
+            <product_restriction>#{product_restriction}</product_restriction>
+            <shop_restriction>#{shop_restriction}</shop_restriction>
+            <free_shipping>#{free_shipping}</free_shipping>
+            <reduction_percent>#{reduction_percent}</reduction_percent>
+            <reduction_amount>#{reduction_amount}</reduction_amount>
+            <reduction_tax>#{reduction_tax}</reduction_tax>
+            <reduction_currency>#{reduction_currency}</reduction_currency>
+            <reduction_product>#{reduction_product}</reduction_product>
+            <reduction_exclude_special>#{reduction_exclude_special}</reduction_exclude_special>
+            <gift_product>#{gift_product}</gift_product>
+            <gift_product_attribute>#{gift_product_attribute}</gift_product_attribute>
+            <highlight>#{highlight}</highlight>
+            <active>#{active}</active>
+            <date_add>#{date_add}</date_add>
+            <date_upd>#{date_upd}</date_upd>
+            <name>
+              <language id=\"1\">#{name}</language>
+            </name>
+          </cart_rule>
+        </prestashop>",
           basic_auth: @auth,
           header: {
             "Content-Type" => 'text/xml',
@@ -493,7 +605,7 @@ class Presta
       puts cart.body,cart.code
     end
 
-    def self.get_cart_rules(id)
+    def self.get_cart_rules(id:)
       cart = HTTParty.get("#{@api_url}cart_rules/#{id}",
       {
           basic_auth: @auth  
@@ -501,7 +613,7 @@ class Presta
       puts cart.body,cart.code
     end
 
-    def self.delete_cart_rules(id)
+    def self.delete_cart_rules(id:)
       cart = HTTParty.delete("#{@api_url}cart_rules/#{id}",
       {
           basic_auth: @auth  
@@ -511,29 +623,53 @@ class Presta
 
     ##### CARTS ##########################################################################################################################################################
 
-    def self.post_carts(carts)
+    def self.post_carts(
+        id_address_delivery: 0,
+        id_address_invoice: 0,
+        id_currency:,
+        id_customer: 0,
+        id_guest: 0,
+        id_lang:,
+        id_shop_group: 1,
+        id_shop: 1,
+        id_carrier: 0,
+        recyclable: 0,
+        gift: 0,
+        gift_message: "",
+        mobile_theme: 0,
+        delivery_option: "",
+        secure_key: "",
+        allow_seperated_package: 0,
+        date_add: "",
+        date_upd: "",
+        id_product: 0,
+        id_product_attribute: 0,
+        id_address_delivery1: 0,
+        id_customization: 0,
+        quantity: 0
+    )
       cart = HTTParty.post("#{@api_url}carts/",
       {
           body:
           "<prestashop>
             <cart>
               <id/>
-              <id_address_delivery>#{carts[:id_address_delivery]}</id_address_delivery>
-              <id_address_invoice>#{carts[:id_address_invoice]}</id_address_invoice>
-              <id_currency>#{carts[:id_currency]}</id_currency>
-              <id_customer>#{carts[:id_customer]}</id_customer>
-              <id_guest>#{carts[:id_guest]}</id_guest>
-              <id_lang>#{carts[:id_lang]}</id_lang>
-              <id_carrier>#{carts[:id_carrier]}</id_carrier>
-              <recyclable>#{carts[:recyclable]}</recyclable>
-              <gift>#{carts[:gift]}</gift>
-              <gift_message>#{carts[:gift_message]}</gift_message>
+              <id_address_delivery>#{id_address_delivery}</id_address_delivery>
+              <id_address_invoice>#{id_address_invoice}</id_address_invoice>
+              <id_currency>#{id_currency}</id_currency>
+              <id_customer>#{id_customer}</id_customer>
+              <id_guest>#{id_guest}</id_guest>
+              <id_lang>#{id_lang}</id_lang>
+              <id_carrier>#{id_carrier}</id_carrier>
+              <recyclable>#{recyclable}</recyclable>
+              <gift>#{gift}</gift>
+              <gift_message>#{gift_message}</gift_message>
               <associations>
                 <cart_rows>
                 <cart_row>
-              <id_product>#{carts[:id_product]}</id_product>
-              <id_product_attribute>#{carts[:id_product_attribute]}</id_product_attribute>
-              <quantity>#{carts[:quantity]}</quantity>
+              <id_product>#{id_product}</id_product>
+              <id_product_attribute>#{id_product_attribute}</id_product_attribute>
+              <quantity>#{quantity}</quantity>
                 </cart_row>
                 </cart_rows>
               </associations>
@@ -548,34 +684,59 @@ class Presta
       puts cart.body,cart.code
     end
 
-    def self.update_carts(id,carts)
+    def self.update_carts(
+        id:,
+        id_address_delivery: 0,
+        id_address_invoice: 0,
+        id_currency:,
+        id_customer: 0,
+        id_guest: 0,
+        id_lang:,
+        id_shop_group: 1,
+        id_shop: 1,
+        id_carrier: 0,
+        recyclable: 0,
+        gift: 0,
+        gift_message: "",
+        mobile_theme: 0,
+        delivery_option: "",
+        secure_key: "",
+        allow_seperated_package: 0,
+        date_add: "",
+        date_upd: "",
+        id_product: 0,
+        id_product_attribute: 0,
+        id_address_delivery1: 0,
+        id_customization: 0,
+        quantity: 0
+    )
       cart = HTTParty.put("#{@api_url}carts/#{id}",
       {
           body:
           "<prestashop>
           <cart>
-          <id>#{id}</id>
-          <id_address_delivery>#{carts[:id_address_delivery]}</id_address_delivery>
-          <id_address_invoice>#{carts[:id_address_invoice]}</id_address_invoice>
-          <id_currency>#{carts[:id_currency]}</id_currency>
-          <id_customer>#{carts[:id_customer]}</id_customer>
-          <id_guest>#{carts[:id_guest]}</id_guest>
-          <id_lang>#{carts[:id_lang]}</id_lang>
-          <id_carrier>#{carts[:id_carrier]}</id_carrier>
-          <recyclable>#{carts[:recyclable]}</recyclable>
-          <gift>#{carts[:gift]}</gift>
-          <gift_message>#{carts[:gift_message]}</gift_message>
-          <associations>
-            <cart_rows>
-            <cart_row>
-          <id_product>#{carts[:id_product]}</id_product>
-          <id_product_attribute>#{carts[:id_product_attribute]}</id_product_attribute>
-          <quantity>#{carts[:quantity]}</quantity>
-            </cart_row>
-            </cart_rows>
-          </associations>
+            <id>#{id}<id/>
+            <id_address_delivery>#{id_address_delivery}</id_address_delivery>
+            <id_address_invoice>#{id_address_invoice}</id_address_invoice>
+            <id_currency>#{id_currency}</id_currency>
+            <id_customer>#{id_customer}</id_customer>
+            <id_guest>#{id_guest}</id_guest>
+            <id_lang>#{id_lang}</id_lang>
+            <id_carrier>#{id_carrier}</id_carrier>
+            <recyclable>#{recyclable}</recyclable>
+            <gift>#{gift}</gift>
+            <gift_message>#{gift_message}</gift_message>
+            <associations>
+              <cart_rows>
+              <cart_row>
+            <id_product>#{id_product}</id_product>
+            <id_product_attribute>#{id_product_attribute}</id_product_attribute>
+            <quantity>#{quantity}</quantity>
+              </cart_row>
+              </cart_rows>
+            </associations>
           </cart>
-          </prestashop>",
+        </prestashop>",
           basic_auth: @auth,
           header: {
             "Content-Type" => 'text/xml',
@@ -585,7 +746,7 @@ class Presta
       puts cart.body,cart.code
     end
 
-    def self.delete_carts(id)
+    def self.delete_carts(id:)
         carts = HTTParty.delete("#{@api_url}carts/#{id}",
         {
             basic_auth: @auth
@@ -593,7 +754,7 @@ class Presta
         puts carts.body,carts.code
     end
 
-    def self.get_carts(id)
+    def self.get_carts(id:)
       carts = HTTParty.get("#{@api_url}carts/#{id}",
       {
           basic_auth: @auth
@@ -604,53 +765,63 @@ class Presta
 
     ##### CATEGORIES ######################################################################################################################################################
 
-    def self.post_categories(categories)
+    def self.post_categories(
+        id_parent:0,
+        active:,
+        id_shop_default: 1,
+        is_root_category: 0,
+        position: 0,
+        date_add: "",
+        date_upd:"",
+        name:,
+        link_rewrite:,
+        description:"",
+        meta_title:"",
+        meta_description:"",
+        meta_keywords:"",
+        id_category: 0,
+        id_product:0
+    )
       cat = HTTParty.post("#{@api_url}categories/",
         {
             body:
             "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
             <category>
               <id></id>
-              <id_parent>#{categories[:id_parent]}</id_parent>
-              <active>#{categories[:active]}</active>
-              <id_shop_default>#{categories[:id_shop_default]}</id_shop_default>
-              <is_root_category>#{categories[:is_root_category]}</is_root_category>
-              <position>#{categories[:position]}</position>
-              <date_add>#{categories[:date_add]}</date_add>
-              <date_upd>#{categories[:date_upd]}</date_upd>
+              <id_parent>#{id_parent}</id_parent>
+              <active>#{active}</active>
+              <id_shop_default>#{id_shop_default}</id_shop_default>
+              <is_root_category>#{is_root_category}</is_root_category>
+              <position>#{position}</position>
+              <date_add>#{date_add}</date_add>
+              <date_upd>#{date_upd}</date_upd>
               <name>
-                <language id=\"1\">#{categories[:name]}</language>
-                <language id=\"2\">#{categories[:name1]}</language>
+                <language id=\"1\">#{name}</language>
               </name>
               <link_rewrite>
-                <language id=\"1\">#{categories[:link_rewrite]}</language>
-                <language id=\"2\">#{categories[:link_rewrite1]}</language>
+                <language id=\"1\">#{link_rewrite}</language>
               </link_rewrite>
               <description>
-                <language id=\"1\">#{categories[:description]}</language>
-                <language id=\"2\">#{categories[:description1]}</language>
+                <language id=\"1\">#{description}</language>
               </description>
               <meta_title>
-                <language id=\"1\">#{categories[:meta_title]}</language>
-                <language id=\"2\">#{categories[:meta_title1]}</language>
+                <language id=\"1\">#{meta_title}</language>
               </meta_title>
               <meta_description>
-                <language id=\"1\">#{categories[:meta_description]}</language>
-                <language id=\"2\">#{categories[:meta_description1]}</language>
+                <language id=\"1\">#{meta_description}</language>
               </meta_description>
               <meta_keywords>
-                <language id=\"1\">#{categories[:meta_keywords]}</language>
-                <language id=\"2\">#{categories[:meta_keywords1]}</language>
+                <language id=\"1\">#{meta_keywords}</language>
               </meta_keywords>
               <associations>
                 <categories>
                   <category>
-                    <id>#{categories[:id_category]}</id>
+                    <id>#{id_category}</id>
                   </category>
                 </categories>
                 <products>
                   <product>
-                    <id>#{categories[:id_product]}</id>
+                    <id>#{id_product}</id>
                   </product>
                 </products>
               </associations>
@@ -667,53 +838,64 @@ class Presta
       puts cat.body,cat.code
     end
 
-    def self.update_categories(id,categories)
+    def self.update_categories(
+      id:,
+      id_parent:0,
+      active:,
+      id_shop_default: 1,
+      is_root_category: 0,
+      position: 0,
+      date_add: "",
+      date_upd:"",
+      name:,
+      link_rewrite:,
+      description:"",
+      meta_title:"",
+      meta_description:"",
+      meta_keywords:"",
+      id_category: 0,
+      id_product:0
+    )
       cat = HTTParty.put("#{@api_url}categories/#{id}",
       {
           body:
           "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
           <category>
             <id>#{id}</id>
-            <id_parent>#{categories[:id_parent]}</id_parent>
-            <active>#{categories[:active]}</active>
-            <id_shop_default>#{categories[:id_shop_default]}</id_shop_default>
-            <is_root_category>#{categories[:is_root_category]}</is_root_category>
-            <position>#{categories[:position]}</position>
-            <date_add>#{categories[:date_add]}</date_add>
-            <date_upd>#{categories[:date_upd]}</date_upd>
+            <id_parent>#{id_parent}</id_parent>
+            <active>#{active}</active>
+            <id_shop_default>#{id_shop_default}</id_shop_default>
+            <is_root_category>#{is_root_category}</is_root_category>
+            <position>#{position}</position>
+            <date_add>#{date_add}</date_add>
+            <date_upd>#{date_upd}</date_upd>
             <name>
-              <language id=\"1\">#{categories[:name]}</language>
-              <language id=\"2\">#{categories[:name1]}</language>
+              <language id=\"1\">#{name}</language>
             </name>
             <link_rewrite>
-              <language id=\"1\">#{categories[:link_rewrite]}</language>
-              <language id=\"2\">#{categories[:link_rewrite1]}</language>
+              <language id=\"1\">#{link_rewrite}</language>
             </link_rewrite>
             <description>
-              <language id=\"1\">#{categories[:description]}</language>
-              <language id=\"2\">#{categories[:description1]}</language>
+              <language id=\"1\">#{description}</language>
             </description>
             <meta_title>
-              <language id=\"1\">#{categories[:meta_title]}</language>
-              <language id=\"2\">#{categories[:meta_title1]}</language>
+              <language id=\"1\">#{meta_title}</language>
             </meta_title>
             <meta_description>
-              <language id=\"1\">#{categories[:meta_description]}</language>
-              <language id=\"2\">#{categories[:meta_description1]}</language>
+              <language id=\"1\">#{meta_description}</language>
             </meta_description>
             <meta_keywords>
-              <language id=\"1\">#{categories[:meta_keywords]}</language>
-              <language id=\"2\">#{categories[:meta_keywords1]}</language>
+              <language id=\"1\">#{meta_keywords}</language>
             </meta_keywords>
             <associations>
               <categories>
                 <category>
-                  <id>#{categories[:id_category]}</id>
+                  <id>#{id_category}</id>
                 </category>
               </categories>
               <products>
                 <product>
-                  <id>#{categories[:id_product]}</id>
+                  <id>#{id_product}</id>
                 </product>
               </products>
             </associations>
@@ -730,7 +912,7 @@ class Presta
     puts cat.body,cat.code
     end
 
-    def self.delete_categories(id)
+    def self.delete_categories(id:)
       cat = HTTParty.delete("#{@api_url}categories/#{id}",
       {
         basic_auth: @auth
@@ -738,7 +920,7 @@ class Presta
       puts cat.body,cat.code
     end
 
-    def self.get_categories(id)
+    def self.get_categories(id:)
       cat = HTTParty.get("#{@api_url}categories/#{id}",
       {
         basic_auth: @auth
@@ -750,41 +932,63 @@ class Presta
 
     ##### COMBINATIONS ###############################################################################################################################################
 
-    def self.post_combinations(combinations)
+    def self.post_combinations(
+      id_product:,
+      location:"",
+      ean13: "",
+      isbn:"",
+      upc:"",
+      mpn:"",
+      quantity:0,
+      reference: "",
+      supplier_reference: "",
+      wholesale_price: 0,
+      price: 0,
+      ecotax: 0,
+      weight: 0,
+      unit_price_impact: 0.000000,
+      minimal_quantity:,
+      low_stock_threshold:0,
+      low_stock_alert: 0,
+      default_on:0,
+      available_date: "",
+      id_product_option_value: 0,
+      id_image: 0
+    )
       comb = HTTParty.post("#{@api_url}combinations/",
       {
           body:
           "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
           <combination>
             <id></id>
-            <id_product>#{combinations[:id_product]}</id_product>
-            <location>#{combinations[:location]}</location>
-            <ean13>#{combinations[:ean13]}</ean13>
-            <isbn>#{combinations[:isbn]}</isbn>
-            <upc>#{combinations[:upc]}</upc>
-            <mpn>#{combinations[:mpn]}</mpn>
-            <quantity>#{combinations[:quantity]}</quantity>
-            <reference>#{combinations[:reference]}</reference>
-            <supplier_reference>#{combinations[:supplier_reference]}</supplier_reference>
-            <wholesale_price>#{combinations[:wholesale_price]}</wholesale_price>
-            <price>#{combinations[:price]}</price>
-            <ecotax>#{combinations[:ecotax]}</ecotax>
-            <weight>#{combinations[:weight]}</weight>
-            <unit_price_impact>#{combinations[:unit_price_impact]}</unit_price_impact>
-            <minimal_quantity>#{combinations[:minimal_quantity]}</minimal_quantity>
-            <low_stock_threshold>#{combinations[:low_stock_threshold]}</low_stock_threshold>
-            <low_stock_alert>#{combinations[:low_stock_alert]}</low_stock_alert>
-            <default_on>#{combinations[:default_on]}</default_on>
-            <available_date>#{combinations[:available_date]}</available_date>
+            <id_product>#{id_product}</id_product>
+            <location>#{location}</location>
+            <ean13>#{ean13}</ean13>
+            <isbn>#{isbn}</isbn>
+            <upc>#{upc}</upc>
+            <mpn>#{mpn}</mpn>
+            <quantity>#{quantity}</quantity>
+            <reference>#{reference}</reference>
+            <supplier_reference>#{supplier_reference}</supplier_reference>
+            <wholesale_price>#{wholesale_price}</wholesale_price>
+            <price>#{price}</price>
+            <ecotax>#{ecotax}</ecotax>
+            <weight>#{weight}</weight>
+            <unit_price_impact>#{unit_price_impact}</unit_price_impact>
+            <minimal_quantity>#{minimal_quantity}</minimal_quantity>
+            <low_stock_threshold>#{low_stock_threshold}</low_stock_threshold>
+            <low_stock_alert>#{low_stock_alert}</low_stock_alert>
+            <default_on>#{default_on}</default_on>
+            <available_date>#{available_date}</available_date>
             <associations>
               <product_option_values>
                 <product_option_value>
-                  <id>#{combinations[:id_product_option_value]}</id>
+                  <id>#{id_product_option_value}</id>
                 </product_option_value>
               </product_option_values>
               <images>
                 <image>
-                  <id>#{combinations[:id_image]}</id>
+                  <id>#{id_image}</id>
                 </image>
               </images>
             </associations>
@@ -800,41 +1004,64 @@ class Presta
     puts comb.body,comb.code
   end
 
-  def self.update_combinations(id,combinations)
+  def self.update_combinations(
+      id:,
+      id_product:,
+      location:"",
+      ean13: "",
+      isbn:"",
+      upc:"",
+      mpn:"",
+      quantity:0,
+      reference: "",
+      supplier_reference: "",
+      wholesale_price: 0,
+      price: 0,
+      ecotax: 0,
+      weight: 0,
+      unit_price_impact: 0.000000,
+      minimal_quantity:,
+      low_stock_threshold:0,
+      low_stock_alert: 0,
+      default_on:0,
+      available_date: "",
+      id_product_option_value: 0,
+      id_image: 0
+  )
     comb = HTTParty.put("#{@api_url}combinations/#{id}",
     {
         body:
         "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
         <combination>
           <id>#{id}</id>
-          <id_product>#{combinations[:id_product]}</id_product>
-          <location>#{combinations[:location]}</location>
-          <ean13>#{combinations[:ean13]}</ean13>
-          <isbn>#{combinations[:isbn]}</isbn>
-          <upc>#{combinations[:upc]}</upc>
-          <mpn>#{combinations[:mpn]}</mpn>
-          <quantity>#{combinations[:quantity]}</quantity>
-          <reference>#{combinations[:reference]}</reference>
-          <supplier_reference>#{combinations[:supplier_reference]}</supplier_reference>
-          <wholesale_price>#{combinations[:wholesale_price]}</wholesale_price>
-          <price>#{combinations[:price]}</price>
-          <ecotax>#{combinations[:ecotax]}</ecotax>
-          <weight>#{combinations[:weight]}</weight>
-          <unit_price_impact>#{combinations[:unit_price_impact]}</unit_price_impact>
-          <minimal_quantity>#{combinations[:minimal_quantity]}</minimal_quantity>
-          <low_stock_threshold>#{combinations[:low_stock_threshold]}</low_stock_threshold>
-          <low_stock_alert>#{combinations[:low_stock_alert]}</low_stock_alert>
-          <default_on>#{combinations[:default_on]}</default_on>
-          <available_date>#{combinations[:available_date]}</available_date>
+          <id_product>#{id_product}</id_product>
+          <location>#{location}</location>
+          <ean13>#{ean13}</ean13>
+          <isbn>#{isbn}</isbn>
+          <upc>#{upc}</upc>
+          <mpn>#{mpn}</mpn>
+          <quantity>#{quantity}</quantity>
+          <reference>#{reference}</reference>
+          <supplier_reference>#{supplier_reference}</supplier_reference>
+          <wholesale_price>#{wholesale_price}</wholesale_price>
+          <price>#{price}</price>
+          <ecotax>#{ecotax}</ecotax>
+          <weight>#{weight}</weight>
+          <unit_price_impact>#{unit_price_impact}</unit_price_impact>
+          <minimal_quantity>#{minimal_quantity}</minimal_quantity>
+          <low_stock_threshold>#{low_stock_threshold}</low_stock_threshold>
+          <low_stock_alert>#{low_stock_alert}</low_stock_alert>
+          <default_on>#{default_on}</default_on>
+          <available_date>#{available_date}</available_date>
           <associations>
             <product_option_values>
               <product_option_value>
-                <id>#{combinations[:id_product_option_value]}</id>
+                <id>#{id_product_option_value}</id>
               </product_option_value>
             </product_option_values>
             <images>
               <image>
-                <id>#{combinations[:id_image]}</id>
+                <id>#{id_image}</id>
               </image>
             </images>
           </associations>
@@ -850,7 +1077,7 @@ class Presta
   puts comb.body,comb.code
   end
 
-  def self.delete_combinations(id)
+  def self.delete_combinations(id:)
     comb = HTTParty.delete("#{@api_url}combinations/#{id}",
     {
       basic_auth: @auth
@@ -858,7 +1085,7 @@ class Presta
   puts comb.body,comb.code
   end
 
-  def self.get_combinations(id)
+  def self.get_combinations(id:)
     comb = HTTParty.get("#{@api_url}combinations/#{id}",
     {
       basic_auth: @auth
@@ -868,19 +1095,26 @@ class Presta
 
   ##### CONFIGURATIONS #############################################################################################################################################
    
-  def self.post_configuration(configuration)
+  def self.post_configuration(
+        value:0,
+        name:,
+        id_shop_group: 1,
+        id_shop:1,
+        date_add:"",
+        date_upd:""
+  )
     conf = HTTParty.post("#{@api_url}configurations/",
         {
             body: 
             "<prestashop>
               <configuration>
                 <id></id>
-                <value>#{configuration[:value]}</value>
-                <name>#{configuration[:name]}</name>
-                <id_shop_group>#{configuration[:id_shop_group]}</id_shop_group>
-                <id_shop>#{configuration[:id_shop]}</id_shop>
-                <date_add>#{configuration[:date_add]}</date_add>
-                <date_upd>#{configuration[:date_upd]}</date_upd>
+                <value>#{value}</value>
+                <name>#{name}</name>
+                <id_shop_group>#{id_shop_group}</id_shop_group>
+                <id_shop>#{id_shop}</id_shop>
+                <date_add>#{date_add}</date_add>
+                <date_upd>#{date_upd}</date_upd>
               </configuration>
             </prestashop>",
             basic_auth: @auth,
@@ -893,21 +1127,29 @@ class Presta
     puts conf.body, conf.code 
   end
 
-  def self.update_configuration(id,configuration)
+  def self.update_configuration(
+    id:,
+    value:0,
+    name:,
+    id_shop_group: 1,
+    id_shop:1,
+    date_add:"",
+    date_upd:""
+  )
     conf = HTTParty.put("#{@api_url}configurations/#{id}",
         {
             body: 
             "<prestashop>
-              <configuration>
-                <id>#{id}</id>
-                <value>#{configuration[:value]}</value>
-                <name>#{configuration[:name]}</name>
-                <id_shop_group>#{configuration[:id_shop_group]}</id_shop_group>
-                <id_shop>#{configuration[:id_shop]}</id_shop>
-                <date_add>#{configuration[:date_add]}</date_add>
-                <date_upd>#{configuration[:date_upd]}</date_upd>
-              </configuration>
-            </prestashop>",
+            <configuration>
+              <id>#{id}</id>
+              <value>#{value}</value>
+              <name>#{name}</name>
+              <id_shop_group>#{id_shop_group}</id_shop_group>
+              <id_shop>#{id_shop}</id_shop>
+              <date_add>#{date_add}</date_add>
+              <date_upd>#{date_upd}</date_upd>
+            </configuration>
+          </prestashop>",
             basic_auth: @auth,
             header: {
               "Content-Type" => 'text/xml',
@@ -918,7 +1160,7 @@ class Presta
     puts conf.body, conf.code 
   end
 
-  def self.get_configuration(id)
+  def self.get_configuration(id:)
     conf = HTTParty.get("#{@api_url}configurations/#{id}",
         {
             basic_auth: @auth,
@@ -927,7 +1169,7 @@ class Presta
     puts conf.body, conf.code 
   end
 
-  def self.delete_configuration(id)
+  def self.delete_configuration(id:)
     conf = HTTParty.delete("#{@api_url}configurations/#{id}",
         {
             basic_auth: @auth,
@@ -939,20 +1181,25 @@ class Presta
 
   ##### CONTACTS ###################################################################################################################################################
 
-    def self.post_contact(contact)
+    def self.post_contact(
+      email:"",
+      customer_service: 0,
+      name:,
+      desciption:""
+    )
       con = HTTParty.post("#{@api_url}contacts/",
       {
           body:
           "<prestashop>
             <contact>
               <id></id>
-              <email>#{contact[:email]}</email>
-              <customer_service>#{contact[:customer_service]}</customer_service>
+              <email>#{email}</email>
+              <customer_service>#{customer_service}</customer_service>
               <name>
-              <language id=\"1\">#{contact[:name]}</language>
+              <language id=\"1\">#{name}</language>
               </name>
               <description>
-              <language id=\"1\">#{contact[:description]}</language>
+              <language id=\"1\">#{description}</language>
               </description>
             </contact>
           </prestashop>",
@@ -965,20 +1212,26 @@ class Presta
       puts con.body, con.code
     end
 
-    def self.update_contact(id,contact)
+    def self.update_contact(
+      id:,
+      email:"",
+      customer_service: 0,
+      name:,
+      desciption:""
+    )
       con = HTTParty.put("#{@api_url}contacts/#{id}",
       {
           body:
           "<prestashop>
             <contact>
               <id>#{id}</id>
-              <email>#{contact[:email]}</email>
-              <customer_service>#{contact[:customer_service]}</customer_service>
+              <email>#{email}</email>
+              <customer_service>#{customer_service}</customer_service>
               <name>
-              <language id=\"1\">#{contact[:name]}</language>
+              <language id=\"1\">#{name}</language>
               </name>
               <description>
-              <language id=\"1\">#{contact[:description]}</language>
+              <language id=\"1\">#{description}</language>
               </description>
             </contact>
           </prestashop>",
@@ -991,7 +1244,7 @@ class Presta
       puts con.body, con.code
     end
 
-    def self.get_contact(id)
+    def self.get_contact(id:)
       con = HTTParty.get("#{@api_url}contacts/#{id}",
       {
           basic_auth: @auth
@@ -999,7 +1252,7 @@ class Presta
       puts con.body, con.code
     end
 
-    def self.delete_contact(id)
+    def self.delete_contact(id:)
       con = HTTParty.delete("#{@api_url}contacts/#{id}",
       {
           basic_auth: @auth
@@ -1009,34 +1262,45 @@ class Presta
 
     ##### CONTENT MANAGEMENT SYSTEM ######################################################################################################################################################
 
-    def self.post_content_management_system(content_management_system)
+    def self.post_content_management_system(
+      id_cms_category:0,
+      position:0,
+      indexation:0,
+      active:0,
+      meta_description:"",
+      meta_keywords:"",
+      meta_title:,
+      head_seo_title:"",
+      link_rewrite:,
+      content:""
+    )
       sup = HTTParty.post("#{@api_url}content_management_system/",
       {
         body:
         "<prestashop>
           <content>
             <id></id>
-            <id_cms_category>#{content_management_system[:id_cms_category]}</id_cms_category>
-            <position>#{content_management_system[:position]}</position>
-            <indexation>#{content_management_system[:indexation]}</indexation>
-            <active>#{content_management_system[:active]}</active>
+            <id_cms_category>#{id_cms_category}</id_cms_category>
+            <position>#{position}</position>
+            <indexation>#{indexation}</indexation>
+            <active>#{active}</active>
             <meta_description>
-              <language id=\"1\">#{content_management_system[:meta_description]}</language>
+              <language id=\"1\">#{meta_description}</language>
             </meta_description>
             <meta_keywords>
-              <language id=\"1\">#{content_management_system[:meta_keywords]}</language>
+              <language id=\"1\">#{meta_keywords}</language>
             </meta_keywords>
             <meta_title>
-              <language id=\"1\">#{content_management_system[:meta_title]}</language>
+              <language id=\"1\">#{meta_title}</language>
             </meta_title>
             <head_seo_title>
-              <language id=\"1\">#{content_management_system[:head_seo_title]}</language>
+              <language id=\"1\">#{head_seo_title}</language>
             </head_seo_title>
             <link_rewrite>
-              <language id=\"1\">#{content_management_system[:link_rewrite]}</language>
+              <language id=\"1\">#{link_rewrite}</language>
             </link_rewrite>
             <content>
-              <language id=\"1\">#{content_management_system[:content]}</language>
+              <language id=\"1\">#{content}</language>
             </content>
           </content>
         </prestashop>",
@@ -1049,34 +1313,46 @@ class Presta
       puts sup.body,sup.code
     end
 
-    def self.update_content_management_system(id,content_management_system)
+    def self.update_content_management_system(
+      id:,
+      id_cms_category:0,
+      position:0,
+      indexation:0,
+      active:0,
+      meta_description:"",
+      meta_keywords:"",
+      meta_title:,
+      head_seo_title:"",
+      link_rewrite:,
+      content:""
+    )
       sup = HTTParty.put("#{@api_url}content_management_system/#{id}",
       {
         body:
         "<prestashop>
           <content>
             <id>#{id}</id>
-            <id_cms_category>#{content_management_system[:id_cms_category]}</id_cms_category>
-            <position>#{content_management_system[:position]}</position>
-            <indexation>#{content_management_system[:indexation]}</indexation>
-            <active>#{content_management_system[:active]}</active>
+            <id_cms_category>#{id_cms_category}</id_cms_category>
+            <position>#{position}</position>
+            <indexation>#{indexation}</indexation>
+            <active>#{active}</active>
             <meta_description>
-              <language id=\"1\">#{content_management_system[:meta_description]}</language>
+              <language id=\"1\">#{meta_description}</language>
             </meta_description>
             <meta_keywords>
-              <language id=\"1\">#{content_management_system[:meta_keywords]}</language>
+              <language id=\"1\">#{meta_keywords}</language>
             </meta_keywords>
             <meta_title>
-              <language id=\"1\">#{content_management_system[:meta_title]}</language>
+              <language id=\"1\">#{meta_title}</language>
             </meta_title>
             <head_seo_title>
-              <language id=\"1\">#{content_management_system[:head_seo_title]}</language>
+              <language id=\"1\">#{head_seo_title}</language>
             </head_seo_title>
             <link_rewrite>
-              <language id=\"1\">#{content_management_system[:link_rewrite]}</language>
+              <language id=\"1\">#{link_rewrite}</language>
             </link_rewrite>
             <content>
-              <language id=\"1\">#{content_management_system[:content]}</language>
+              <language id=\"1\">#{content}</language>
             </content>
           </content>
         </prestashop>",
@@ -1089,7 +1365,7 @@ class Presta
       puts sup.body,sup.code
     end
 
-    def self.get_content_management_system(id)
+    def self.get_content_management_system(id:)
       sup = HTTParty.get("#{@api_url}content_management_system/#{id}",
       {
         basic_auth: @auth
@@ -1097,7 +1373,7 @@ class Presta
       puts sup.body,sup.code
     end
 
-    def self.delete_content_management_system(id)
+    def self.delete_content_management_system(id:)
       sup = HTTParty.delete("#{@api_url}content_management_system/#{id}",
       {
         basic_auth: @auth
@@ -1107,25 +1383,37 @@ class Presta
 
      ##### COUNTRIES ######################################################################################################################################################################
 
-     def self.post_country(country)
+     def self.post_country(
+      id_zone:,
+      id_currency:1,
+      call_prefix:0,
+      iso_code:,
+      active:0,
+      contains_states:,
+      need_identification_number:,
+      need_zip_code:0,
+      zip_code_format:"",
+      display_tax_label:,
+      name:
+     )
       sup = HTTParty.post("#{@api_url}countries/",
       {
         body:
         "<prestashop>
           <country>
           <id></id>
-          <id_zone>#{country[:id_zone]}</id_zone>
-          <id_currency>#{country[:id_currency]}</id_currency>
-          <call_prefix>#{country[:call_prefix]}</call_prefix>
-          <iso_code>#{country[:iso_code]}</iso_code>
-          <active>#{country[:active]}</active>
-          <contains_states>#{country[:contains_states]}</contains_states>
-          <need_identification_number>#{country[:need_identification_number]}</need_identification_number>
-          <need_zip_code>#{country[:need_zip_code]}</need_zip_code>
-          <zip_code_format>#{country[:zip_code_format]}</zip_code_format>
-          <display_tax_label>#{country[:display_tax_label]}</display_tax_label>
+          <id_zone>#{id_zone}</id_zone>
+          <id_currency>#{id_currency}</id_currency>
+          <call_prefix>#{call_prefix}</call_prefix>
+          <iso_code>#{iso_code}</iso_code>
+          <active>#{active}</active>
+          <contains_states>#{contains_states}</contains_states>
+          <need_identification_number>#{need_identification_number}</need_identification_number>
+          <need_zip_code>#{need_zip_code}</need_zip_code>
+          <zip_code_format>#{zip_code_format}</zip_code_format>
+          <display_tax_label>#{display_tax_label}</display_tax_label>
           <name>
-          <language id=\"1\">#{country[:name]}</language>
+          <language id=\"1\">#{name}</language>
           </name>
           </country>
         </prestashop>",
@@ -1138,25 +1426,38 @@ class Presta
       puts sup.body,sup.code
     end
 
-    def self.update_country(id,country)
+    def self.update_country(
+      id:,
+      id_zone:,
+      id_currency:1,
+      call_prefix:0,
+      iso_code:,
+      active:0,
+      contains_states:,
+      need_identification_number:,
+      need_zip_code:0,
+      zip_code_format:"",
+      display_tax_label:,
+      name:
+    )
       sup = HTTParty.put("#{@api_url}countries/#{id}",
       {
         body:
         "<prestashop>
           <country>
           <id>#{id}</id>
-          <id_zone>#{country[:id_zone]}</id_zone>
-          <id_currency>#{country[:id_currency]}</id_currency>
-          <call_prefix>#{country[:call_prefix]}</call_prefix>
-          <iso_code>#{country[:iso_code]}</iso_code>
-          <active>#{country[:active]}</active>
-          <contains_states>#{country[:contains_states]}</contains_states>
-          <need_identification_number>#{country[:need_identification_number]}</need_identification_number>
-          <need_zip_code>#{country[:need_zip_code]}</need_zip_code>
-          <zip_code_format>#{country[:zip_code_format]}</zip_code_format>
-          <display_tax_label>#{country[:display_tax_label]}</display_tax_label>
+          <id_zone>#{id_zone}</id_zone>
+          <id_currency>#{id_currency}</id_currency>
+          <call_prefix>#{call_prefix}</call_prefix>
+          <iso_code>#{iso_code}</iso_code>
+          <active>#{active}</active>
+          <contains_states>#{contains_states}</contains_states>
+          <need_identification_number>#{need_identification_number}</need_identification_number>
+          <need_zip_code>#{need_zip_code}</need_zip_code>
+          <zip_code_format>#{zip_code_format}</zip_code_format>
+          <display_tax_label>#{display_tax_label}</display_tax_label>
           <name>
-          <language id=\"1\">#{country[:name]}</language>
+          <language id=\"1\">#{name}</language>
           </name>
           </country>
         </prestashop>",
@@ -1169,7 +1470,7 @@ class Presta
       puts sup.body,sup.code
     end
 
-    def self.get_country(id)
+    def self.get_country(id:)
       sup = HTTParty.get("#{@api_url}countries/#{id}",
       {
         basic_auth: @auth
@@ -1177,7 +1478,7 @@ class Presta
       puts sup.body,sup.code
     end
 
-    def self.delete_country(id)
+    def self.delete_country(id:)
       sup = HTTParty.delete("#{@api_url}countries/#{id}",
       {
         basic_auth: @auth
@@ -1187,7 +1488,20 @@ class Presta
 
     ##### CURRENCIES ######################################################################################################################################################################
 
-    def self.post_currency(currency)
+    def self.post_currency(
+      names:"",
+      name:,  
+      symbol:"",
+      iso_code:,
+      numeric_iso_code:0,
+      precision:0,
+      conversion_rate:,
+      deleted:0,
+      active:0,
+      unofficial:0,
+      modified:0,
+      pattern:0
+    )
       sup = HTTParty.post("#{@api_url}currencies/",
       {
         body:
@@ -1195,22 +1509,22 @@ class Presta
           <currency>
             <id></id>
             <names>
-              <language id=\"1\">#{currency[:names]}</language>
+              <language id=\"1\">#{names}</language>
             </names>
             <name></name>
             <symbol>
-              <language id=\"1\">#{currency[:symbol]}</language>
+              <language id=\"1\">#{symbol}</language>
             </symbol>
-            <iso_code>#{currency[:iso_code]}</iso_code>
-            <numeric_iso_code>#{currency[:numeric_iso_code]}</numeric_iso_code>
-            <precision>#{currency[:precision]}</precision>
-            <conversion_rate>#{currency[:conversion_rate]}</conversion_rate>
-            <deleted>#{currency[:deleted]}</deleted>
-            <active>#{currency[:active]}</active>
-            <unofficial>#{currency[:unofficial]}</unofficial>
-            <modified>#{currency[:modified]}</modified>
+            <iso_code>#{iso_code}</iso_code>
+            <numeric_iso_code>#{numeric_iso_code}</numeric_iso_code>
+            <precision>#{precision}</precision>
+            <conversion_rate>#{conversion_rate}</conversion_rate>
+            <deleted>#{deleted}</deleted>
+            <active>#{active}</active>
+            <unofficial>#{unofficial}</unofficial>
+            <modified>#{modified}</modified>
             <pattern>
-              <language id=\"1\">#{currency[:pattern]}</language>
+              <language id=\"1\">#{pattern}</language>
             </pattern>
           </currency>
         </prestashop>",
@@ -1223,7 +1537,21 @@ class Presta
       puts sup.body,sup.code
     end
 
-    def self.update_currency(id,currency)
+    def self.update_currency(
+      id:,
+      names:"",
+      name:,  
+      symbol:"",
+      iso_code:,
+      numeric_iso_code:0,
+      precision:0,
+      conversion_rate:,
+      deleted:0,
+      active:0,
+      unofficial:0,
+      modified:0,
+      pattern:0
+    )
       sup = HTTParty.put("#{@api_url}currencies/#{id}",
       {
         body:
@@ -1231,22 +1559,22 @@ class Presta
           <currency>
             <id>#{id}</id>
             <names>
-              <language id=\"1\">#{currency[:names]}</language>
+              <language id=\"1\">#{names}</language>
             </names>
             <name></name>
             <symbol>
-              <language id=\"1\">#{currency[:symbol]}</language>
+              <language id=\"1\">#{symbol}</language>
             </symbol>
-            <iso_code>#{currency[:iso_code]}</iso_code>
-            <numeric_iso_code>#{currency[:numeric_iso_code]}</numeric_iso_code>
-            <precision>#{currency[:precision]}</precision>
-            <conversion_rate>#{currency[:conversion_rate]}</conversion_rate>
-            <deleted>#{currency[:deleted]}</deleted>
-            <active>#{currency[:active]}</active>
-            <unofficial>#{currency[:unofficial]}</unofficial>
-            <modified>#{currency[:modified]}</modified>
+            <iso_code>#{iso_code}</iso_code>
+            <numeric_iso_code>#{numeric_iso_code}</numeric_iso_code>
+            <precision>#{precision}</precision>
+            <conversion_rate>#{conversion_rate}</conversion_rate>
+            <deleted>#{deleted}</deleted>
+            <active>#{active}</active>
+            <unofficial>#{unofficial}</unofficial>
+            <modified>#{modified}</modified>
             <pattern>
-              <language id=\"1\">#{currency[:pattern]}</language>
+              <language id=\"1\">#{pattern}</language>
             </pattern>
           </currency>
         </prestashop>",
@@ -1259,7 +1587,7 @@ class Presta
       puts sup.body,sup.code
     end
 
-    def self.get_currency(id)
+    def self.get_currency(id:)
       sup = HTTParty.get("#{@api_url}currencies/#{id}",
       {
         basic_auth: @auth
@@ -1267,7 +1595,7 @@ class Presta
       puts sup.body,sup.code
     end
 
-    def self.delete_currency(id)
+    def self.delete_currency(id:)
       sup = HTTParty.delete("#{@api_url}currencies/#{id}",
       {
         basic_auth: @auth
@@ -1278,23 +1606,35 @@ class Presta
 
     ##### CUSTOMER MESSAGE ################################################################################################################################################################
 
-    def self.post_customer_message(customer_message)
+    def self.post_customer_message(
+      id_employee:0,
+      id_customer_thread:0,
+      ip_address:0,
+      message:,
+      file_name:"",
+      user_agent:"",
+      private:0,
+      date_add:"",
+      date_upd:"",
+      read:0
+
+    )
       sup = HTTParty.post("#{@api_url}customer_messsages/",
       {
         body:
         "<prestashop>
           <customer_message>
             <id></id>
-            <id_employee>#{customer_message[:id_employee]}</id_employee>
-            <id_customer_thread>#{customer_message[:id_customer_thread]}</id_customer_thread>
-            <ip_address>#{customer_message[:ip_address]}</ip_address>
-            <message>#{customer_message[:message]}</message>
-            <file_name>#{customer_message[:file_name]}</file_name>
-            <user_agent>#{customer_message[:user_agent]}</user_agent>
-            <private>#{customer_message[:private]}</private>
-            <date_add>#{customer_message[:date_add]}</date_add>
-            <date_upd>#{customer_message[:date_upd]}</date_upd>
-            <read>#{customer_message[:read]}</read>
+            <id_employee>#{id_employee}</id_employee>
+            <id_customer_thread>#{id_customer_thread}</id_customer_thread>
+            <ip_address>#{ip_address}</ip_address>
+            <message>#{message}</message>
+            <file_name>#{file_name}</file_name>
+            <user_agent>#{user_agent}</user_agent>
+            <private>#{private}</private>
+            <date_add>#{date_add}</date_add>
+            <date_upd>#{date_upd}</date_upd>
+            <read>#{read}</read>
           </customer_message>
         </prestashop>",
         basic_auth: @auth,
@@ -1306,23 +1646,35 @@ class Presta
       puts sup.body,sup.code
     end
 
-    def self.update_customer_message(id,customer_message)
+    def self.update_customer_message(
+      id:,
+      id_employee:0,
+      id_customer_thread:0,
+      ip_address:0,
+      message:,
+      file_name:"",
+      user_agent:"",
+      private:0,
+      date_add:"",
+      date_upd:"",
+      read:0
+    )
       sup = HTTParty.put("#{@api_url}customer_messsages/#{id}",
       {
         body:
         "<prestashop>
           <customer_message>
             <id>#{id}</id>
-            <id_employee>#{customer_message[:id_employee]}</id_employee>
-            <id_customer_thread>#{customer_message[:id_customer_thread]}</id_customer_thread>
-            <ip_address>#{customer_message[:ip_address]}</ip_address>
-            <message>#{customer_message[:message]}</message>
-            <file_name>#{customer_message[:file_name]}</file_name>
-            <user_agent>#{customer_message[:user_agent]}</user_agent>
-            <private>#{customer_message[:private]}</private>
-            <date_add>#{customer_message[:date_add]}</date_add>
-            <date_upd>#{customer_message[:date_upd]}</date_upd>
-            <read>#{customer_message[:read]}</read>
+            <id_employee>#{id_employee}</id_employee>
+            <id_customer_thread>#{id_customer_thread}</id_customer_thread>
+            <ip_address>#{ip_address}</ip_address>
+            <message>#{message}</message>
+            <file_name>#{file_name}</file_name>
+            <user_agent>#{user_agent}</user_agent>
+            <private>#{private}</private>
+            <date_add>#{date_add}</date_add>
+            <date_upd>#{date_upd}</date_upd>
+            <read>#{read}</read>
           </customer_message>
         </prestashop>",
         basic_auth: @auth,
@@ -1334,7 +1686,7 @@ class Presta
       puts sup.body,sup.code
     end
 
-    def self.get_customer_message(id)
+    def self.get_customer_message(id:)
       sup = HTTParty.get("#{@api_url}customer_messsages/#{id}",
       {
         basic_auth: @auth
@@ -1342,7 +1694,7 @@ class Presta
       puts sup.body,sup.code
     end
 
-    def self.delete_customer_message(id)
+    def self.delete_customer_message(id:)
       sup = HTTParty.delete("#{@api_url}customer_messsages/#{id}",
       {
         basic_auth: @auth
@@ -1352,28 +1704,41 @@ class Presta
 
 ##### CUSTOMER THREADS ################################################################################################################################################################
 
-    def self.post_customer_thread(customer_thread)
+    def self.post_customer_thread(
+      id_lang:,
+      id_shop:1,
+      id_customer:0,
+      id_order:0,
+      id_product:0,
+      id_contact:,
+      email:"",
+      token:,
+      status:"",
+      date_add:"",
+      date_upd:"",
+      customer_message_id:0
+    )
       sup = HTTParty.post("#{@api_url}customer_threads/",
       {
         body:
         "<prestashop>
           <customer_thread>
             <id></id>
-            <id_lang>#{customer_thread[:id_lang]}</id_lang>
-            <id_shop>#{customer_thread[:id_shop]}</id_shop>
-            <id_customer><#{customer_thread[:id_customer]}/id_customer>
-            <id_order>#{customer_thread[:id_order]}</id_order>
-            <id_product>#{customer_thread[:id_product]}</id_product>
-            <id_contact>#{customer_thread[:id_contact]}</id_contact>
-            <email>#{customer_thread[:email]}</email>
-            <token>#{customer_thread[:token]}</token>
-            <status>#{customer_thread[:status]}</status>
-            <date_add>#{customer_thread[:date_add]}</date_add>
-            <date_upd>#{customer_thread[:date_upd]}</date_upd>
+            <id_lang>#{id_lang}</id_lang>
+            <id_shop>#{id_shop}</id_shop>
+            <id_customer><#{id_customer}/id_customer>
+            <id_order>#{id_order}</id_order>
+            <id_product>#{id_product}</id_product>
+            <id_contact>#{id_contact}</id_contact>
+            <email>#{email}</email>
+            <token>#{token}</token>
+            <status>#{status}</status>
+            <date_add>#{date_add}</date_add>
+            <date_upd>#{date_upd}</date_upd>
             <associations>
               <customer_messages>
                 <customer_message>
-                  <id>#{customer_thread[:customer_message_id]}</id>
+                  <id>#{customer_message_id}</id>
                 </customer_message>
               </customer_messages>
             </associations>
@@ -1388,28 +1753,42 @@ class Presta
       puts sup.body,sup.code
     end
 
-    def self.update_customer_thread(id,customer_thread)
+    def self.update_customer_thread(
+      id:,
+      id_lang:,
+      id_shop:1,
+      id_customer:0,
+      id_order:0,
+      id_product:0,
+      id_contact:,
+      email:"",
+      token:,
+      status:"",
+      date_add:"",
+      date_upd:"",
+      customer_message_id:0
+    )
       sup = HTTParty.put("#{@api_url}customer_threads/#{id}",
       {
         body:
         "<prestashop>
           <customer_thread>
             <id>#{id}</id>
-            <id_lang>#{customer_thread[:id_lang]}</id_lang>
-            <id_shop>#{customer_thread[:id_shop]}</id_shop>
-            <id_customer><#{customer_thread[:id_customer]}/id_customer>
-            <id_order>#{customer_thread[:id_order]}</id_order>
-            <id_product>#{customer_thread[:id_product]}</id_product>
-            <id_contact>#{customer_thread[:id_contact]}</id_contact>
-            <email>#{customer_thread[:email]}</email>
-            <token>#{customer_thread[:token]}</token>
-            <status>#{customer_thread[:status]}</status>
-            <date_add>#{customer_thread[:date_add]}</date_add>
-            <date_upd>#{customer_thread[:date_upd]}</date_upd>
+            <id_lang>#{id_lang}</id_lang>
+            <id_shop>#{id_shop}</id_shop>
+            <id_customer><#{id_customer}/id_customer>
+            <id_order>#{id_order}</id_order>
+            <id_product>#{id_product}</id_product>
+            <id_contact>#{id_contact}</id_contact>
+            <email>#{email}</email>
+            <token>#{token}</token>
+            <status>#{status}</status>
+            <date_add>#{date_add}</date_add>
+            <date_upd>#{date_upd}</date_upd>
             <associations>
               <customer_messages>
                 <customer_message>
-                  <id>#{customer_thread[:customer_message_id]}</id>
+                  <id>#{customer_message_id}</id>
                 </customer_message>
               </customer_messages>
             </associations>
@@ -1424,8 +1803,16 @@ class Presta
       puts sup.body,sup.code
     end
 
-    def self.get_customer_thread(id)
+    def self.get_customer_thread(id:)
       sup = HTTParty.get("#{@api_url}customer_threads/#{id}",
+      {
+        basic_auth: @auth
+      })
+      puts sup.body,sup.code
+    end
+
+    def self.delete_customer_thread(id:)
+      sup = HTTParty.delete("#{@api_url}customer_threads/#{id}",
       {
         basic_auth: @auth
       })
@@ -1434,48 +1821,82 @@ class Presta
 
     ##### CUSTOMERS ##################################################################################################################################################
 
-    def self.post_customer(customer)
+    def self.post_customer(
+        id_default_group: 0,                                     
+        id_lang: 1,                                     
+        newsletter_date_add: "",                 
+        ip_registration_newsletter: "",                                    
+        last_passwd_gen: "",                 
+        secure_key: "",    
+        deleted: 0,                                     
+        passwd:,                         
+        lastname:,                            
+        firstname:,                              
+        email:,              
+        id_gender: 0,                                     
+        birthday: "",                          
+        newsletter: 0,                                     
+        optin: 0,                                     
+        website:"",                                    
+        company: "",                                    
+        siret: "",                                    
+        ape: "",                                    
+        outstanding_allow_amount: "",                            
+        show_public_prices: 0,                                     
+        id_risk: 0,                                     
+        max_payment_days: 0,                                     
+        active: 0,                                     
+        note: "",                                    
+        is_guest: 0,                                     
+        id_shop: 1,                                     
+        id_shop_group: 1,                                     
+        date_add: "",                 
+        date_upd: "",                 
+        reset_password_token: "",                                    
+        reset_password_validity:"",                 
+        id_group: 0 
+    )
       customer = HTTParty.post("#{@api_url}customers/",{
           body:
           "<prestashop>
               <customer>
                   <id></id>
-                  <id_default_group href=\"http://localhost:8080/api/groups/\">#{customer[:id_default_group]}</id_default_group>
-                  <id_lang href=\"http://localhost:8080/api/languages/\">#{customer[:id_lang]}</id_lang>
-                  <newsletter_date_add>#{customer[:ip_registration_newsletter]}</newsletter_date_add>
-                  <ip_registration_newsletter>#{customer[:ip_registration_newsletter]}</ip_registration_newsletter>
-                  <last_passwd_gen>#{customer[:last_passwd_gen]}</last_passwd_gen>
-                  <secure_key>#{customer[:secure_key]}</secure_key>
-                  <deleted>#{customer[:deleted]}</deleted>
-                  <passwd>#{customer[:passwd]}</passwd>
-                  <lastname>#{customer[:lastname]}</lastname>
-                  <firstname>#{customer[:firstname]}</firstname>
-                  <email>#{customer[:email]}</email>
-                  <id_gender>#{customer[:id_gender]}</id_gender>
-                  <birthday>#{customer[:birthday]}</birthday>
-                  <newsletter>#{customer[:newsletter]}</newsletter>
-                  <optin>#{customer[:optin]}</optin>
-                  <website>#{customer[:website]}</website>
-                  <company>#{customer[:company]}</company>
-                  <siret>#{customer[:siret]}</siret>
-                  <ape>#{customer[:ape]}</ape>
-                  <outstanding_allow_amount>#{customer[:outstanding_allow_amount]}</outstanding_allow_amount>
-                  <show_public_prices>#{customer[:show_public_prices]}</show_public_prices>
-                  <id_risk>#{customer[:id_risk]}</id_risk>
-                  <max_payment_days>#{customer[:max_payment_days]}</max_payment_days>
-                  <active>#{customer[:active]}</active>
-                  <note>#{customer[:note]}</note>
-                  <is_guest>#{customer[:is_guest]}</is_guest>
-                  <id_shop>#{customer[:id_shop]}</id_shop>
-                  <id_shop_group>#{customer[:id_shop_group]}</id_shop_group>
-                  <date_add>#{customer[:date_add]}</date_add>
-                  <date_upd>#{customer[:date_upd]}</date_upd>
-                  <reset_password_token>#{customer[:reset_password_token]}</reset_password_token>
-                  <reset_password_validity>#{customer[:reset_password_validity]}</reset_password_validity>
+                  <id_default_group href=\"http://localhost:8080/api/groups/\">#{id_default_group}</id_default_group>
+                  <id_lang href=\"http://localhost:8080/api/languages/\">#{id_lang}</id_lang>
+                  <newsletter_date_add>#{ip_registration_newsletter}</newsletter_date_add>
+                  <ip_registration_newsletter>#{ip_registration_newsletter}</ip_registration_newsletter>
+                  <last_passwd_gen>#{last_passwd_gen}</last_passwd_gen>
+                  <secure_key>#{secure_key}</secure_key>
+                  <deleted>#{deleted}</deleted>
+                  <passwd>#{passwd}</passwd>
+                  <lastname>#{lastname}</lastname>
+                  <firstname>#{firstname}</firstname>
+                  <email>#{email}</email>
+                  <id_gender>#{id_gender}</id_gender>
+                  <birthday>#{birthday}</birthday>
+                  <newsletter>#{newsletter}</newsletter>
+                  <optin>#{optin}</optin>
+                  <website>#{website}</website>
+                  <company>#{company}</company>
+                  <siret>#{siret}</siret>
+                  <ape>#{ape}</ape>
+                  <outstanding_allow_amount>#{outstanding_allow_amount}</outstanding_allow_amount>
+                  <show_public_prices>#{show_public_prices}</show_public_prices>
+                  <id_risk>#{id_risk}</id_risk>
+                  <max_payment_days>#{max_payment_days}</max_payment_days>
+                  <active>#{active}</active>
+                  <note>#{note}</note>
+                  <is_guest>#{is_guest}</is_guest>
+                  <id_shop>#{id_shop}</id_shop>
+                  <id_shop_group>#{id_shop_group}</id_shop_group>
+                  <date_add>#{date_add}</date_add>
+                  <date_upd>#{date_upd}</date_upd>
+                  <reset_password_token>#{reset_password_token}</reset_password_token>
+                  <reset_password_validity>#{reset_password_validity}</reset_password_validity>
                   <associations>
                       <groups nodeType=\"group\" api=\"groups\">
                       <group href=\"http://localhost:8080/api/groups/\">
-                      <id>#{customer[:id]}</id>
+                      <id>#{id}</id>
                       </group>
                       </groups>
                   </associations>
@@ -1491,49 +1912,84 @@ class Presta
       puts customer.body, customer.code        
   end
 
-  def self.update_customer(id,customer)
+  def self.update_customer(
+        id:,
+        id_default_group: 0,                                     
+        id_lang: 1,                                     
+        newsletter_date_add: "",                 
+        ip_registration_newsletter: "",                                    
+        last_passwd_gen: "",                 
+        secure_key: "",    
+        deleted: 0,                                     
+        passwd:,                         
+        lastname:,                            
+        firstname:,                              
+        email:,              
+        id_gender: 0,                                     
+        birthday: "",                          
+        newsletter: 0,                                     
+        optin: 0,                                     
+        website:"",                                    
+        company: "",                                    
+        siret: "",                                    
+        ape: "",                                    
+        outstanding_allow_amount: "",                            
+        show_public_prices: 0,                                     
+        id_risk: 0,                                     
+        max_payment_days: 0,                                     
+        active: 0,                                     
+        note: "",                                    
+        is_guest: 0,                                     
+        id_shop: 1,                                     
+        id_shop_group: 1,                                     
+        date_add: "",                 
+        date_upd: "",                 
+        reset_password_token: "",                                    
+        reset_password_validity:"",                 
+        id_group: 0 
+  )
       cust = HTTParty.put("#{@api_url}customers/#{id}",
       {
           body: 
           "<prestashop>
               <customer>
                   <id>#{id}</id>
-                  <id_default_group href=\"http://localhost:8080/api/groups/\">#{customer[:id_default_group]}</id_default_group>
-                  <id_lang href=\"http://localhost:8080/api/languages/\">#{customer[:id_lang]}</id_lang>
-                  <newsletter_date_add>#{customer[:ip_registration_newsletter]}</newsletter_date_add>
-                  <ip_registration_newsletter>#{customer[:ip_registration_newsletter]}</ip_registration_newsletter>
-                  <last_passwd_gen>#{customer[:last_passwd_gen]}</last_passwd_gen>
-                  <secure_key>#{customer[:secure_key]}</secure_key>
-                  <deleted>#{customer[:deleted]}</deleted>
-                  <passwd>#{customer[:passwd]}</passwd>
-                  <lastname>#{customer[:lastname]}</lastname>
-                  <firstname>#{customer[:firstname]}</firstname>
-                  <email>#{customer[:email]}</email>
-                  <id_gender>#{customer[:id_gender]}</id_gender>
-                  <birthday>#{customer[:birthday]}</birthday>
-                  <newsletter>#{customer[:newsletter]}</newsletter>
-                  <optin>#{customer[:optin]}</optin>
-                  <website>#{customer[:website]}</website>
-                  <company>#{customer[:company]}</company>
-                  <siret>#{customer[:siret]}</siret>
-                  <ape>#{customer[:ape]}</ape>
-                  <outstanding_allow_amount>#{customer[:outstanding_allow_amount]}</outstanding_allow_amount>
-                  <show_public_prices>#{customer[:show_public_prices]}</show_public_prices>
-                  <id_risk>#{customer[:id_risk]}</id_risk>
-                  <max_payment_days>#{customer[:max_payment_days]}</max_payment_days>
-                  <active>#{customer[:active]}</active>
-                  <note>#{customer[:note]}</note>
-                  <is_guest>#{customer[:is_guest]}</is_guest>
-                  <id_shop>#{customer[:id_shop]}</id_shop>
-                  <id_shop_group>#{customer[:id_shop_group]}</id_shop_group>
-                  <date_add>#{customer[:date_add]}</date_add>
-                  <date_upd>#{customer[:date_upd]}</date_upd>
-                  <reset_password_token>#{customer[:reset_password_token]}</reset_password_token>
-                  <reset_password_validity>#{customer[:reset_password_validity]}</reset_password_validity>
+                  <id_default_group href=\"http://localhost:8080/api/groups/\">#{id_default_group}</id_default_group>
+                  <id_lang href=\"http://localhost:8080/api/languages/\">#{id_lang}</id_lang>
+                  <newsletter_date_add>#{ip_registration_newsletter}</newsletter_date_add>
+                  <ip_registration_newsletter>#{ip_registration_newsletter}</ip_registration_newsletter>
+                  <last_passwd_gen>#{last_passwd_gen}</last_passwd_gen>
+                  <secure_key>#{secure_key}</secure_key>
+                  <deleted>#{deleted}</deleted>
+                  <passwd>#{passwd}</passwd>
+                  <lastname>#{lastname}</lastname>
+                  <firstname>#{firstname}</firstname>
+                  <email>#{email}</email>
+                  <id_gender>#{id_gender}</id_gender>
+                  <birthday>#{birthday}</birthday>
+                  <newsletter>#{newsletter}</newsletter>
+                  <optin>#{optin}</optin>
+                  <website>#{website}</website>
+                  <company>#{company}</company>
+                  <siret>#{siret}</siret>
+                  <ape>#{ape}</ape>
+                  <outstanding_allow_amount>#{outstanding_allow_amount}</outstanding_allow_amount>
+                  <show_public_prices>#{show_public_prices}</show_public_prices>
+                  <id_risk>#{id_risk}</id_risk>
+                  <max_payment_days>#{max_payment_days}</max_payment_days>
+                  <active>#{active}</active>
+                  <note>#{note}</note>
+                  <is_guest>#{is_guest}</is_guest>
+                  <id_shop>#{id_shop}</id_shop>
+                  <id_shop_group>#{id_shop_group}</id_shop_group>
+                  <date_add>#{date_add}</date_add>
+                  <date_upd>#{date_upd}</date_upd>
+                  <reset_password_token>#{reset_password_token}</reset_password_token>
+                  <reset_password_validity>#{reset_password_validity}</reset_password_validity>
                   <associations>
                       <groups nodeType=\"group\" api=\"groups\">
                       <group href=\"http://localhost:8080/api/groups/\">
-                      <id>#{customer[:id]}</id>
+                      <id>#{id}</id>
                       </group>
                       </groups>
                   </associations>
@@ -1549,7 +2005,7 @@ class Presta
       puts cust.body, cust.code
   end
 
-  def self.delete_customer(id)
+  def self.delete_customer(id:)
     cust = HTTParty.delete("#{@api_url}customers/#{id}",
     {
         basic_auth: @auth       
@@ -1557,7 +2013,7 @@ class Presta
     puts cust.body, cust.code
   end  
   
-  def self.get_customer(id)
+  def self.get_customer(id:)
     cust = HTTParty.get("#{@api_url}customers/#{id}",
     {
       basic_auth: @auth              
@@ -1568,32 +2024,45 @@ class Presta
 
   ##### CUSTOMIZATIONS ##################################################################################################################################################################
 
-  def self.post_customization(customization)
+  def self.post_customization(
+    id_address_delivery:,
+    id_cart:,
+    id_product:,
+    id_product_attribute:,
+    quantity:,
+    quantity_refunded:,
+    quantity_returned:,
+    in_cart:,
+    customized_data_text_field_id_customization_field:0,
+    customized_data_text_field_value:"",
+    customized_data_image_id_customization_field:0,
+    customized_data_image_value:""
+  )
     sup = HTTParty.post("#{@api_url}customizations/",
     {
       body:
       "<prestashop>
         <customization>
         <id></id>
-        <id_address_delivery>#{customization[:id_address_delivery]}</id_address_delivery>
-        <id_cart>#{customization[:id_cart]}</id_cart>
-        <id_product>#{customization[:id_product]}</id_product>
-        <id_product_attribute>#{customization[:id_product_attribute]}</id_product_attribute>
-        <quantity>#{customization[:quantity]}</quantity>
-        <quantity_refunded>#{customization[:quantity_refunded]}</quantity_refunded>
-        <quantity_returned><#{customization[:quantity_returned]}/quantity_returned>
-        <in_cart>#{customization[:in_cart]}</in_cart>
+        <id_address_delivery>#{id_address_delivery}</id_address_delivery>
+        <id_cart>#{id_cart}</id_cart>
+        <id_product>#{id_product}</id_product>
+        <id_product_attribute>#{id_product_attribute}</id_product_attribute>
+        <quantity>#{quantity}</quantity>
+        <quantity_refunded>#{quantity_refunded}</quantity_refunded>
+        <quantity_returned><#{quantity_returned}/quantity_returned>
+        <in_cart>#{in_cart}</in_cart>
           <associations>
             <customized_data_text_fields>
               <customized_data_text_field>
-                <id_customization_field>#{customization[:customized_data_text_field_id_customization_field]}</id_customization_field>
-                <value>#{customization[:customized_data_text_field_value]}</value>
+                <id_customization_field>#{customized_data_text_field_id_customization_field}</id_customization_field>
+                <value>#{customized_data_text_field_value}</value>
               </customized_data_text_field>
             </customized_data_text_fields>
             <customized_data_images>
               <customized_data_image>
-                <id_customization_field>#{customization[:customized_data_image_id_customization_field]}</id_customization_field>
-                <value>#{customization[:customized_data_image_value]}</value>
+                <id_customization_field>#{customized_data_image_id_customization_field}</id_customization_field>
+                <value>#{customized_data_image_value}</value>
               </customized_data_image>
             </customized_data_images>
           </associations>
@@ -1608,32 +2077,46 @@ class Presta
     puts sup.body,sup.code
   end
 
-  def self.update_customization(id,customization)
+  def self.update_customization(
+    id:,
+    id_address_delivery:,
+    id_cart:,
+    id_product:,
+    id_product_attribute:,
+    quantity:,
+    quantity_refunded:,
+    quantity_returned:,
+    in_cart:,
+    customized_data_text_field_id_customization_field:0,
+    customized_data_text_field_value:"",
+    customized_data_image_id_customization_field:0,
+    customized_data_image_value:""
+  )
     sup = HTTParty.put("#{@api_url}customizations/#{id}",
     {
       body:
       "<prestashop>
         <customization>
         <id>#{id}</id>
-        <id_address_delivery>#{customization[:id_address_delivery]}</id_address_delivery>
-        <id_cart>#{customization[:id_cart]}</id_cart>
-        <id_product>#{customization[:id_product]}</id_product>
-        <id_product_attribute>#{customization[:id_product_attribute]}</id_product_attribute>
-        <quantity>#{customization[:quantity]}</quantity>
-        <quantity_refunded>#{customization[:quantity_refunded]}</quantity_refunded>
-        <quantity_returned><#{customization[:quantity_returned]}/quantity_returned>
-        <in_cart>#{customization[:in_cart]}</in_cart>
+        <id_address_delivery>#{id_address_delivery}</id_address_delivery>
+        <id_cart>#{id_cart}</id_cart>
+        <id_product>#{id_product}</id_product>
+        <id_product_attribute>#{id_product_attribute}</id_product_attribute>
+        <quantity>#{quantity}</quantity>
+        <quantity_refunded>#{quantity_refunded}</quantity_refunded>
+        <quantity_returned><#{quantity_returned}/quantity_returned>
+        <in_cart>#{in_cart}</in_cart>
           <associations>
             <customized_data_text_fields>
               <customized_data_text_field>
-                <id_customization_field>#{customization[:customized_data_text_field_id_customization_field]}</id_customization_field>
-                <value>#{customization[:customized_data_text_field_value]}</value>
+                <id_customization_field>#{customized_data_text_field_id_customization_field}</id_customization_field>
+                <value>#{customized_data_text_field_value}</value>
               </customized_data_text_field>
             </customized_data_text_fields>
             <customized_data_images>
               <customized_data_image>
-                <id_customization_field>#{customization[:customized_data_image_id_customization_field]}</id_customization_field>
-                <value>#{customization[:customized_data_image_value]}</value>
+                <id_customization_field>#{customized_data_image_id_customization_field}</id_customization_field>
+                <value>#{customized_data_image_value}</value>
               </customized_data_image>
             </customized_data_images>
           </associations>
@@ -1648,7 +2131,7 @@ class Presta
     puts sup.body,sup.code
   end
 
-  def self.get_customization(id)
+  def self.get_customization(id:)
     sup = HTTParty.get("#{@api_url}customizations/#{id}",
     {
       basic_auth: @auth
@@ -1656,7 +2139,7 @@ class Presta
     puts sup.body,sup.code
   end
 
-  def self.delete_customization(id)
+  def self.delete_customization(id:)
     sup = HTTParty.delete("#{@api_url}customizations/#{id}",
     {
       basic_auth: @auth
@@ -1666,20 +2149,28 @@ class Presta
 
   ##### DELIVERIES ######################################################################################################################################################################
    
-  def self.post_deliveries(delivery)
+  def self.post_deliveries(
+    id_carrier:,
+    id_range_price:,
+    id_range_weight:,
+    id_zone:,
+    id_shop:1,
+    id_shop_group:1,
+    price:
+  )
     sup = HTTParty.post("#{@api_url}deliveries/",
     {
       body:
       "<prestashop>
         <delivery>
           <id></id>
-          <id_carrier>#{delivery[:id_carrier]}</id_carrier>
-          <id_range_price>#{delivery[:id_range_price]}</id_range_price>
-          <id_range_weight>#{delivery[:id_range_weight]}</id_range_weight>
-          <id_zone>#{delivery[:id_zone]}</id_zone>
-          <id_shop>#{delivery[:id_shop]}</id_shop>
-          <id_shop_group>#{delivery[:id_shop_group]}</id_shop_group>
-          <price>#{delivery[:price]}</price>
+          <id_carrier>#{id_carrier}</id_carrier>
+          <id_range_price>#{id_range_price}</id_range_price>
+          <id_range_weight>#{id_range_weight}</id_range_weight>
+          <id_zone>#{id_zone}</id_zone>
+          <id_shop>#{id_shop}</id_shop>
+          <id_shop_group>#{id_shop_group}</id_shop_group>
+          <price>#{price}</price>
         </delivery>
       </prestashop>",
       basic_auth: @auth,
@@ -1691,20 +2182,29 @@ class Presta
     puts sup.body,sup.code
   end
 
-  def self.update_deliveries(id,delivery)
+  def self.update_deliveries(
+    id:,
+    id_carrier:,
+    id_range_price:,
+    id_range_weight:,
+    id_zone:,
+    id_shop:1,
+    id_shop_group:1,
+    price:
+  )
     sup = HTTParty.put("#{@api_url}deliveries/#{id}",
     {
       body:
       "<prestashop>
         <delivery>
           <id>#{id}</id>
-          <id_carrier>#{delivery[:id_carrier]}</id_carrier>
-          <id_range_price>#{delivery[:id_range_price]}</id_range_price>
-          <id_range_weight>#{delivery[:id_range_weight]}</id_range_weight>
-          <id_zone>#{delivery[:id_zone]}</id_zone>
-          <id_shop>#{delivery[:id_shop]}</id_shop>
-          <id_shop_group>#{delivery[:id_shop_group]}</id_shop_group>
-          <price>#{delivery[:price]}</price>
+          <id_carrier>#{id_carrier}</id_carrier>
+          <id_range_price>#{id_range_price}</id_range_price>
+          <id_range_weight>#{id_range_weight}</id_range_weight>
+          <id_zone>#{id_zone}</id_zone>
+          <id_shop>#{id_shop}</id_shop>
+          <id_shop_group>#{id_shop_group}</id_shop_group>
+          <price>#{price}</price>
         </delivery>
       </prestashop>",
       basic_auth: @auth,
@@ -1716,7 +2216,7 @@ class Presta
     puts sup.body,sup.code
   end
 
-  def self.get_deliveries(id)
+  def self.get_deliveries(id:)
     sup = HTTParty.put("#{@api_url}deliveries/#{id}",
     {
       basic_auth: @auth
@@ -1724,7 +2224,7 @@ class Presta
     puts sup.body,sup.code
   end
 
-  def self.delete_deliveries(id)
+  def self.delete_deliveries(id:)
     sup = HTTParty.delete("#{@api_url}deliveries/#{id}",
     {
       basic_auth: @auth
@@ -1734,39 +2234,66 @@ class Presta
 
   ##### EMPLOYEE ##############################################################################################################################################
 
-  def self.post_employee(employee)
+  def self.post_employee(
+    id_lang: ,
+    last_passwd_gen: "",
+    stats_date_from: "",
+    stats_date_to: "",
+    stats_compare_from: "2",
+    stats_compare_to: "",
+    passwd:,
+    lastname:,
+    firstname:,
+    email:,
+    active:0,
+    id_profile:,
+    bo_color: "",
+    default_tab:0,
+    bo_theme: "",
+    bo_css: "theme.css",
+    bo_width: 0,
+    bo_menu: 0,
+    stats_compare_option: 0,
+    preselect_date_range: "",
+    id_last_order: 0,
+    id_last_customer_message: 0,
+    id_last_customer: 0,
+    reset_password_token: "",
+    reset_password_validity: "",
+    has_enabled_gravatar: 0
+  )
     emp = HTTParty.post("#{@api_url}employees/",
     {
       body: 
       "<prestashop>
         <employee>
           <id></id>
-          <id_lang>#{employee[:id_lang]}</id_lang>
-          <last_passwd_gen>#{employee[:last_passwd_gen]}</last_passwd_gen>
-          <stats_date_from>#{employee[:stats_date_from]}</stats_date_from>
-          <stats_date_to>#{employee[:stats_date_to]}</stats_date_to>
-          <stats_compare_from>#{employee[:stats_compare_from]}</stats_compare_from>
-          <stats_compare_to>#{employee[:stats_compare_to]}</stats_compare_to>
-          <passwd>#{employee[:passwd]}</passwd>
-          <lastname>#{employee[:lastname]}</lastname>
-          <firstname>#{employee[:firstname]}</firstname>
-          <email>#{employee[:email]}</email>
-          <active>#{employee[:active]}</active>
-          <id_profile>#{employee[:id_profile]}</id_profile>
-          <bo_color>#{employee[:bo_color]}</bo_color>
-          <default_tab>#{employee[:default_tab]}</default_tab>
-          <bo_theme>#{employee[:bo_theme]}</bo_theme>
-          <bo_css>#{employee[:bo_css]}</bo_css>
-          <bo_width>#{employee[:bo_width]}</bo_width>
-          <bo_menu>#{employee[:bo_menu]}</bo_menu>
-          <stats_compare_option>#{employee[:stats_compare_option]}</stats_compare_option>
-          <preselect_date_range>#{employee[:preselect_date_range]}</preselect_date_range>
-          <id_last_order>#{employee[:id_last_order]}</id_last_order>
-          <id_last_customer_message>#{employee[:id_last_customer_message]}</id_last_customer_message>
-          <id_last_customer>#{employee[:id_last_customer]}</id_last_customer>
-          <reset_password_token>#{employee[:reset_password_token]}</reset_password_token>
-          <reset_password_validity>#{employee[:reset_password_validity]}</reset_password_validity>
-          <has_enabled_gravatar>#{employee[:has_enabled_gravatar]}</has_enabled_gravatar>
+          <id_lang>#{id_lang}</id_lang>
+          <last_passwd_gen>#{last_passwd_gen}</last_passwd_gen>
+          <stats_date_from>#{stats_date_from}</stats_date_from>
+          <stats_date_to>#{stats_date_to}</stats_date_to>
+          <stats_compare_from>#{stats_compare_from}</stats_compare_from>
+          <stats_compare_to>#{stats_compare_to}</stats_compare_to>
+          <passwd>#{passwd}</passwd>
+          <lastname>#{lastname}</lastname>
+          <firstname>#{firstname}</firstname>
+          <email>#{email}</email>
+          <active>#{active}</active>
+          <id_profile>#{id_profile}</id_profile>
+          <bo_color>#{bo_color}</bo_color>
+          <default_tab>#{default_tab}</default_tab>
+          <bo_theme>#{bo_theme}</bo_theme>
+          <bo_css>#{bo_css}</bo_css>
+          <bo_width>#{bo_width}</bo_width>
+          <bo_menu>#{bo_menu}</bo_menu>
+          <stats_compare_option>#{stats_compare_option}</stats_compare_option>
+          <preselect_date_range>#{preselect_date_range}</preselect_date_range>
+          <id_last_order>#{id_last_order}</id_last_order>
+          <id_last_customer_message>#{id_last_customer_message}</id_last_customer_message>
+          <id_last_customer>#{id_last_customer}</id_last_customer>
+          <reset_password_token>#{reset_password_token}</reset_password_token>
+          <reset_password_validity>#{reset_password_validity}</reset_password_validity>
+          <has_enabled_gravatar>#{has_enabled_gravatar}</has_enabled_gravatar>
         </employee>
       </prestashop>",
       basic_auth: @auth,
@@ -1778,39 +2305,67 @@ class Presta
     puts emp.body, emp.code
   end 
 
-  def self.update_employee(id,employee)
+  def self.update_employee(
+    id:,
+    id_lang: ,
+    last_passwd_gen: "",
+    stats_date_from: "",
+    stats_date_to: "",
+    stats_compare_from: "2",
+    stats_compare_to: "",
+    passwd:,
+    lastname:,
+    firstname:,
+    email:,
+    active:0,
+    id_profile:,
+    bo_color: "",
+    default_tab:0,
+    bo_theme: "",
+    bo_css: "theme.css",
+    bo_width: 0,
+    bo_menu: 0,
+    stats_compare_option: 0,
+    preselect_date_range: "",
+    id_last_order: 0,
+    id_last_customer_message: 0,
+    id_last_customer: 0,
+    reset_password_token: "",
+    reset_password_validity: "",
+    has_enabled_gravatar: 0
+  )
     emp = HTTParty.put("#{@api_url}employees/#{id}",
     {
       body: 
       "<prestashop>
         <employee>
           <id>#{id}</id>
-          <id_lang>#{employee[:id_lang]}</id_lang>
-          <last_passwd_gen>#{employee[:last_passwd_gen]}</last_passwd_gen>
-          <stats_date_from>#{employee[:stats_date_from]}</stats_date_from>
-          <stats_date_to>#{employee[:stats_date_to]}</stats_date_to>
-          <stats_compare_from>#{employee[:stats_compare_from]}</stats_compare_from>
-          <stats_compare_to>#{employee[:stats_compare_to]}</stats_compare_to>
-          <passwd>#{employee[:passwd]}</passwd>
-          <lastname>#{employee[:lastname]}</lastname>
-          <firstname>#{employee[:firstname]}</firstname>
-          <email>#{employee[:email]}</email>
-          <active>#{employee[:active]}</active>
-          <id_profile>#{employee[:id_profile]}</id_profile>
-          <bo_color>#{employee[:bo_color]}</bo_color>
-          <default_tab>#{employee[:default_tab]}</default_tab>
-          <bo_theme>#{employee[:bo_theme]}</bo_theme>
-          <bo_css>#{employee[:bo_css]}</bo_css>
-          <bo_width>#{employee[:bo_width]}</bo_width>
-          <bo_menu>#{employee[:bo_menu]}</bo_menu>
-          <stats_compare_option>#{employee[:stats_compare_option]}</stats_compare_option>
-          <preselect_date_range>#{employee[:preselect_date_range]}</preselect_date_range>
-          <id_last_order>#{employee[:id_last_order]}</id_last_order>
-          <id_last_customer_message>#{employee[:id_last_customer_message]}</id_last_customer_message>
-          <id_last_customer>#{employee[:id_last_customer]}</id_last_customer>
-          <reset_password_token>#{employee[:reset_password_token]}</reset_password_token>
-          <reset_password_validity>#{employee[:reset_password_validity]}</reset_password_validity>
-          <has_enabled_gravatar>#{employee[:has_enabled_gravatar]}</has_enabled_gravatar>
+          <id_lang>#{id_lang}</id_lang>
+          <last_passwd_gen>#{last_passwd_gen}</last_passwd_gen>
+          <stats_date_from>#{stats_date_from}</stats_date_from>
+          <stats_date_to>#{stats_date_to}</stats_date_to>
+          <stats_compare_from>#{stats_compare_from}</stats_compare_from>
+          <stats_compare_to>#{stats_compare_to}</stats_compare_to>
+          <passwd>#{passwd}</passwd>
+          <lastname>#{lastname}</lastname>
+          <firstname>#{firstname}</firstname>
+          <email>#{email}</email>
+          <active>#{active}</active>
+          <id_profile>#{id_profile}</id_profile>
+          <bo_color>#{bo_color}</bo_color>
+          <default_tab>#{default_tab}</default_tab>
+          <bo_theme>#{bo_theme}</bo_theme>
+          <bo_css>#{bo_css}</bo_css>
+          <bo_width>#{bo_width}</bo_width>
+          <bo_menu>#{bo_menu}</bo_menu>
+          <stats_compare_option>#{stats_compare_option}</stats_compare_option>
+          <preselect_date_range>#{preselect_date_range}</preselect_date_range>
+          <id_last_order>#{id_last_order}</id_last_order>
+          <id_last_customer_message>#{id_last_customer_message}</id_last_customer_message>
+          <id_last_customer>#{id_last_customer}</id_last_customer>
+          <reset_password_token>#{reset_password_token}</reset_password_token>
+          <reset_password_validity>#{reset_password_validity}</reset_password_validity>
+          <has_enabled_gravatar>#{has_enabled_gravatar}</has_enabled_gravatar>
         </employee>
       </prestashop>",
       basic_auth: @auth,
@@ -1822,7 +2377,7 @@ class Presta
     puts emp.body, emp.code
   end 
 
-  def self.get_employee(id)
+  def self.get_employee(id:)
     emp = HTTParty.get("#{@api_url}employees/#{id}",
     {
       basic_auth: @auth       
@@ -1830,7 +2385,7 @@ class Presta
     puts emp.body, emp.code
   end 
 
-  def self.delete_employee(id)
+  def self.delete_employee(id:)
     emp = HTTParty.delete("#{@api_url}employees/#{id}",
     {
       basic_auth: @auth       
@@ -1841,20 +2396,27 @@ class Presta
 
   ##### GROUPS ##########################################################################################################################################################################
 
-  def self.post_groups(group)
+  def self.post_groups(
+    reduction:0,
+    price_display_method:,
+    show_prices:0,
+    date_add:"",
+    date_upd:"",
+    name:,
+  )
     sup = HTTParty.post("#{@api_url}groups/",
     {
       body:
       "<prestashop>
         <group>
           <id></id>
-          <reduction>#{group[:reduction]}</reduction>
-          <price_display_method>#{group[:price_display_method]}</price_display_method>
-          <show_prices>#{group[:show_prices]}</show_prices>
-          <date_add>#{group[:date_add]}</date_add>
-          <date_upd>#{group[:date_upd]}</date_upd>
+          <reduction>#{reduction}</reduction>
+          <price_display_method>#{price_display_method}</price_display_method>
+          <show_prices>#{show_prices}</show_prices>
+          <date_add>#{date_add}</date_add>
+          <date_upd>#{date_upd}</date_upd>
           <name>
-            <language id=\"1\">#{group[:name]}</language>
+            <language id=\"1\">#{name}</language>
           </name>
         </group>
       </prestashop>",
@@ -1867,20 +2429,28 @@ class Presta
     puts sup.body,sup.code
   end
 
-  def self.update_groups(id,group)
+  def self.update_groups(
+    id:,
+    reduction:0,
+    price_display_method:,
+    show_prices:0,
+    date_add:"",
+    date_upd:"",
+    name:,
+  )
     sup = HTTParty.put("#{@api_url}groups/#{id}",
     {
       body:
       "<prestashop>
         <group>
           <id>#{id}</id>
-          <reduction>#{group[:reduction]}</reduction>
-          <price_display_method>#{group[:price_display_method]}</price_display_method>
-          <show_prices>#{group[:show_prices]}</show_prices>
-          <date_add>#{group[:date_add]}</date_add>
-          <date_upd>#{group[:date_upd]}</date_upd>
+          <reduction>#{reduction}</reduction>
+          <price_display_method>#{price_display_method}</price_display_method>
+          <show_prices>#{show_prices}</show_prices>
+          <date_add>#{date_add}</date_add>
+          <date_upd>#{date_upd}</date_upd>
           <name>
-            <language id=\"1\">#{group[:name]}</language>
+            <language id=\"1\">#{name}</language>
           </name>
         </group>
       </prestashop>",
@@ -1893,7 +2463,7 @@ class Presta
     puts sup.body,sup.code
   end
 
-  def self.get_groups(id)
+  def self.get_groups(id:)
     sup = HTTParty.get("#{@api_url}groups/#{id}",
     {
       basic_auth: @auth
@@ -1901,7 +2471,7 @@ class Presta
     puts sup.body,sup.code
   end
 
-  def self.delete_groups(id)
+  def self.delete_groups(id:)
     sup = HTTParty.delete("#{@api_url}groups/#{id}",
     {
       basic_auth: @auth
@@ -1912,28 +2482,44 @@ class Presta
 
   ##### GUESTS #########################################################################################################################################################################
 
-  def self.post_guests(guest)
+  def self.post_guests(
+    id_customer:0,
+    id_operating_system:0,
+    id_web_browser:0,
+    javascript:0,
+    screen_resolution_x:0,
+    screen_resolution_y:0,
+    screen_color:0,
+    sun_java:0,
+    adobe_flash:0,
+    adobe_director:0,
+    apple_quicktime:0,
+    real_player:0,
+    windows_media:0,
+    accept_language:"",
+    mobile_theme:0
+  )
     sup = HTTParty.post("#{@api_url}guests/",
     {
       body:
       "<prestashop>
         <guest>
           <id></id>
-          <id_customer>#{guest[:id_customer]}</id_customer>
-          <id_operating_system>#{guest[:id_operating_system]}</id_operating_system>
-          <id_web_browser>#{guest[:id_web_browser]}</id_web_browser>
-          <javascript>#{guest[:javascript]}</javascript>
-          <screen_resolution_x>#{guest[:screen_resolution_x]}</screen_resolution_x>
-          <screen_resolution_y>#{guest[:screen_resolution_y]}</screen_resolution_y>
-          <screen_color>#{guest[:screen_color]}</screen_color>
-          <sun_java>#{guest[:sun_java]}</sun_java>
-          <adobe_flash>#{guest[:adobe_flash]}</adobe_flash>
-          <adobe_director>#{guest[:adobe_director]}</adobe_director>
-          <apple_quicktime>#{guest[:apple_quicktime]}</apple_quicktime>
-          <real_player>#{guest[:real_player]}</real_player>
-          <windows_media>#{guest[:windows_media]}</windows_media>
-          <accept_language>#{guest[:accept_language]}</accept_language>
-          <mobile_theme>#{guest[:mobile_theme]}</mobile_theme>
+          <id_customer>#{id_customer}</id_customer>
+          <id_operating_system>#{id_operating_system}</id_operating_system>
+          <id_web_browser>#{id_web_browser}</id_web_browser>
+          <javascript>#{javascript}</javascript>
+          <screen_resolution_x>#{screen_resolution_x}</screen_resolution_x>
+          <screen_resolution_y>#{screen_resolution_y}</screen_resolution_y>
+          <screen_color>#{screen_color}</screen_color>
+          <sun_java>#{sun_java}</sun_java>
+          <adobe_flash>#{adobe_flash}</adobe_flash>
+          <adobe_director>#{adobe_director}</adobe_director>
+          <apple_quicktime>#{apple_quicktime}</apple_quicktime>
+          <real_player>#{real_player}</real_player>
+          <windows_media>#{windows_media}</windows_media>
+          <accept_language>#{accept_language}</accept_language>
+          <mobile_theme>#{mobile_theme}</mobile_theme>
         </guest>
       </prestashop>",
       basic_auth: @auth,
@@ -1945,28 +2531,44 @@ class Presta
     puts sup.body,sup.code
   end
 
-  def self.update_guests(id,guest)
+  def self.update_guests(  
+    id:,  
+    id_customer:0,
+    id_operating_system:0,
+    id_web_browser:0,
+    javascript:0,
+    screen_resolution_x:0,
+    screen_resolution_y:0,
+    screen_color:0,
+    sun_java:0,
+    adobe_flash:0,
+    adobe_director:0,
+    apple_quicktime:0,
+    real_player:0,
+    windows_media:0,
+    accept_language:"",
+    mobile_theme:0)
     sup = HTTParty.put("#{@api_url}guests/#{id}",
     {
       body:
       "<prestashop>
         <guest>
           <id>#{id}</id>
-          <id_customer>#{guest[:id_customer]}</id_customer>
-          <id_operating_system>#{guest[:id_operating_system]}</id_operating_system>
-          <id_web_browser>#{guest[:id_web_browser]}</id_web_browser>
-          <javascript>#{guest[:javascript]}</javascript>
-          <screen_resolution_x>#{guest[:screen_resolution_x]}</screen_resolution_x>
-          <screen_resolution_y>#{guest[:screen_resolution_y]}</screen_resolution_y>
-          <screen_color>#{guest[:screen_color]}</screen_color>
-          <sun_java>#{guest[:sun_java]}</sun_java>
-          <adobe_flash>#{guest[:adobe_flash]}</adobe_flash>
-          <adobe_director>#{guest[:adobe_director]}</adobe_director>
-          <apple_quicktime>#{guest[:apple_quicktime]}</apple_quicktime>
-          <real_player>#{guest[:real_player]}</real_player>
-          <windows_media>#{guest[:windows_media]}</windows_media>
-          <accept_language>#{guest[:accept_language]}</accept_language>
-          <mobile_theme>#{guest[:mobile_theme]}</mobile_theme>
+          <id_customer>#{id_customer}</id_customer>
+          <id_operating_system>#{id_operating_system}</id_operating_system>
+          <id_web_browser>#{id_web_browser}</id_web_browser>
+          <javascript>#{javascript}</javascript>
+          <screen_resolution_x>#{screen_resolution_x}</screen_resolution_x>
+          <screen_resolution_y>#{screen_resolution_y}</screen_resolution_y>
+          <screen_color>#{screen_color}</screen_color>
+          <sun_java>#{sun_java}</sun_java>
+          <adobe_flash>#{adobe_flash}</adobe_flash>
+          <adobe_director>#{adobe_director}</adobe_director>
+          <apple_quicktime>#{apple_quicktime}</apple_quicktime>
+          <real_player>#{real_player}</real_player>
+          <windows_media>#{windows_media}</windows_media>
+          <accept_language>#{accept_language}</accept_language>
+          <mobile_theme>#{mobile_theme}</mobile_theme>
         </guest>
       </prestashop>",
       basic_auth: @auth,
@@ -1978,7 +2580,7 @@ class Presta
     puts sup.body,sup.code
   end
 
-  def self.get_guests(id)
+  def self.get_guests(id:)
     sup = HTTParty.get("#{@api_url}guests/#{id}",
     {
       basic_auth: @auth
@@ -1986,7 +2588,7 @@ class Presta
     puts sup.body,sup.code
   end
 
-  def self.delete_guests(id)
+  def self.delete_guests(id:)
     sup = HTTParty.delete("#{@api_url}guests/#{id}",
     {
       basic_auth: @auth
@@ -1996,21 +2598,30 @@ class Presta
 
     ##### LANGUAGE ###################################################################################################################################################
 
-    def self.post_language(tab)
+    def self.post_language(
+      name:,
+      iso_code:,
+      locale:"",
+      language_code:"",
+      active:0,
+      is_rtl:0,
+      date_format_lite:,
+      date_format_full:
+    )
         language = HTTParty.post("#{@api_url}languages/",
             {
                 body: 
                 "<prestashop>
                     <language>
                         <id></id>
-                        <name>#{tab[:name]}(#{tab[:name]})</name>
-                        <iso_code>#{tab[:iso_code]}</iso_code>
-                        <locale>#{tab[:locale]}</locale>
-                        <language_code>#{tab[:language_code]}</language_code>
-                        <active>#{tab[:active]}</active>
-                        <is_rtl>#{tab[:is_rtl]}</is_rtl>
-                        <date_format_lite>#{tab[:date_format_lite]}</date_format_lite>
-                        <date_format_full>#{tab[:date_format_full]}</date_format_full>
+                        <name>#{name}(#{name})</name>
+                        <iso_code>#{iso_code}</iso_code>
+                        <locale>#{locale}</locale>
+                        <language_code>#{language_code}</language_code>
+                        <active>#{active}</active>
+                        <is_rtl>#{is_rtl}</is_rtl>
+                        <date_format_lite>#{date_format_lite}</date_format_lite>
+                        <date_format_full>#{date_format_full}</date_format_full>
                     </language>
                 </prestashop>",
 
@@ -2024,21 +2635,31 @@ class Presta
         puts language.body, language.code 
     end
 
-    def self.update_language(id,tab)
+    def self.update_language(
+      id:,
+      name:,
+      iso_code:,
+      locale:"",
+      language_code:"",
+      active:0,
+      is_rtl:0,
+      date_format_lite:,
+      date_format_full:
+    )
       language = HTTParty.put("#{@api_url}languages/#{id}",
           {
               body: 
               "<prestashop>
                   <language>
                       <id>#{id}</id>
-                      <name>#{tab[:name]}(#{tab[:name]})</name>
-                      <iso_code>#{tab[:iso_code]}</iso_code>
-                      <locale>#{tab[:locale]}</locale>
-                      <language_code>#{tab[:language_code]}</language_code>
-                      <active>#{tab[:active]}</active>
-                      <is_rtl>#{tab[:is_rtl]}</is_rtl>
-                      <date_format_lite>#{tab[:date_format_lite]}</date_format_lite>
-                      <date_format_full>#{tab[:date_format_full]}</date_format_full>
+                      <name>#{name}(#{name})</name>
+                      <iso_code>#{iso_code}</iso_code>
+                      <locale>#{locale}</locale>
+                      <language_code>#{language_code}</language_code>
+                      <active>#{active}</active>
+                      <is_rtl>#{is_rtl}</is_rtl>
+                      <date_format_lite>#{date_format_lite}</date_format_lite>
+                      <date_format_full>#{date_format_full}</date_format_full>
                   </language>
               </prestashop>",
 
@@ -2051,7 +2672,7 @@ class Presta
       )
       puts language.body, language.code 
     end
-    def self.delete_language(id)
+    def self.delete_language(id:)
       language = HTTParty.delete("#{@api_url}languages/#{id}",
           {
               basic_auth: @auth
@@ -2060,7 +2681,7 @@ class Presta
       puts language.body, language.code 
     end
 
-    def self.get_language(id)
+    def self.get_language(id:)
       language = HTTParty.get("#{@api_url}languages/#{id}",
           {
               basic_auth: @auth
@@ -2072,41 +2693,47 @@ class Presta
        
     ##### MANUFACTURERS ##############################################################################################################################################
 
-    def self.post_manufacturers(manufacturers)
+    def self.post_manufacturers(
+      active:0,
+      name:,
+      date_add:"",
+      date_upd:"",
+      description:"",
+      short_description:"",
+      meta_title:"",
+      meta_description:"",
+      meta_keywords:"",
+      address_id:0
+    )
       attach = HTTParty.post("#{@api_url}manufacturers/",
       {
           body:
           "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
           <manufacturer>
             <id></id>
-            <active>#{manufacturers[:active]}</active>
-            <name>#{manufacturers[:name]}</name>
-            <date_add>#{manufacturers[:date_add]}</date_add>
-            <date_upd>#{manufacturers[:date_upd]}</date_upd>
+            <active>#{active}</active>
+            <name>#{name}</name>
+            <date_add>#{date_add}</date_add>
+            <date_upd>#{date_upd}</date_upd>
             <description>
-              <language id=\"1\">#{manufacturers[:description]}</language>
-              <language id=\"2\">#{manufacturers[:description1]}</language>
+              <language id=\"1\">#{description}</language>
             </description>
             <short_description>
-              <language id=\"1\">#{manufacturers[:short_description]}</language>
-              <language id=\"2\">#{manufacturers[:short_description1]}</language>
+              <language id=\"1\">#{short_description}</language>
             </short_description>
             <meta_title>
-              <language id=\"1\">#{manufacturers[:meta_title]}</language>
-              <language id=\"2\">#{manufacturers[:meta_title1]}</language>
+              <language id=\"1\">#{meta_title}</language>
             </meta_title>
             <meta_description>
-              <language id=\"1\">#{manufacturers[:meta_description]}</language>
-              <language id=\"2\">#{manufacturers[:meta_description1]}</language>
+              <language id=\"1\">#{meta_description}</language>
             </meta_description>
             <meta_keywords>
-              <language id=\"1\">#{manufacturers[:meta_keywords]}</language>
-              <language id=\"2\">#{manufacturers[:meta_keywords1]}</language>
+              <language id=\"1\">#{meta_keywords}</language>
             </meta_keywords>
             <associations>
               <addresses>
                 <address>
-                  <id>#{manufacturers[:address_id]}</id>
+                  <id>#{address_id}</id>
                 </address>
               </addresses>
             </associations>
@@ -2121,41 +2748,48 @@ class Presta
       puts attach.body, attach.code
   end
 
-  def self.update_manufacturers(id,manufacturers)
+  def self.update_manufacturers(
+    id:,
+    active:0,
+    name:,
+    date_add:"",
+    date_upd:"",
+    description:"",
+    short_description:"",
+    meta_title:"",
+    meta_description:"",
+    meta_keywords:"",
+    address_id:0
+  )
     attach = HTTParty.put("#{@api_url}manufacturers/#{id}",
     {
         body:
         "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
         <manufacturer>
           <id>#{id}</id>
-          <active>#{manufacturers[:active]}</active>
-          <name>#{manufacturers[:name]}</name>
-          <date_add>#{manufacturers[:date_add]}</date_add>
-          <date_upd>#{manufacturers[:date_upd]}</date_upd>
+          <active>#{active}</active>
+          <name>#{name}</name>
+          <date_add>#{date_add}</date_add>
+          <date_upd>#{date_upd}</date_upd>
           <description>
-            <language id=\"1\">#{manufacturers[:description]}</language>
-            <language id=\"2\">#{manufacturers[:description1]}</language>
+            <language id=\"1\">#{description}</language>
           </description>
           <short_description>
-            <language id=\"1\">#{manufacturers[:short_description]}</language>
-            <language id=\"2\">#{manufacturers[:short_description1]}</language>
+            <language id=\"1\">#{short_description}</language>
           </short_description>
           <meta_title>
-            <language id=\"1\">#{manufacturers[:meta_title]}</language>
-            <language id=\"2\">#{manufacturers[:meta_title1]}</language>
+            <language id=\"1\">#{meta_title}</language>
           </meta_title>
           <meta_description>
-            <language id=\"1\">#{manufacturers[:meta_description]}</language>
-            <language id=\"2\">#{manufacturers[:meta_description1]}</language>
+            <language id=\"1\">#{meta_description}</language>
           </meta_description>
           <meta_keywords>
-            <language id=\"1\">#{manufacturers[:meta_keywords]}</language>
-            <language id=\"2\">#{manufacturers[:meta_keywords1]}</language>
+            <language id=\"1\">#{meta_keywords}</language>
           </meta_keywords>
           <associations>
             <addresses>
               <address>
-                <id>#{manufacturers[:address_id]}</id>
+                <id>#{address_id}</id>
               </address>
             </addresses>
           </associations>
@@ -2170,7 +2804,7 @@ class Presta
     puts attach.body, attach.code
   end
 
-  def self.delete_manufacturers(id)
+  def self.delete_manufacturers(id:)
     attach = HTTParty.delete("#{@api_url}manufacturers/#{id}",
     {
         basic_auth: @auth,    
@@ -2178,7 +2812,7 @@ class Presta
     puts attach.body, attach.code
   end
 
-  def self.get_manufacturers(id)
+  def self.get_manufacturers(id:)
     attach = HTTParty.get("#{@api_url}manufacturers/#{id}",
     {
         basic_auth: @auth,    
@@ -2189,20 +2823,28 @@ class Presta
     
    ##### MESSAGES #######################################################################################################################################################################
 
-   def self.post_messages(message)
+   def self.post_messages(
+    id_cart:0,
+    id_order:0,
+    id_customer:0,
+    id_employee:0,
+    message:,
+    private:0,
+    date_add:""
+   )
     sup = HTTParty.post("#{@api_url}messages/",
     {
       body:
       "<prestashop>
         <message>
           <id></id>
-          <id_cart>#{message[:id_cart]}</id_cart>
-          <id_order>#{message[:id_order]}</id_order>
-          <id_customer>#{message[:id_customer]}</id_customer>
-          <id_employee>#{message[:id_employee]}</id_employee>
-          <message>#{message[:message]}</message>
-          <private>#{message[:private]}</private>
-          <date_add>#{message[:date_add]}</date_add>
+          <id_cart>#{id_cart}</id_cart>
+          <id_order>#{id_order}</id_order>
+          <id_customer>#{id_customer}</id_customer>
+          <id_employee>#{id_employee}</id_employee>
+          <message>#{message}</message>
+          <private>#{private}</private>
+          <date_add>#{date_add}</date_add>
         </message>
       </prestashop>",
       basic_auth: @auth,
@@ -2214,20 +2856,28 @@ class Presta
     puts sup.body,sup.code
   end
 
-  def self.update_messages(id,message)
+  def self.update_messages(
+    id:,    
+    id_cart:0,
+    id_order:0,
+    id_customer:0,
+    id_employee:0,
+    message:,
+    private:0,
+    date_add:"")
     sup = HTTParty.put("#{@api_url}messages/#{id}",
     {
       body:
       "<prestashop>
         <message>
           <id>#{id}</id>
-          <id_cart>#{message[:id_cart]}</id_cart>
-          <id_order>#{message[:id_order]}</id_order>
-          <id_customer>#{message[:id_customer]}</id_customer>
-          <id_employee>#{message[:id_employee]}</id_employee>
-          <message>#{message[:message]}</message>
-          <private>#{message[:private]}</private>
-          <date_add>#{message[:date_add]}</date_add>
+          <id_cart>#{id_cart}</id_cart>
+          <id_order>#{id_order}</id_order>
+          <id_customer>#{id_customer}</id_customer>
+          <id_employee>#{id_employee}</id_employee>
+          <message>#{message}</message>
+          <private>#{private}</private>
+          <date_add>#{date_add}</date_add>
         </message>
       </prestashop>",
       basic_auth: @auth,
@@ -2239,7 +2889,7 @@ class Presta
     puts sup.body,sup.code
   end
 
-  def self.get_messages(id)
+  def self.get_messages(id:)
     sup = HTTParty.get("#{@api_url}messages/#{id}",
     {
       basic_auth: @auth
@@ -2247,7 +2897,7 @@ class Presta
     puts sup.body,sup.code
   end
 
-  def self.delete_messages(id)
+  def self.delete_messages(id:)
     sup = HTTParty.delete("#{@api_url}messages/#{id}",
     {
       basic_auth: @auth
@@ -2257,21 +2907,30 @@ class Presta
 
   ##### ORDER CARRIERS ############################################################################################################################################
 
-  def self.post_order_carriers(order_carrier)
+  def self.post_order_carriers(
+    id_order:,
+    id_carrier:,
+    id_order_invoice:0,
+    weight:0,
+    shipping_cost_tax_excl:0,
+    shipping_cost_tax_incl:0,
+    tracking_number:0,
+    date_add:""
+  )
     ord = HTTParty.post("#{@api_url}order_carriers/",
     {
         body:
         "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
           <order_carrier>
             <id></id>
-            <id_order>#{order_carrier[:id_order]}</id_order>
-            <id_carrier>#{order_carrier[:id_carrier]}</id_carrier>
-            <id_order_invoice>#{order_carrier[:id_order_invoice]}</id_order_invoice>
-            <weight>#{order_carrier[:weight]}</weight>
-            <shipping_cost_tax_excl>#{order_carrier[:shipping_cost_tax_excl]}</shipping_cost_tax_excl>
-            <shipping_cost_tax_incl>#{order_carrier[:shipping_cost_tax_incl]}</shipping_cost_tax_incl>
-            <tracking_number>#{order_carrier[:tracking_number]}</tracking_number>
-            <date_add>#{order_carrier[:date_add]}</date_add>
+            <id_order>#{id_order}</id_order>
+            <id_carrier>#{id_carrier}</id_carrier>
+            <id_order_invoice>#{id_order_invoice}</id_order_invoice>
+            <weight>#{weight}</weight>
+            <shipping_cost_tax_excl>#{shipping_cost_tax_excl}</shipping_cost_tax_excl>
+            <shipping_cost_tax_incl>#{shipping_cost_tax_incl}</shipping_cost_tax_incl>
+            <tracking_number>#{tracking_number}</tracking_number>
+            <date_add>#{date_add}</date_add>
           </order_carrier>
         </prestashop>",
         basic_auth: @auth,
@@ -2283,21 +2942,31 @@ class Presta
     puts ord.body,ord.code
     end
 
-    def self.update_order_carriers(id,order_carrier)
+    def self.update_order_carriers(
+      id:,
+      id_order:,
+      id_carrier:,
+      id_order_invoice:0,
+      weight:0,
+      shipping_cost_tax_excl:0,
+      shipping_cost_tax_incl:0,
+      tracking_number:0,
+      date_add:""
+    )
     ord = HTTParty.put("#{@api_url}order_carriers/#{id}",
     {
         body:
         "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
           <order_carrier>
             <id>#{id}</id>
-            <id_order>#{order_carrier[:id_order]}</id_order>
-            <id_carrier>#{order_carrier[:id_carrier]}</id_carrier>
-            <id_order_invoice>#{order_carrier[:id_order_invoice]}</id_order_invoice>
-            <weight>#{order_carrier[:weight]}</weight>
-            <shipping_cost_tax_excl>#{order_carrier[:shipping_cost_tax_excl]}</shipping_cost_tax_excl>
-            <shipping_cost_tax_incl>#{order_carrier[:shipping_cost_tax_incl]}</shipping_cost_tax_incl>
-            <tracking_number>#{order_carrier[:tracking_number]}</tracking_number>
-            <date_add>#{order_carrier[:date_add]}</date_add>
+            <id_order>#{id_order}</id_order>
+            <id_carrier>#{id_carrier}</id_carrier>
+            <id_order_invoice>#{id_order_invoice}</id_order_invoice>
+            <weight>#{weight}</weight>
+            <shipping_cost_tax_excl>#{shipping_cost_tax_excl}</shipping_cost_tax_excl>
+            <shipping_cost_tax_incl>#{shipping_cost_tax_incl}</shipping_cost_tax_incl>
+            <tracking_number>#{tracking_number}</tracking_number>
+            <date_add>#{date_add}</date_add>
           </order_carrier>
         </prestashop>",
         basic_auth: @auth,
@@ -2309,7 +2978,7 @@ class Presta
     puts ord.body,ord.code
     end
 
-    def self.delete_order_carriers(id)
+    def self.delete_order_carriers(id:)
     ord = HTTParty.delete("#{@api_url}order_carriers/#{id}",
     {
         basic_auth: @auth
@@ -2317,7 +2986,7 @@ class Presta
     puts ord.body,ord.code
     end
 
-    def self.get_order_carriers(id)
+    def self.get_order_carriers(id:)
     ord = HTTParty.get("#{@api_url}order_carriers/#{id}",
     {
         basic_auth: @auth
@@ -2327,21 +2996,30 @@ class Presta
 
     ##### ORDER CART RULES ############################################################################################################################################
 
-    def self.post_order_cart_rules(order_cart_rules)
+    def self.post_order_cart_rules(
+      id_order:,
+      id_cart_rule:,
+      id_order_invoice:0,
+      name:,
+      value:,
+      value_tax_excl:,
+      free_shipping:0,
+      deleted:0
+    )
       ord = HTTParty.post("#{@api_url}order_cart_rules/",
       {
           body:
           "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
             <order_cart_rule>
             <id></id>
-            <id_order>#{order_cart_rules[:id_order]}</id_order>
-            <id_cart_rule>#{order_cart_rules[:id_cart_rule]}</id_cart_rule>
-            <id_order_invoice>#{order_cart_rules[:id_order_invoice]}</id_order_invoice>
-            <name>#{order_cart_rules[:name]}</name>
-            <value>#{order_cart_rules[:value]}</value>
-            <value_tax_excl>#{order_cart_rules[:value_tax_excl]}</value_tax_excl>
-            <free_shipping>#{order_cart_rules[:free_shipping]}</free_shipping>
-            <deleted>#{order_cart_rules[:deleted]}</deleted>
+            <id_order>#{id_order}</id_order>
+            <id_cart_rule>#{id_cart_rule}</id_cart_rule>
+            <id_order_invoice>#{id_order_invoice}</id_order_invoice>
+            <name>#{name}</name>
+            <value>#{value}</value>
+            <value_tax_excl>#{value_tax_excl}</value_tax_excl>
+            <free_shipping>#{free_shipping}</free_shipping>
+            <deleted>#{deleted}</deleted>
             </order_cart_rule>
         </prestashop>",
           basic_auth: @auth,
@@ -2353,21 +3031,31 @@ class Presta
       puts ord.body,ord.code
     end
 
-    def self.update_order_cart_rules(id,order_cart_rules)
+    def self.update_order_cart_rules(
+      id:,
+      id_order:,
+      id_cart_rule:,
+      id_order_invoice:0,
+      name:,
+      value:,
+      value_tax_excl:,
+      free_shipping:0,
+      deleted:0
+    )
       ord = HTTParty.put("#{@api_url}order_cart_rules/#{id}",
       {
           body:
           "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
             <order_cart_rule>
             <id>#{id}</id>
-            <id_order>#{order_cart_rules[:id_order]}</id_order>
-            <id_cart_rule>#{order_cart_rules[:id_cart_rule]}</id_cart_rule>
-            <id_order_invoice>#{order_cart_rules[:id_order_invoice]}</id_order_invoice>
-            <name>#{order_cart_rules[:name]}</name>
-            <value>#{order_cart_rules[:value]}</value>
-            <value_tax_excl>#{order_cart_rules[:value_tax_excl]}</value_tax_excl>
-            <free_shipping>#{order_cart_rules[:free_shipping]}</free_shipping>
-            <deleted>#{order_cart_rules[:deleted]}</deleted>
+            <id_order>#{id_order}</id_order>
+            <id_cart_rule>#{id_cart_rule}</id_cart_rule>
+            <id_order_invoice>#{id_order_invoice}</id_order_invoice>
+            <name>#{name}</name>
+            <value>#{value}</value>
+            <value_tax_excl>#{value_tax_excl}</value_tax_excl>
+            <free_shipping>#{free_shipping}</free_shipping>
+            <deleted>#{deleted}</deleted>
             </order_cart_rule>
         </prestashop>",
           basic_auth: @auth,
@@ -2379,7 +3067,7 @@ class Presta
       puts ord.body,ord.code
     end
 
-    def self.delete_order_cart_rules(id)
+    def self.delete_order_cart_rules(id:)
       ord = HTTParty.delete("#{@api_url}order_cart_rules/#{id}",
       {
           basic_auth: @auth
@@ -2387,7 +3075,7 @@ class Presta
       puts ord.body,ord.code
     end
 
-    def self.get_order_cart_rules(id)
+    def self.get_order_cart_rules(id:)
       ord = HTTParty.get("#{@api_url}order_cart_rules/#{id}",
       {
           basic_auth: @auth
@@ -2397,63 +3085,111 @@ class Presta
 
     ##### ORDER DETAILS ############################################################################################################################################### 
 
-    def self.post_order_details(order_detail)
+    def self.post_order_details(
+      id_order:,
+      product_id:0,
+      product_attribute_id:0,
+      product_quantity_reinjected:0,
+      group_reduction:0,
+      discount_quantity_applied:0,
+      download_hash:"",
+      download_deadline:"",
+      id_order_invoice:0,
+      id_warehouse:,
+      id_shop:,
+      id_customization:0,
+      product_name:,
+      product_quantity:,
+      product_quantity_in_stock:0,
+      product_quantity_return:0,
+      product_quantity_refunded:0,
+      product_price:,
+      reduction_percent:0,
+      reduction_amount:0,
+      reduction_amount_tax_incl:0,
+      reduction_amount_tax_excl:0,
+      product_quantity_discount:0,
+      product_ean13:"",
+      product_isbn:"",
+      product_upc:"",
+      product_mpn:"",
+      product_reference:"",
+      product_supplier_reference:"",
+      product_weight:0,
+      tax_computation_method:0,
+      id_tax_rules_group:0,
+      ecotax:0,
+      ecotax_tax_rate:0,
+      download_nb:0,
+      unit_price_tax_incl:0,
+      unit_price_tax_excl:0,
+      total_price_tax_incl:0,
+      total_price_tax_excl:0,
+      total_shipping_price_tax_excl:0,
+      total_shipping_price_tax_incl:0,
+      purchase_supplier_price:0,
+      original_product_price:0,
+      original_wholesale_price:0,
+      total_refunded_tax_excl:0,
+      total_refunded_tax_incl:0,
+      tax_id:0
+    )
       ord = HTTParty.post("#{@api_url}order_details/",
       {
           body:
           "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
           <order_detail>
             <id></id>
-            <id_order>#{order_detail[:id_order]}</id_order>
-            <product_id>#{order_detail[:product_id]}</product_id>
-            <product_attribute_id>#{order_detail[:product_attribute_id]}</product_attribute_id>
-            <product_quantity_reinjected>#{order_detail[:product_quantity_reinjected]}</product_quantity_reinjected>
-            <group_reduction>#{order_detail[:group_reduction]}</group_reduction>
-            <discount_quantity_applied>#{order_detail[:discount_quantity_applied]}</discount_quantity_applied>
-            <download_hash>#{order_detail[:download_hash]}</download_hash>
-            <download_deadline>#{order_detail[:download_deadline]}</download_deadline>
-            <id_order_invoice>#{order_detail[:id_order_invoice]}</id_order_invoice>
-            <id_warehouse>#{order_detail[:id_warehouse]}</id_warehouse>
-            <id_shop>#{order_detail[:id_shop]}</id_shop>
-            <id_customization>#{order_detail[:id_customization]}</id_customization>
-            <product_name>#{order_detail[:product_name]}</product_name>
-            <product_quantity>#{order_detail[:product_quantity]}</product_quantity>
-            <product_quantity_in_stock>#{order_detail[:product_quantity_in_stock]}</product_quantity_in_stock>
-            <product_quantity_return>#{order_detail[:product_quantity_return]}</product_quantity_return>
-            <product_quantity_refunded>#{order_detail[:product_quantity_refunded]}</product_quantity_refunded>
-            <product_price>#{order_detail[:product_price]}</product_price>
-            <reduction_percent>#{order_detail[:reduction_percent]}</reduction_percent>
-            <reduction_amount>#{order_detail[:reduction_amount]}</reduction_amount>
-            <reduction_amount_tax_incl>#{order_detail[:reduction_amount_tax_incl]}</reduction_amount_tax_incl>
-            <reduction_amount_tax_excl>#{order_detail[:reduction_amount_tax_excl]}</reduction_amount_tax_excl>
-            <product_quantity_discount>#{order_detail[:product_quantity_discount]}</product_quantity_discount>
-            <product_ean13>#{order_detail[:product_ean13]}</product_ean13>
-            <product_isbn>#{order_detail[:product_isbn]}</product_isbn>
-            <product_upc>#{order_detail[:product_upc]}</product_upc>
-            <product_mpn>#{order_detail[:product_mpn]}</product_mpn>
-            <product_reference>#{order_detail[:product_reference]}</product_reference>
-            <product_supplier_reference>#{order_detail[:product_supplier_reference]}</product_supplier_reference>
-            <product_weight>#{order_detail[:product_weight]}</product_weight>
-            <tax_computation_method>#{order_detail[:tax_computation_method]}</tax_computation_method>
-            <id_tax_rules_group>#{order_detail[:id_tax_rules_group]}</id_tax_rules_group>
-            <ecotax>#{order_detail[:ecotax]}</ecotax>
-            <ecotax_tax_rate>#{order_detail[:ecotax_tax_rate]}</ecotax_tax_rate>
-            <download_nb>#{order_detail[:download_nb]}</download_nb>
-            <unit_price_tax_incl>#{order_detail[:unit_price_tax_incl]}</unit_price_tax_incl>
-            <unit_price_tax_excl>#{order_detail[:unit_price_tax_excl]}</unit_price_tax_excl>
-            <total_price_tax_incl>#{order_detail[:total_price_tax_incl]}</total_price_tax_incl>
-            <total_price_tax_excl>#{order_detail[:total_price_tax_excl]}</total_price_tax_excl>
-            <total_shipping_price_tax_excl>#{order_detail[:total_shipping_price_tax_excl]}</total_shipping_price_tax_excl>
-            <total_shipping_price_tax_incl>#{order_detail[:total_shipping_price_tax_incl]}</total_shipping_price_tax_incl>
-            <purchase_supplier_price>#{order_detail[:purchase_supplier_price]}</purchase_supplier_price>
-            <original_product_price>#{order_detail[:original_product_price]}</original_product_price>
-            <original_wholesale_price>#{order_detail[:original_wholesale_price]}</original_wholesale_price>
-            <total_refunded_tax_excl>#{order_detail[:total_refunded_tax_excl]}</total_refunded_tax_excl>
-            <total_refunded_tax_incl>#{order_detail[:total_refunded_tax_incl]}</total_refunded_tax_incl>
+            <id_order>#{id_order}</id_order>
+            <product_id>#{product_id}</product_id>
+            <product_attribute_id>#{product_attribute_id}</product_attribute_id>
+            <product_quantity_reinjected>#{product_quantity_reinjected}</product_quantity_reinjected>
+            <group_reduction>#{group_reduction}</group_reduction>
+            <discount_quantity_applied>#{discount_quantity_applied}</discount_quantity_applied>
+            <download_hash>#{download_hash}</download_hash>
+            <download_deadline>#{download_deadline}</download_deadline>
+            <id_order_invoice>#{id_order_invoice}</id_order_invoice>
+            <id_warehouse>#{id_warehouse}</id_warehouse>
+            <id_shop>#{id_shop}</id_shop>
+            <id_customization>#{id_customization}</id_customization>
+            <product_name>#{product_name}</product_name>
+            <product_quantity>#{product_quantity}</product_quantity>
+            <product_quantity_in_stock>#{product_quantity_in_stock}</product_quantity_in_stock>
+            <product_quantity_return>#{product_quantity_return}</product_quantity_return>
+            <product_quantity_refunded>#{product_quantity_refunded}</product_quantity_refunded>
+            <product_price>#{product_price}</product_price>
+            <reduction_percent>#{reduction_percent}</reduction_percent>
+            <reduction_amount>#{reduction_amount}</reduction_amount>
+            <reduction_amount_tax_incl>#{reduction_amount_tax_incl}</reduction_amount_tax_incl>
+            <reduction_amount_tax_excl>#{reduction_amount_tax_excl}</reduction_amount_tax_excl>
+            <product_quantity_discount>#{product_quantity_discount}</product_quantity_discount>
+            <product_ean13>#{product_ean13}</product_ean13>
+            <product_isbn>#{product_isbn}</product_isbn>
+            <product_upc>#{product_upc}</product_upc>
+            <product_mpn>#{product_mpn}</product_mpn>
+            <product_reference>#{product_reference}</product_reference>
+            <product_supplier_reference>#{product_supplier_reference}</product_supplier_reference>
+            <product_weight>#{product_weight}</product_weight>
+            <tax_computation_method>#{tax_computation_method}</tax_computation_method>
+            <id_tax_rules_group>#{id_tax_rules_group}</id_tax_rules_group>
+            <ecotax>#{ecotax}</ecotax>
+            <ecotax_tax_rate>#{ecotax_tax_rate}</ecotax_tax_rate>
+            <download_nb>#{download_nb}</download_nb>
+            <unit_price_tax_incl>#{unit_price_tax_incl}</unit_price_tax_incl>
+            <unit_price_tax_excl>#{unit_price_tax_excl}</unit_price_tax_excl>
+            <total_price_tax_incl>#{total_price_tax_incl}</total_price_tax_incl>
+            <total_price_tax_excl>#{total_price_tax_excl}</total_price_tax_excl>
+            <total_shipping_price_tax_excl>#{total_shipping_price_tax_excl}</total_shipping_price_tax_excl>
+            <total_shipping_price_tax_incl>#{total_shipping_price_tax_incl}</total_shipping_price_tax_incl>
+            <purchase_supplier_price>#{purchase_supplier_price}</purchase_supplier_price>
+            <original_product_price>#{original_product_price}</original_product_price>
+            <original_wholesale_price>#{original_wholesale_price}</original_wholesale_price>
+            <total_refunded_tax_excl>#{total_refunded_tax_excl}</total_refunded_tax_excl>
+            <total_refunded_tax_incl>#{total_refunded_tax_incl}</total_refunded_tax_incl>
             <associations>
               <taxes>
                 <tax>
-                  <id>#{order_detail[:tax_id]}</id>
+                  <id>#{tax_id}</id>
                 </tax>
               </taxes>
             </associations>
@@ -2469,63 +3205,112 @@ class Presta
       puts ord.body,ord.code
     end
 
-    def self.update_order_details(id,order_detail)
+    def self.update_order_details(
+      id:,
+      id_order:,
+      product_id:0,
+      product_attribute_id:0,
+      product_quantity_reinjected:0,
+      group_reduction:0,
+      discount_quantity_applied:0,
+      download_hash:"",
+      download_deadline:"",
+      id_order_invoice:0,
+      id_warehouse:,
+      id_shop:,
+      id_customization:0,
+      product_name:,
+      product_quantity:,
+      product_quantity_in_stock:0,
+      product_quantity_return:0,
+      product_quantity_refunded:0,
+      product_price:,
+      reduction_percent:0,
+      reduction_amount:0,
+      reduction_amount_tax_incl:0,
+      reduction_amount_tax_excl:0,
+      product_quantity_discount:0,
+      product_ean13:"",
+      product_isbn:"",
+      product_upc:"",
+      product_mpn:"",
+      product_reference:"",
+      product_supplier_reference:"",
+      product_weight:0,
+      tax_computation_method:0,
+      id_tax_rules_group:0,
+      ecotax:0,
+      ecotax_tax_rate:0,
+      download_nb:0,
+      unit_price_tax_incl:0,
+      unit_price_tax_excl:0,
+      total_price_tax_incl:0,
+      total_price_tax_excl:0,
+      total_shipping_price_tax_excl:0,
+      total_shipping_price_tax_incl:0,
+      purchase_supplier_price:0,
+      original_product_price:0,
+      original_wholesale_price:0,
+      total_refunded_tax_excl:0,
+      total_refunded_tax_incl:0,
+      tax_id:0
+    )
       ord = HTTParty.put("#{@api_url}order_details/#{id}",
       {
           body:
           "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
           <order_detail>
             <id>#{id}</id>
-            <id_order>#{order_detail[:id_order]}</id_order>
-            <product_id>#{order_detail[:product_id]}</product_id>
-            <product_attribute_id>#{order_detail[:product_attribute_id]}</product_attribute_id>
-            <product_quantity_reinjected>#{order_detail[:product_quantity_reinjected]}</product_quantity_reinjected>
-            <group_reduction>#{order_detail[:group_reduction]}</group_reduction>
-            <discount_quantity_applied>#{order_detail[:discount_quantity_applied]}</discount_quantity_applied>
-            <download_hash>#{order_detail[:download_hash]}</download_hash>
-            <download_deadline>#{order_detail[:download_deadline]}</download_deadline>
-            <id_order_invoice>#{order_detail[:id_order_invoice]}</id_order_invoice>
-            <id_warehouse>#{order_detail[:id_warehouse]}</id_warehouse>
-            <id_shop>#{order_detail[:id_shop]}</id_shop>
-            <id_customization>#{order_detail[:id_customization]}</id_customization>
-            <product_name>#{order_detail[:product_name]}</product_name>
-            <product_quantity>#{order_detail[:product_quantity]}</product_quantity>
-            <product_quantity_in_stock>#{order_detail[:product_quantity_in_stock]}</product_quantity_in_stock>
-            <product_quantity_return>#{order_detail[:product_quantity_return]}</product_quantity_return>
-            <product_quantity_refunded>#{order_detail[:product_quantity_refunded]}</product_quantity_refunded>
-            <product_price>#{order_detail[:product_price]}</product_price>
-            <reduction_percent>#{order_detail[:reduction_percent]}</reduction_percent>
-            <reduction_amount>#{order_detail[:reduction_amount]}</reduction_amount>
-            <reduction_amount_tax_incl>#{order_detail[:reduction_amount_tax_incl]}</reduction_amount_tax_incl>
-            <reduction_amount_tax_excl>#{order_detail[:reduction_amount_tax_excl]}</reduction_amount_tax_excl>
-            <product_quantity_discount>#{order_detail[:product_quantity_discount]}</product_quantity_discount>
-            <product_ean13>#{order_detail[:product_ean13]}</product_ean13>
-            <product_isbn>#{order_detail[:product_isbn]}</product_isbn>
-            <product_upc>#{order_detail[:product_upc]}</product_upc>
-            <product_mpn>#{order_detail[:product_mpn]}</product_mpn>
-            <product_reference>#{order_detail[:product_reference]}</product_reference>
-            <product_supplier_reference>#{order_detail[:product_supplier_reference]}</product_supplier_reference>
-            <product_weight>#{order_detail[:product_weight]}</product_weight>
-            <tax_computation_method>#{order_detail[:tax_computation_method]}</tax_computation_method>
-            <id_tax_rules_group>#{order_detail[:id_tax_rules_group]}</id_tax_rules_group>
-            <ecotax>#{order_detail[:ecotax]}</ecotax>
-            <ecotax_tax_rate>#{order_detail[:ecotax_tax_rate]}</ecotax_tax_rate>
-            <download_nb>#{order_detail[:download_nb]}</download_nb>
-            <unit_price_tax_incl>#{order_detail[:unit_price_tax_incl]}</unit_price_tax_incl>
-            <unit_price_tax_excl>#{order_detail[:unit_price_tax_excl]}</unit_price_tax_excl>
-            <total_price_tax_incl>#{order_detail[:total_price_tax_incl]}</total_price_tax_incl>
-            <total_price_tax_excl>#{order_detail[:total_price_tax_excl]}</total_price_tax_excl>
-            <total_shipping_price_tax_excl>#{order_detail[:total_shipping_price_tax_excl]}</total_shipping_price_tax_excl>
-            <total_shipping_price_tax_incl>#{order_detail[:total_shipping_price_tax_incl]}</total_shipping_price_tax_incl>
-            <purchase_supplier_price>#{order_detail[:purchase_supplier_price]}</purchase_supplier_price>
-            <original_product_price>#{order_detail[:original_product_price]}</original_product_price>
-            <original_wholesale_price>#{order_detail[:original_wholesale_price]}</original_wholesale_price>
-            <total_refunded_tax_excl>#{order_detail[:total_refunded_tax_excl]}</total_refunded_tax_excl>
-            <total_refunded_tax_incl>#{order_detail[:total_refunded_tax_incl]}</total_refunded_tax_incl>
+            <id_order>#{id_order}</id_order>
+            <product_id>#{product_id}</product_id>
+            <product_attribute_id>#{product_attribute_id}</product_attribute_id>
+            <product_quantity_reinjected>#{product_quantity_reinjected}</product_quantity_reinjected>
+            <group_reduction>#{group_reduction}</group_reduction>
+            <discount_quantity_applied>#{discount_quantity_applied}</discount_quantity_applied>
+            <download_hash>#{download_hash}</download_hash>
+            <download_deadline>#{download_deadline}</download_deadline>
+            <id_order_invoice>#{id_order_invoice}</id_order_invoice>
+            <id_warehouse>#{id_warehouse}</id_warehouse>
+            <id_shop>#{id_shop}</id_shop>
+            <id_customization>#{id_customization}</id_customization>
+            <product_name>#{product_name}</product_name>
+            <product_quantity>#{product_quantity}</product_quantity>
+            <product_quantity_in_stock>#{product_quantity_in_stock}</product_quantity_in_stock>
+            <product_quantity_return>#{product_quantity_return}</product_quantity_return>
+            <product_quantity_refunded>#{product_quantity_refunded}</product_quantity_refunded>
+            <product_price>#{product_price}</product_price>
+            <reduction_percent>#{reduction_percent}</reduction_percent>
+            <reduction_amount>#{reduction_amount}</reduction_amount>
+            <reduction_amount_tax_incl>#{reduction_amount_tax_incl}</reduction_amount_tax_incl>
+            <reduction_amount_tax_excl>#{reduction_amount_tax_excl}</reduction_amount_tax_excl>
+            <product_quantity_discount>#{product_quantity_discount}</product_quantity_discount>
+            <product_ean13>#{product_ean13}</product_ean13>
+            <product_isbn>#{product_isbn}</product_isbn>
+            <product_upc>#{product_upc}</product_upc>
+            <product_mpn>#{product_mpn}</product_mpn>
+            <product_reference>#{product_reference}</product_reference>
+            <product_supplier_reference>#{product_supplier_reference}</product_supplier_reference>
+            <product_weight>#{product_weight}</product_weight>
+            <tax_computation_method>#{tax_computation_method}</tax_computation_method>
+            <id_tax_rules_group>#{id_tax_rules_group}</id_tax_rules_group>
+            <ecotax>#{ecotax}</ecotax>
+            <ecotax_tax_rate>#{ecotax_tax_rate}</ecotax_tax_rate>
+            <download_nb>#{download_nb}</download_nb>
+            <unit_price_tax_incl>#{unit_price_tax_incl}</unit_price_tax_incl>
+            <unit_price_tax_excl>#{unit_price_tax_excl}</unit_price_tax_excl>
+            <total_price_tax_incl>#{total_price_tax_incl}</total_price_tax_incl>
+            <total_price_tax_excl>#{total_price_tax_excl}</total_price_tax_excl>
+            <total_shipping_price_tax_excl>#{total_shipping_price_tax_excl}</total_shipping_price_tax_excl>
+            <total_shipping_price_tax_incl>#{total_shipping_price_tax_incl}</total_shipping_price_tax_incl>
+            <purchase_supplier_price>#{purchase_supplier_price}</purchase_supplier_price>
+            <original_product_price>#{original_product_price}</original_product_price>
+            <original_wholesale_price>#{original_wholesale_price}</original_wholesale_price>
+            <total_refunded_tax_excl>#{total_refunded_tax_excl}</total_refunded_tax_excl>
+            <total_refunded_tax_incl>#{total_refunded_tax_incl}</total_refunded_tax_incl>
             <associations>
               <taxes>
                 <tax>
-                  <id>#{order_detail[:tax_id]}</id>
+                  <id>#{tax_id}</id>
                 </tax>
               </taxes>
             </associations>
@@ -2541,7 +3326,7 @@ class Presta
       puts ord.body,ord.code
     end
 
-    def self.delete_order_details(id)
+    def self.delete_order_details(id:)
       ord = HTTParty.delete("#{@api_url}order_details/#{id}",
       {
           basic_auth: @auth
@@ -2549,7 +3334,7 @@ class Presta
       puts ord.body,ord.code
     end
 
-    def self.get_order_details(id)
+    def self.get_order_details(id:)
       ord = HTTParty.get("#{@api_url}order_details/#{id}",
       {
           basic_auth: @auth
@@ -2559,17 +3344,22 @@ class Presta
 
     ##### ORDER HISTORIES #############################################################################################################################################
 
-    def self.post_order_histories(order_history)
+    def self.post_order_histories(
+      id_employee:0,
+      id_order_state:,
+      id_order:,
+      date_add:""
+    )
       ord = HTTParty.post("#{@api_url}order_histories/",
       {
           body:
           "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
             <order_history>
               <id></id>
-              <id_employee>#{order_history[:id_employee]}</id_employee>
-              <id_order_state>#{order_history[:id_order_state]}</id_order_state>
-              <id_order>#{order_history[:id_order]}</id_order>
-              <date_add>#{order_history[:date_add]}</date_add>
+              <id_employee>#{id_employee}</id_employee>
+              <id_order_state>#{id_order_state}</id_order_state>
+              <id_order>#{id_order}</id_order>
+              <date_add>#{date_add}</date_add>
             </order_history>
            </prestashop>",
           basic_auth: @auth,
@@ -2581,17 +3371,23 @@ class Presta
       puts ord.body,ord.code
     end
 
-    def self.update_order_histories(id,order_history)
+    def self.update_order_histories(
+      id:,
+      id_employee:0,
+      id_order_state:,
+      id_order:,
+      date_add:""
+    )
       ord = HTTParty.put("#{@api_url}order_histories/#{id}",
       {
           body:
           "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
             <order_history>
               <id>#{id}</id>
-              <id_employee>#{order_history[:id_employee]}</id_employee>
-              <id_order_state>#{order_history[:id_order_state]}</id_order_state>
-              <id_order>#{order_history[:id_order]}</id_order>
-              <date_add>#{order_history[:date_add]}</date_add>
+              <id_employee>#{id_employee}</id_employee>
+              <id_order_state>#{id_order_state}</id_order_state>
+              <id_order>#{id_order}</id_order>
+              <date_add>#{date_add}</date_add>
             </order_history>
            </prestashop>",
           basic_auth: @auth,
@@ -2603,7 +3399,7 @@ class Presta
       puts ord.body,ord.code
     end
 
-    def self.delete_order_histories(id)
+    def self.delete_order_histories(id:)
       ord = HTTParty.delete("#{@api_url}order_histories/#{id}",
       {
           basic_auth: @auth,
@@ -2611,7 +3407,7 @@ class Presta
       puts ord.body,ord.code
     end
 
-    def self.get_order_histories(id)
+    def self.get_order_histories(id:)
       ord = HTTParty.get("#{@api_url}order_histories/#{id}",
       {
           basic_auth: @auth,
@@ -2621,31 +3417,50 @@ class Presta
 
     ##### ORDER INVOICE ###############################################################################################################################################
 
-    def self.post_order_invoice(order_invoice)
+    def self.post_order_invoice(
+      id_order:,
+      number:,
+      delivery_number:0,
+      delivery_date:"",
+      total_discount_tax_excl:0,
+      total_discount_tax_incl:0,
+      total_paid_tax_excl:0,
+      total_paid_tax_incl:0,
+      total_products:0,
+      total_products_wt:0,
+      total_shipping_tax_excl:0,
+      total_shipping_tax_incl:0,
+      shipping_tax_computation_method:0,
+      total_wrapping_tax_excl:0,
+      total_wrapping_tax_incl:0,
+      shop_address:"",
+      note:"",
+      date_add:""
+    )
       order = HTTParty.post("#{@api_url}order_invoices/",
       {
           body: 
           "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
             <order_invoice>
               <id></id>
-              <id_order>#{order_invoice[:id_order]}</id_order>
-              <number>#{order_invoice[:number]}</number>
-              <delivery_number>#{order_invoice[:delivery_number]}</delivery_number>
-              <delivery_date>#{order_invoice[:delivery_date]}</delivery_date>
-              <total_discount_tax_excl>#{order_invoice[:total_discount_tax_excl]}</total_discount_tax_excl>
-              <total_discount_tax_incl>#{order_invoice[:total_discount_tax_incl]}</total_discount_tax_incl>
-              <total_paid_tax_excl>#{order_invoice[:total_paid_tax_excl]}</total_paid_tax_excl>
-              <total_paid_tax_incl>#{order_invoice[:total_paid_tax_incl]}</total_paid_tax_incl>
-              <total_products>#{order_invoice[:total_products]}</total_products>
-              <total_products_wt>#{order_invoice[:total_products_wt]}</total_products_wt>
-              <total_shipping_tax_excl>#{order_invoice[:total_shipping_tax_excl]}</total_shipping_tax_excl>
-              <total_shipping_tax_incl>#{order_invoice[:total_shipping_tax_incl]}</total_shipping_tax_incl>
-              <shipping_tax_computation_method>#{order_invoice[:shipping_tax_computation_method]}</shipping_tax_computation_method>
-              <total_wrapping_tax_excl>#{order_invoice[:total_wrapping_tax_excl]}</total_wrapping_tax_excl>
-              <total_wrapping_tax_incl>#{order_invoice[:total_wrapping_tax_incl]}</total_wrapping_tax_incl>
-              <shop_address>#{order_invoice[:shop_address]}</shop_address>
-              <note>#{order_invoice[:note]}</note>
-              <date_add>#{order_invoice[:date_add]}</date_add>
+              <id_order>#{id_order}</id_order>
+              <number>#{number}</number>
+              <delivery_number>#{delivery_number}</delivery_number>
+              <delivery_date>#{delivery_date}</delivery_date>
+              <total_discount_tax_excl>#{total_discount_tax_excl}</total_discount_tax_excl>
+              <total_discount_tax_incl>#{total_discount_tax_incl}</total_discount_tax_incl>
+              <total_paid_tax_excl>#{total_paid_tax_excl}</total_paid_tax_excl>
+              <total_paid_tax_incl>#{total_paid_tax_incl}</total_paid_tax_incl>
+              <total_products>#{total_products}</total_products>
+              <total_products_wt>#{total_products_wt}</total_products_wt>
+              <total_shipping_tax_excl>#{total_shipping_tax_excl}</total_shipping_tax_excl>
+              <total_shipping_tax_incl>#{total_shipping_tax_incl}</total_shipping_tax_incl>
+              <shipping_tax_computation_method>#{shipping_tax_computation_method}</shipping_tax_computation_method>
+              <total_wrapping_tax_excl>#{total_wrapping_tax_excl}</total_wrapping_tax_excl>
+              <total_wrapping_tax_incl>#{total_wrapping_tax_incl}</total_wrapping_tax_incl>
+              <shop_address>#{shop_address}</shop_address>
+              <note>#{note}</note>
+              <date_add>#{date_add}</date_add>
             </order_invoice>
         </prestashop>
         ",
@@ -2658,31 +3473,51 @@ class Presta
       puts order.body,order.code
     end
 
-    def self.update_order_invoice(id,order_invoice)
+    def self.update_order_invoice(
+      id:,
+      id_order:,
+      number:,
+      delivery_number:0,
+      delivery_date:"",
+      total_discount_tax_excl:0,
+      total_discount_tax_incl:0,
+      total_paid_tax_excl:0,
+      total_paid_tax_incl:0,
+      total_products:0,
+      total_products_wt:0,
+      total_shipping_tax_excl:0,
+      total_shipping_tax_incl:0,
+      shipping_tax_computation_method:0,
+      total_wrapping_tax_excl:0,
+      total_wrapping_tax_incl:0,
+      shop_address:"",
+      note:"",
+      date_add:""
+    )
       order = HTTParty.put("#{@api_url}order_invoices/#{id}",
       {
           body: 
           "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
             <order_invoice>
               <id>#{id}</id>
-              <id_order>#{order_invoice[:id_order]}</id_order>
-              <number>#{order_invoice[:number]}</number>
-              <delivery_number>#{order_invoice[:delivery_number]}</delivery_number>
-              <delivery_date>#{order_invoice[:delivery_date]}</delivery_date>
-              <total_discount_tax_excl>#{order_invoice[:total_discount_tax_excl]}</total_discount_tax_excl>
-              <total_discount_tax_incl>#{order_invoice[:total_discount_tax_incl]}</total_discount_tax_incl>
-              <total_paid_tax_excl>#{order_invoice[:total_paid_tax_excl]}</total_paid_tax_excl>
-              <total_paid_tax_incl>#{order_invoice[:total_paid_tax_incl]}</total_paid_tax_incl>
-              <total_products>#{order_invoice[:total_products]}</total_products>
-              <total_products_wt>#{order_invoice[:total_products_wt]}</total_products_wt>
-              <total_shipping_tax_excl>#{order_invoice[:total_shipping_tax_excl]}</total_shipping_tax_excl>
-              <total_shipping_tax_incl>#{order_invoice[:total_shipping_tax_incl]}</total_shipping_tax_incl>
-              <shipping_tax_computation_method>#{order_invoice[:shipping_tax_computation_method]}</shipping_tax_computation_method>
-              <total_wrapping_tax_excl>#{order_invoice[:total_wrapping_tax_excl]}</total_wrapping_tax_excl>
-              <total_wrapping_tax_incl>#{order_invoice[:total_wrapping_tax_incl]}</total_wrapping_tax_incl>
-              <shop_address>#{order_invoice[:shop_address]}</shop_address>
-              <note>#{order_invoice[:note]}</note>
-              <date_add>#{order_invoice[:date_add]}</date_add>
+              <id_order>#{id_order}</id_order>
+              <number>#{number}</number>
+              <delivery_number>#{delivery_number}</delivery_number>
+              <delivery_date>#{delivery_date}</delivery_date>
+              <total_discount_tax_excl>#{total_discount_tax_excl}</total_discount_tax_excl>
+              <total_discount_tax_incl>#{total_discount_tax_incl}</total_discount_tax_incl>
+              <total_paid_tax_excl>#{total_paid_tax_excl}</total_paid_tax_excl>
+              <total_paid_tax_incl>#{total_paid_tax_incl}</total_paid_tax_incl>
+              <total_products>#{total_products}</total_products>
+              <total_products_wt>#{total_products_wt}</total_products_wt>
+              <total_shipping_tax_excl>#{total_shipping_tax_excl}</total_shipping_tax_excl>
+              <total_shipping_tax_incl>#{total_shipping_tax_incl}</total_shipping_tax_incl>
+              <shipping_tax_computation_method>#{shipping_tax_computation_method}</shipping_tax_computation_method>
+              <total_wrapping_tax_excl>#{total_wrapping_tax_excl}</total_wrapping_tax_excl>
+              <total_wrapping_tax_incl>#{total_wrapping_tax_incl}</total_wrapping_tax_incl>
+              <shop_address>#{shop_address}</shop_address>
+              <note>#{note}</note>
+              <date_add>#{date_add}</date_add>
             </order_invoice>
         </prestashop>
         ",
@@ -2695,7 +3530,7 @@ class Presta
       puts order.body,order.code
     end
 
-    def self.delete_order_invoice(id)
+    def self.delete_order_invoice(id:)
       order = HTTParty.delete("#{@api_url}order_invoices/#{id}",
       {
           basic_auth: @auth
@@ -2703,7 +3538,7 @@ class Presta
       puts order.body,order.code
     end
 
-    def self.get_order_invoice(id)
+    def self.get_order_invoice(id:)
       order = HTTParty.get("#{@api_url}order_invoices/#{id}",
       {
           basic_auth: @auth
@@ -2713,24 +3548,36 @@ class Presta
 
     ###### ORDER PAYMENT #############################################################################################################################################
 
-    def self.post_order_payment(order_payment)
+    def self.post_order_payment(
+      order_reference:"",
+      id_currency:,
+      amount:,
+      payment_method:"",
+      conversion_rate:0,
+      transaction_id:0,
+      card_number:"",
+      card_brand:"",
+      card_expiration:"",
+      card_holder:"",
+      date_add:""
+    )
       order = HTTParty.post("#{@api_url}order_payments/",
       {
           body: 
           "<prestashop>
               <order_payment>
               <id></id>   
-                  <order_reference>#{order_payment[:order_reference]}</order_reference>       
-                  <id_currency>#{order_payment[:id_currency]}</id_currency>
-                  <amount>#{order_payment[:amount]}</amount>
-                  <payment_method>#{order_payment[:payment_method]}</payment_method>
-                  <conversion_rate>#{order_payment[:conversion_rate]}</conversion_rate>
-                  <transaction_id>#{order_payment[:transaction_id]}</transaction_id>
-                  <card_number>#{order_payment[:card_number]}</card_number>
-                  <card_brand>#{order_payment[:card_brand]}</card_brand>
-                  <card_expiration>#{order_payment[:card_expiration]}</card_expiration>
-                  <card_holder>#{order_payment[:card_holder]}</card_holder>
-                  <date_add>#{order_payment[:date_add]}</date_add>
+                  <order_reference>#{order_reference}</order_reference>       
+                  <id_currency>#{id_currency}</id_currency>
+                  <amount>#{amount}</amount>
+                  <payment_method>#{payment_method}</payment_method>
+                  <conversion_rate>#{conversion_rate}</conversion_rate>
+                  <transaction_id>#{transaction_id}</transaction_id>
+                  <card_number>#{card_number}</card_number>
+                  <card_brand>#{card_brand}</card_brand>
+                  <card_expiration>#{card_expiration}</card_expiration>
+                  <card_holder>#{card_holder}</card_holder>
+                  <date_add>#{date_add}</date_add>
               </order_payment>
           </prestashop>",
           basic_auth: @auth,
@@ -2742,24 +3589,37 @@ class Presta
       puts order.body,order.code
     end
 
-    def self.update_order_payment(id,order_payment)
+    def self.update_order_payment(
+      id:,
+      order_reference:"",
+      id_currency:,
+      amount:,
+      payment_method:"",
+      conversion_rate:0,
+      transaction_id:0,
+      card_number:"",
+      card_brand:"",
+      card_expiration:"",
+      card_holder:"",
+      date_add:""
+    )
       order = HTTParty.put("#{@api_url}order_payments/#{id}",
       {
           body: 
           "<prestashop>
               <order_payment>
               <id>#{id}</id>   
-                  <order_reference>#{order_payment[:order_reference]}</order_reference>       
-                  <id_currency>#{order_payment[:id_currency]}</id_currency>
-                  <amount>#{order_payment[:amount]}</amount>
-                  <payment_method>#{order_payment[:payment_method]}</payment_method>
-                  <conversion_rate>#{order_payment[:conversion_rate]}</conversion_rate>
-                  <transaction_id>#{order_payment[:transaction_id]}</transaction_id>
-                  <card_number>#{order_payment[:card_number]}</card_number>
-                  <card_brand>#{order_payment[:card_brand]}</card_brand>
-                  <card_expiration>#{order_payment[:card_expiration]}</card_expiration>
-                  <card_holder>#{order_payment[:card_holder]}</card_holder>
-                  <date_add>#{order_payment[:date_add]}</date_add>
+                  <order_reference>#{order_reference}</order_reference>       
+                  <id_currency>#{id_currency}</id_currency>
+                  <amount>#{amount}</amount>
+                  <payment_method>#{payment_method}</payment_method>
+                  <conversion_rate>#{conversion_rate}</conversion_rate>
+                  <transaction_id>#{transaction_id}</transaction_id>
+                  <card_number>#{card_number}</card_number>
+                  <card_brand>#{card_brand}</card_brand>
+                  <card_expiration>#{card_expiration}</card_expiration>
+                  <card_holder>#{card_holder}</card_holder>
+                  <date_add>#{date_add}</date_add>
               </order_payment>
           </prestashop>",
           basic_auth: @auth,
@@ -2771,7 +3631,7 @@ class Presta
       puts order.body,order.code
     end
 
-    def self.delete_order_payment(id)
+    def self.delete_order_payment(id:)
       order = HTTParty.delete("#{@api_url}order_payments/#{id}",
       {
           basic_auth: @auth
@@ -2779,7 +3639,7 @@ class Presta
       puts order.body,order.code
     end
 
-    def self.get_order_payment(id)
+    def self.get_order_payment(id:)
       order = HTTParty.get("#{@api_url}order_payments/#{id}",
       {
           basic_auth: @auth
@@ -2790,35 +3650,54 @@ class Presta
 
     ##### ORDER SLIP ###################################################################################################################################################
 
-    def self.post_order_slip(order_slip)
+    def self.post_order_slip(
+      id_customer:,
+      id_order:,
+      conversion_rate:,
+      total_products_tax_excl:,
+      total_products_tax_incl:,
+      total_shipping_tax_excl:,
+      total_shipping_tax_incl:,
+      amount:0,
+      shipping_cost:0,
+      shipping_cost_amount:0,
+      partial:0,
+      date_add:"",
+      date_upd:"",
+      order_slip_type:0,
+      id_order_detail:0,
+      product_quantity:0,
+      amount_tax_excl:0,
+      amount_tax_incl:0
+    )
       ord = HTTParty.post("#{@api_url}order_slip/",
       {
         body:
         "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
           <order_slip>
             <id></id>
-            <id_customer>#{order_slip[:id_customer]}</id_customer>
-            <id_order>#{order_slip[:id_order]}</id_order>
-            <conversion_rate>#{order_slip[:conversion_rate]}</conversion_rate>
-            <total_products_tax_excl>#{order_slip[:total_products_tax_excl]}</total_products_tax_excl>
-            <total_products_tax_incl>#{order_slip[:total_products_tax_incl]}</total_products_tax_incl>
-            <total_shipping_tax_excl>#{order_slip[:total_shipping_tax_excl]}</total_shipping_tax_excl>
-            <total_shipping_tax_incl>#{order_slip[:total_shipping_tax_incl]}</total_shipping_tax_incl>
-            <amount>#{order_slip[:amount]}</amount>
-            <shipping_cost>#{order_slip[:shipping_cost]}</shipping_cost>
-            <shipping_cost_amount>#{order_slip[:shipping_cost_amount]}</shipping_cost_amount>
-            <partial>#{order_slip[:partial]}</partial>
-            <date_add>#{order_slip[:date_add]}</date_add>
-            <date_upd>#{order_slip[:date_upd]}</date_upd>
-            <order_slip_type>#{order_slip[:order_slip_type]}</order_slip_type>
+            <id_customer>#{id_customer}</id_customer>
+            <id_order>#{id_order}</id_order>
+            <conversion_rate>#{conversion_rate}</conversion_rate>
+            <total_products_tax_excl>#{total_products_tax_excl}</total_products_tax_excl>
+            <total_products_tax_incl>#{total_products_tax_incl}</total_products_tax_incl>
+            <total_shipping_tax_excl>#{total_shipping_tax_excl}</total_shipping_tax_excl>
+            <total_shipping_tax_incl>#{total_shipping_tax_incl}</total_shipping_tax_incl>
+            <amount>#{amount}</amount>
+            <shipping_cost>#{shipping_cost}</shipping_cost>
+            <shipping_cost_amount>#{shipping_cost_amount}</shipping_cost_amount>
+            <partial>#{partial}</partial>
+            <date_add>#{date_add}</date_add>
+            <date_upd>#{date_upd}</date_upd>
+            <order_slip_type>#{order_slip_type}</order_slip_type>
             <associations>
               <order_slip_details>
                 <order_slip_detail>
                   <id></id>
-                  <id_order_detail>#{order_slip[:id_order_detail]}</id_order_detail>
-                  <product_quantity>#{order_slip[:product_quantity]}</product_quantity>
-                  <amount_tax_excl>#{order_slip[:amount_tax_excl]}</amount_tax_excl>
-                  <amount_tax_incl>#{order_slip[:amount_tax_incl]}</amount_tax_incl>
+                  <id_order_detail>#{id_order_detail}</id_order_detail>
+                  <product_quantity>#{product_quantity}</product_quantity>
+                  <amount_tax_excl>#{amount_tax_excl}</amount_tax_excl>
+                  <amount_tax_incl>#{amount_tax_incl}</amount_tax_incl>
                 </order_slip_detail>
               </order_slip_details>
             </associations>
@@ -2833,35 +3712,55 @@ class Presta
       puts ord.body, ord.code
     end
 
-    def self.update_order_slip(id,order_slip)
+    def self.update_order_slip(
+      id:,
+      id_customer:,
+      id_order:,
+      conversion_rate:,
+      total_products_tax_excl:,
+      total_products_tax_incl:,
+      total_shipping_tax_excl:,
+      total_shipping_tax_incl:,
+      amount:0,
+      shipping_cost:0,
+      shipping_cost_amount:0,
+      partial:0,
+      date_add:"",
+      date_upd:"",
+      order_slip_type:0,
+      id_order_detail:0,
+      product_quantity:0,
+      amount_tax_excl:0,
+      amount_tax_incl:0
+    )
       ord = HTTParty.put("#{@api_url}order_slip/#{id}",
       {
         body:
         "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
           <order_slip>
             <id>#{id}</id>
-            <id_customer>#{order_slip[:id_customer]}</id_customer>
-            <id_order>#{order_slip[:id_order]}</id_order>
-            <conversion_rate>#{order_slip[:conversion_rate]}</conversion_rate>
-            <total_products_tax_excl>#{order_slip[:total_products_tax_excl]}</total_products_tax_excl>
-            <total_products_tax_incl>#{order_slip[:total_products_tax_incl]}</total_products_tax_incl>
-            <total_shipping_tax_excl>#{order_slip[:total_shipping_tax_excl]}</total_shipping_tax_excl>
-            <total_shipping_tax_incl>#{order_slip[:total_shipping_tax_incl]}</total_shipping_tax_incl>
-            <amount>#{order_slip[:amount]}</amount>
-            <shipping_cost>#{order_slip[:shipping_cost]}</shipping_cost>
-            <shipping_cost_amount>#{order_slip[:shipping_cost_amount]}</shipping_cost_amount>
-            <partial>#{order_slip[:partial]}</partial>
-            <date_add>#{order_slip[:date_add]}</date_add>
-            <date_upd>#{order_slip[:date_upd]}</date_upd>
-            <order_slip_type>#{order_slip[:order_slip_type]}</order_slip_type>
+            <id_customer>#{id_customer}</id_customer>
+            <id_order>#{id_order}</id_order>
+            <conversion_rate>#{conversion_rate}</conversion_rate>
+            <total_products_tax_excl>#{total_products_tax_excl}</total_products_tax_excl>
+            <total_products_tax_incl>#{total_products_tax_incl}</total_products_tax_incl>
+            <total_shipping_tax_excl>#{total_shipping_tax_excl}</total_shipping_tax_excl>
+            <total_shipping_tax_incl>#{total_shipping_tax_incl}</total_shipping_tax_incl>
+            <amount>#{amount}</amount>
+            <shipping_cost>#{shipping_cost}</shipping_cost>
+            <shipping_cost_amount>#{shipping_cost_amount}</shipping_cost_amount>
+            <partial>#{partial}</partial>
+            <date_add>#{date_add}</date_add>
+            <date_upd>#{date_upd}</date_upd>
+            <order_slip_type>#{order_slip_type}</order_slip_type>
             <associations>
               <order_slip_details>
                 <order_slip_detail>
                   <id></id>
-                  <id_order_detail>#{order_slip[:id_order_detail]}</id_order_detail>
-                  <product_quantity>#{order_slip[:product_quantity]}</product_quantity>
-                  <amount_tax_excl>#{order_slip[:amount_tax_excl]}</amount_tax_excl>
-                  <amount_tax_incl>#{order_slip[:amount_tax_incl]}</amount_tax_incl>
+                  <id_order_detail>#{id_order_detail}</id_order_detail>
+                  <product_quantity>#{product_quantity}</product_quantity>
+                  <amount_tax_excl>#{amount_tax_excl}</amount_tax_excl>
+                  <amount_tax_incl>#{amount_tax_incl}</amount_tax_incl>
                 </order_slip_detail>
               </order_slip_details>
             </associations>
@@ -2876,7 +3775,7 @@ class Presta
       puts ord.body, ord.code
     end
 
-    def self.delete_order_slip(id)
+    def self.delete_order_slip(id:)
       ord = HTTParty.delete("#{@api_url}order_slip/#{id}",
       {
         basic_auth: @auth 
@@ -2884,7 +3783,7 @@ class Presta
       puts ord.body, ord.code
     end
 
-    def self.get_order_slip(id)
+    def self.get_order_slip(id:)
       ord = HTTParty.get("#{@api_url}order_slip/#{id}",
       {
         basic_auth: @auth 
@@ -2895,31 +3794,47 @@ class Presta
 
     ##### ORDER_STATES ############################################################################################################################################
 
-    def self.post_order_states(order_states)
+    def self.post_order_states(
+      unremovable:0,
+      delivery:0,
+      hidden:0,
+      send_email:0,
+      module_name:"",
+      invoice:0,
+      color:"",
+      logable::0,
+      shipped:0,
+      paid:0,
+      pdf_delivery:0,
+      pdf_invoice:0,
+      deleted:0,
+      name:,
+      template:""
+    )
       ord = HTTParty.post("#{@api_url}order_states/",
       {
         body:
         "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
           <order_state>
             <id></id>
-            <unremovable>#{order_states[:unre]}</unremovable>
-            <delivery>#{order_states[:delivery]}</delivery>
-            <hidden>#{order_states[:hidden]}</hidden>
-            <send_email>#{order_states[:send_email]}</send_email>
-            <module_name>#{order_states[:module_name]}</module_name>
-            <invoice>#{order_states[:invoice]}</invoice>
-            <color>#{order_states[:color]}</color>
-            <logable>#{order_states[:logable]}</logable>
-            <shipped>#{order_states[:shipped]}</shipped>
-            <paid>#{order_states[:paid]}</paid>
-            <pdf_delivery>#{order_states[:pdf_delivery]}</pdf_delivery>
-            <pdf_invoice>#{order_states[:pdf_invoice]}</pdf_invoice>
-            <deleted>#{order_states[:deleted]}</deleted>
+            <unremovable>#{unremovable}</unremovable>
+            <delivery>#{delivery}</delivery>
+            <hidden>#{hidden}</hidden>
+            <send_email>#{send_email}</send_email>
+            <module_name>#{module_name}</module_name>
+            <invoice>#{invoice}</invoice>
+            <color>#{color}</color>
+            <logable>#{logable}</logable>
+            <shipped>#{shipped}</shipped>
+            <paid>#{paid}</paid>
+            <pdf_delivery>#{pdf_delivery}</pdf_delivery>
+            <pdf_invoice>#{pdf_invoice}</pdf_invoice>
+            <deleted>#{deleted}</deleted>
             <name>
-              <language id=\"1\">#{order_states[:name]}</language>
+              <language id=\"1\">#{name}</language>
             </name>
             <template>
-              <language id=\"1\">#{order_states[:template]}</language>
+              <language id=\"1\">#{template}</language>
             </template>
           </order_state>
         </prestashop>",
@@ -2933,31 +3848,48 @@ class Presta
 
     end
 
-    def self.update_order_states(id,order_states)
+    def self.update_order_states(
+      id:,
+      unremovable:0,
+      delivery:0,
+      hidden:0,
+      send_email:0,
+      module_name:"",
+      invoice:0,
+      color:"",
+      logable::0,
+      shipped:0,
+      paid:0,
+      pdf_delivery:0,
+      pdf_invoice:0,
+      deleted:0,
+      name:,
+      template:""
+    )
       ord = HTTParty.put("#{@api_url}order_states/#{id}",
       {
         body:
         "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
           <order_state>
             <id>#{id}</id>
-            <unremovable>#{order_states[:unre]}</unremovable>
-            <delivery>#{order_states[:delivery]}</delivery>
-            <hidden>#{order_states[:hidden]}</hidden>
-            <send_email>#{order_states[:send_email]}</send_email>
-            <module_name>#{order_states[:module_name]}</module_name>
-            <invoice>#{order_states[:invoice]}</invoice>
-            <color>#{order_states[:color]}</color>
-            <logable>#{order_states[:logable]}</logable>
-            <shipped>#{order_states[:shipped]}</shipped>
-            <paid>#{order_states[:paid]}</paid>
-            <pdf_delivery>#{order_states[:pdf_delivery]}</pdf_delivery>
-            <pdf_invoice>#{order_states[:pdf_invoice]}</pdf_invoice>
-            <deleted>#{order_states[:deleted]}</deleted>
+            <unremovable>#{unre}</unremovable>
+            <delivery>#{delivery}</delivery>
+            <hidden>#{hidden}</hidden>
+            <send_email>#{send_email}</send_email>
+            <module_name>#{module_name}</module_name>
+            <invoice>#{invoice}</invoice>
+            <color>#{color}</color>
+            <logable>#{logable}</logable>
+            <shipped>#{shipped}</shipped>
+            <paid>#{paid}</paid>
+            <pdf_delivery>#{pdf_delivery}</pdf_delivery>
+            <pdf_invoice>#{pdf_invoice}</pdf_invoice>
+            <deleted>#{deleted}</deleted>
             <name>
-              <language id=\"1\">#{order_states[:name]}</language>
+              <language id=\"1\">#{name}</language>
             </name>
             <template>
-              <language id=\"1\">#{order_states[:template]}</language>
+              <language id=\"1\">#{template}</language>
             </template>
           </order_state>
         </prestashop>",
@@ -2971,7 +3903,7 @@ class Presta
 
     end
 
-    def self.delete_order_states(id)
+    def self.delete_order_states(id:)
       ord = HTTParty.delete("#{@api_url}order_states/#{id}",
       {
         basic_auth: @auth  
@@ -2980,7 +3912,7 @@ class Presta
 
     end
 
-    def self.get_order_states(id)
+    def self.get_order_states(id:)
       ord = HTTParty.get("#{@api_url}order_states/#{id}",
       {
         basic_auth: @auth  
@@ -2991,75 +3923,134 @@ class Presta
 
     ###### ORDERS ####################################################################################################################################################
 
-    def self.post_order(order)
+    def self.post_order(
+        id_address_delivery:,
+        id_address_invoice:,
+        id_cart:,
+        id_currency:,
+        id_lang:,
+        id_customer:,
+        id_carrier:,
+        current_state:0,
+        module:,
+        invoice_number: 0,
+        invoice_date:"",
+        delivery_number: 0,
+        delivery_date: "",
+        valid: 0,
+        date_add: "",
+        date_upd: "",
+        shipping_number: "",
+        note: "",
+        id_shop_group: 1,
+        id_shop: 1,
+        secure_key: "",
+        payment:,
+        recyclable: 0,
+        gift: 0,
+        gift_message: "",
+        mobile_theme: 0,
+        total_discounts: "",
+        total_discounts_tax_incl: "",
+        total_discounts_tax_excl: "",
+        total_paid:,
+        total_paid_tax_incl: "",
+        total_paid_tax_excl: "",
+        total_paid_real:,
+        total_products:,
+        total_products_wt:,
+        total_shipping: "",
+        total_shipping_tax_incl: "",
+        total_shipping_tax_excl: "",
+        carrier_tax_rate: "",
+        total_wrapping: "",
+        total_wrapping_tax_incl: "",
+        total_wrapping_tax_excl: "",
+        round_mode: 0,
+        round_type: 0,
+        conversion_rate:,
+        reference: "",
+        product_id: 0,
+        product_attribute_id: 0,
+        product_quantity: 0,
+        product_name: "",
+        product_reference: "",
+        product_ean13: "",
+        product_isbn:"",
+        product_upc:"",
+        product_price: "",
+        id_customization: 0 ,
+        unit_price_tax_incl: "",
+        unit_price_tax_excl: ""
+    )
       ord  = HTTParty.post("#{@api_url}orders/",
           {
               body:
               "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
               <order>
                   <id></id>
-                  <id_address_delivery>#{order[:id_address_delivery]}</id_address_delivery>
-                  <id_address_invoice>#{order[:id_address_invoice]}</id_address_invoice>
-                  <id_cart>#{order[:id_cart]}</id_cart>
-                  <id_currency>#{order[:id_currency]}</id_currency>
-                  <id_lang>#{order[:id_lang]}</id_lang>
-                  <id_customer>#{order[:id_customer]}</id_customer>
-                  <id_carrier>#{order[:id_carrier]}</id_carrier>
-                  <current_state>#{order[:current_state]}</current_state>
-                  <module>#{order[:module]}</module>
-                  <invoice_number>#{order[:invoice_number]}</invoice_number>
-                  <invoice_date>#{order[:invoice_date]}</invoice_date>
-                  <delivery_number>#{order[:delivery_number]}</delivery_number>
-                  <delivery_date>#{order[:delivery_date]}</delivery_date>
-                  <valid>#{order[:valid]}</valid>
-                  <date_add>#{order[:date_add]}</date_add>
-                  <date_upd>#{order[:date_upd]}</date_upd>
-                  <shipping_number>#{order[:shipping_number]}</shipping_number>
-                  <note>#{order[:note]}</note>
-                  <id_shop_group>#{order[:id_shop_group]}</id_shop_group>
-                  <id_shop>#{order[:id_shop]}</id_shop>
-                  <secure_key>#{order[:secure_key]}</secure_key>
-                  <payment>#{order[:payment]}</payment>
-                  <recyclable>#{order[:recyclable]}</recyclable>
-                  <gift>#{order[:gift]}</gift>
-                  <gift_message>#{order[:gift_message]}</gift_message>
-                  <mobile_theme>#{order[:mobile_theme]}</mobile_theme>
-                  <total_discounts>#{order[:total_discounts]}</total_discounts>
-                  <total_discounts_tax_incl>#{order[:total_discounts_tax_incl]}</total_discounts_tax_incl>
-                  <total_discounts_tax_excl>#{order[:total_discounts_tax_excl]}</total_discounts_tax_excl>
-                  <total_paid>#{order[:total_paid]}</total_paid>
-                  <total_paid_tax_incl>#{order[:total_paid_tax_incl]}</total_paid_tax_incl>
-                  <total_paid_tax_excl>#{order[:total_paid_tax_excl]}</total_paid_tax_excl>
-                  <total_paid_real>#{order[:total_paid_real]}</total_paid_real>
-                  <total_products>#{order[:total_products]}</total_products>
-                  <total_products_wt>#{order[:total_products_wt]}</total_products_wt>
-                  <total_shipping>#{order[:total_shipping]}</total_shipping>
-                  <total_shipping_tax_incl>#{order[:total_shipping_tax_incl]}</total_shipping_tax_incl>
-                  <total_shipping_tax_excl>#{order[:total_shipping_tax_excl]}</total_shipping_tax_excl>
-                  <carrier_tax_rate>#{order[:carrier_tax_rate]}</carrier_tax_rate>
-                  <total_wrapping>#{order[:total_wrapping]}</total_wrapping>
-                  <total_wrapping_tax_incl>#{order[:total_wrapping_tax_incl]}</total_wrapping_tax_incl>
-                  <total_wrapping_tax_excl>#{order[:total_wrapping_tax_excl]}</total_wrapping_tax_excl>
-                  <round_mode>#{order[:round_mode]}</round_mode>
-                  <round_type>#{order[:round_type]}</round_type>
-                  <conversion_rate>#{order[:conversion_rate]}</conversion_rate>
-                  <reference>#{order[:reference]}</reference>
+                  <id_address_delivery>#{id_address_delivery}</id_address_delivery>
+                  <id_address_invoice>#{id_address_invoice}</id_address_invoice>
+                  <id_cart>#{id_cart}</id_cart>
+                  <id_currency>#{id_currency}</id_currency>
+                  <id_lang>#{id_lang}</id_lang>
+                  <id_customer>#{id_customer}</id_customer>
+                  <id_carrier>#{id_carrier}</id_carrier>
+                  <current_state>#{current_state}</current_state>
+                  <module>#{module}</module>
+                  <invoice_number>#{invoice_number}</invoice_number>
+                  <invoice_date>#{invoice_date}</invoice_date>
+                  <delivery_number>#{delivery_number}</delivery_number>
+                  <delivery_date>#{delivery_date}</delivery_date>
+                  <valid>#{valid}</valid>
+                  <date_add>#{date_add}</date_add>
+                  <date_upd>#{date_upd}</date_upd>
+                  <shipping_number>#{shipping_number}</shipping_number>
+                  <note>#{note}</note>
+                  <id_shop_group>#{id_shop_group}</id_shop_group>
+                  <id_shop>#{id_shop}</id_shop>
+                  <secure_key>#{secure_key}</secure_key>
+                  <payment>#{payment}</payment>
+                  <recyclable>#{recyclable}</recyclable>
+                  <gift>#{gift}</gift>
+                  <gift_message>#{gift_message}</gift_message>
+                  <mobile_theme>#{mobile_theme}</mobile_theme>
+                  <total_discounts>#{total_discounts}</total_discounts>
+                  <total_discounts_tax_incl>#{total_discounts_tax_incl}</total_discounts_tax_incl>
+                  <total_discounts_tax_excl>#{total_discounts_tax_excl}</total_discounts_tax_excl>
+                  <total_paid>#{total_paid}</total_paid>
+                  <total_paid_tax_incl>#{total_paid_tax_incl}</total_paid_tax_incl>
+                  <total_paid_tax_excl>#{total_paid_tax_excl}</total_paid_tax_excl>
+                  <total_paid_real>#{total_paid_real}</total_paid_real>
+                  <total_products>#{total_products}</total_products>
+                  <total_products_wt>#{total_products_wt}</total_products_wt>
+                  <total_shipping>#{total_shipping}</total_shipping>
+                  <total_shipping_tax_incl>#{total_shipping_tax_incl}</total_shipping_tax_incl>
+                  <total_shipping_tax_excl>#{total_shipping_tax_excl}</total_shipping_tax_excl>
+                  <carrier_tax_rate>#{carrier_tax_rate}</carrier_tax_rate>
+                  <total_wrapping>#{total_wrapping}</total_wrapping>
+                  <total_wrapping_tax_incl>#{total_wrapping_tax_incl}</total_wrapping_tax_incl>
+                  <total_wrapping_tax_excl>#{total_wrapping_tax_excl}</total_wrapping_tax_excl>
+                  <round_mode>#{round_mode}</round_mode>
+                  <round_type>#{round_type}</round_type>
+                  <conversion_rate>#{conversion_rate}</conversion_rate>
+                  <reference>#{reference}</reference>
                   <associations>
                       <order_rows>
                           <order_row>
                           <id></id>
-                          <product_id>#{order[:product_id]}</product_id>
-                          <product_attribute_id>#{order[:product_attribute_id]}</product_attribute_id>
-                          <product_quantity>#{order[:product_quantity]}</product_quantity>
-                          <product_name>#{order[:product_name]}</product_name>
-                          <product_reference>#{order[:product_reference]}</product_reference>
-                          <product_ean13>#{order[:product_ean13]}</product_ean13>
-                          <product_isbn>#{order[:product_isbn]}</product_isbn>
-                          <product_upc>#{order[:product_upc]}</product_upc>
-                          <product_price>#{order[:product_price]}</product_price>
-                          <id_customization>#{order[:id_customization]}</id_customization>
-                          <unit_price_tax_incl>#{order[:unit_price_tax_incl]}</unit_price_tax_incl>
-                          <unit_price_tax_excl>#{order[:unit_price_tax_excl]}</unit_price_tax_excl>
+                          <product_id>#{product_id}</product_id>
+                          <product_attribute_id>#{product_attribute_id}</product_attribute_id>
+                          <product_quantity>#{product_quantity}</product_quantity>
+                          <product_name>#{product_name}</product_name>
+                          <product_reference>#{product_reference}</product_reference>
+                          <product_ean13>#{product_ean13}</product_ean13>
+                          <product_isbn>#{product_isbn}</product_isbn>
+                          <product_upc>#{product_upc}</product_upc>
+                          <product_price>#{product_price}</product_price>
+                          <id_customization>#{id_customization}</id_customization>
+                          <unit_price_tax_incl>#{unit_price_tax_incl}</unit_price_tax_incl>
+                          <unit_price_tax_excl>#{unit_price_tax_excl}</unit_price_tax_excl>
                           </order_row>
                       </order_rows>
                   </associations>
@@ -3074,75 +4065,135 @@ class Presta
           puts ord.body, ord.code
     end
 
-    def self.update_order(id,order)
+    def self.update_order(
+        id:,
+        id_address_delivery:,
+        id_address_invoice:,
+        id_cart:,
+        id_currency:,
+        id_lang:,
+        id_customer:,
+        id_carrier:,
+        current_state:0,
+        module:,
+        invoice_number: 0,
+        invoice_date:"",
+        delivery_number: 0,
+        delivery_date: "",
+        valid: 0,
+        date_add: "",
+        date_upd: "",
+        shipping_number: "",
+        note: "",
+        id_shop_group: 1,
+        id_shop: 1,
+        secure_key: "",
+        payment:,
+        recyclable: 0,
+        gift: 0,
+        gift_message: "",
+        mobile_theme: 0,
+        total_discounts: "",
+        total_discounts_tax_incl: "",
+        total_discounts_tax_excl: "",
+        total_paid:,
+        total_paid_tax_incl: "",
+        total_paid_tax_excl: "",
+        total_paid_real:,
+        total_products:,
+        total_products_wt:,
+        total_shipping: "",
+        total_shipping_tax_incl: "",
+        total_shipping_tax_excl: "",
+        carrier_tax_rate: "",
+        total_wrapping: "",
+        total_wrapping_tax_incl: "",
+        total_wrapping_tax_excl: "",
+        round_mode: 0,
+        round_type: 0,
+        conversion_rate:,
+        reference: "",
+        product_id: 0,
+        product_attribute_id: 0,
+        product_quantity: 0,
+        product_name: "",
+        product_reference: "",
+        product_ean13: "",
+        product_isbn:"",
+        product_upc:"",
+        product_price: "",
+        id_customization: 0 ,
+        unit_price_tax_incl: "",
+        unit_price_tax_excl: ""
+    )
       ord  = HTTParty.put("#{@api_url}orders/#{id}",
         {
             body:
             "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
             <order>
                 <id>#{id}</id>
-                <id_address_delivery>#{order[:id_address_delivery]}</id_address_delivery>
-                <id_address_invoice>#{order[:id_address_invoice]}</id_address_invoice>
-                <id_cart>#{order[:id_cart]}</id_cart>
-                <id_currency>#{order[:id_currency]}</id_currency>
-                <id_lang>#{order[:id_lang]}</id_lang>
-                <id_customer>#{order[:id_customer]}</id_customer>
-                <id_carrier>#{order[:id_carrier]}</id_carrier>
-                <current_state>#{order[:current_state]}</current_state>
-                <module>#{order[:module]}</module>
-                <invoice_number>#{order[:invoice_number]}</invoice_number>
-                <invoice_date>#{order[:invoice_date]}</invoice_date>
-                <delivery_number>#{order[:delivery_number]}</delivery_number>
-                <delivery_date>#{order[:delivery_date]}</delivery_date>
-                <valid>#{order[:valid]}</valid>
-                <date_add>#{order[:date_add]}</date_add>
-                <date_upd>#{order[:date_upd]}</date_upd>
-                <shipping_number>#{order[:shipping_number]}</shipping_number>
-                <note>#{order[:note]}</note>
-                <id_shop_group>#{order[:id_shop_group]}</id_shop_group>
-                <id_shop>#{order[:id_shop]}</id_shop>
-                <secure_key>#{order[:secure_key]}</secure_key>
-                <payment>#{order[:payment]}</payment>
-                <recyclable>#{order[:recyclable]}</recyclable>
-                <gift>#{order[:gift]}</gift>
-                <gift_message>#{order[:gift_message]}</gift_message>
-                <mobile_theme>#{order[:mobile_theme]}</mobile_theme>
-                <total_discounts>#{order[:total_discounts]}</total_discounts>
-                <total_discounts_tax_incl>#{order[:total_discounts_tax_incl]}</total_discounts_tax_incl>
-                <total_discounts_tax_excl>#{order[:total_discounts_tax_excl]}</total_discounts_tax_excl>
-                <total_paid>#{order[:total_paid]}</total_paid>
-                <total_paid_tax_incl>#{order[:total_paid_tax_incl]}</total_paid_tax_incl>
-                <total_paid_tax_excl>#{order[:total_paid_tax_excl]}</total_paid_tax_excl>
-                <total_paid_real>#{order[:total_paid_real]}</total_paid_real>
-                <total_products>#{order[:total_products]}</total_products>
-                <total_products_wt>#{order[:total_products_wt]}</total_products_wt>
-                <total_shipping>#{order[:total_shipping]}</total_shipping>
-                <total_shipping_tax_incl>#{order[:total_shipping_tax_incl]}</total_shipping_tax_incl>
-                <total_shipping_tax_excl>#{order[:total_shipping_tax_excl]}</total_shipping_tax_excl>
-                <carrier_tax_rate>#{order[:carrier_tax_rate]}</carrier_tax_rate>
-                <total_wrapping>#{order[:total_wrapping]}</total_wrapping>
-                <total_wrapping_tax_incl>#{order[:total_wrapping_tax_incl]}</total_wrapping_tax_incl>
-                <total_wrapping_tax_excl>#{order[:total_wrapping_tax_excl]}</total_wrapping_tax_excl>
-                <round_mode>#{order[:round_mode]}</round_mode>
-                <round_type>#{order[:round_type]}</round_type>
-                <conversion_rate>#{order[:conversion_rate]}</conversion_rate>
-                <reference>#{order[:reference]}</reference>
+                <id_address_delivery>#{id_address_delivery}</id_address_delivery>
+                <id_address_invoice>#{id_address_invoice}</id_address_invoice>
+                <id_cart>#{id_cart}</id_cart>
+                <id_currency>#{id_currency}</id_currency>
+                <id_lang>#{id_lang}</id_lang>
+                <id_customer>#{id_customer}</id_customer>
+                <id_carrier>#{id_carrier}</id_carrier>
+                <current_state>#{current_state}</current_state>
+                <module>#{module}</module>
+                <invoice_number>#{invoice_number}</invoice_number>
+                <invoice_date>#{invoice_date}</invoice_date>
+                <delivery_number>#{delivery_number}</delivery_number>
+                <delivery_date>#{delivery_date}</delivery_date>
+                <valid>#{valid}</valid>
+                <date_add>#{date_add}</date_add>
+                <date_upd>#{date_upd}</date_upd>
+                <shipping_number>#{shipping_number}</shipping_number>
+                <note>#{note}</note>
+                <id_shop_group>#{id_shop_group}</id_shop_group>
+                <id_shop>#{id_shop}</id_shop>
+                <secure_key>#{secure_key}</secure_key>
+                <payment>#{payment}</payment>
+                <recyclable>#{recyclable}</recyclable>
+                <gift>#{gift}</gift>
+                <gift_message>#{gift_message}</gift_message>
+                <mobile_theme>#{mobile_theme}</mobile_theme>
+                <total_discounts>#{total_discounts}</total_discounts>
+                <total_discounts_tax_incl>#{total_discounts_tax_incl}</total_discounts_tax_incl>
+                <total_discounts_tax_excl>#{total_discounts_tax_excl}</total_discounts_tax_excl>
+                <total_paid>#{total_paid}</total_paid>
+                <total_paid_tax_incl>#{total_paid_tax_incl}</total_paid_tax_incl>
+                <total_paid_tax_excl>#{total_paid_tax_excl}</total_paid_tax_excl>
+                <total_paid_real>#{total_paid_real}</total_paid_real>
+                <total_products>#{total_products}</total_products>
+                <total_products_wt>#{total_products_wt}</total_products_wt>
+                <total_shipping>#{total_shipping}</total_shipping>
+                <total_shipping_tax_incl>#{total_shipping_tax_incl}</total_shipping_tax_incl>
+                <total_shipping_tax_excl>#{total_shipping_tax_excl}</total_shipping_tax_excl>
+                <carrier_tax_rate>#{carrier_tax_rate}</carrier_tax_rate>
+                <total_wrapping>#{total_wrapping}</total_wrapping>
+                <total_wrapping_tax_incl>#{total_wrapping_tax_incl}</total_wrapping_tax_incl>
+                <total_wrapping_tax_excl>#{total_wrapping_tax_excl}</total_wrapping_tax_excl>
+                <round_mode>#{round_mode}</round_mode>
+                <round_type>#{round_type}</round_type>
+                <conversion_rate>#{conversion_rate}</conversion_rate>
+                <reference>#{reference}</reference>
                 <associations>
                     <order_rows>
                         <order_row>
                         <id></id>
-                        <product_id>#{order[:product_id]}</product_id>
-                        <product_attribute_id>#{order[:product_attribute_id]}</product_attribute_id>
-                        <product_quantity>#{order[:product_quantity]}</product_quantity>
-                        <product_name>#{order[:product_name]}</product_name>
-                        <product_reference>#{order[:product_reference]}</product_reference>
-                        <product_ean13>#{order[:product_ean13]}</product_ean13>
-                        <product_isbn>#{order[:product_isbn]}</product_isbn>
-                        <product_upc>#{order[:product_upc]}</product_upc>
-                        <product_price>#{order[:product_price]}</product_price>
-                        <id_customization>#{order[:id_customization]}</id_customization>
-                        <unit_price_tax_incl>#{order[:unit_price_tax_incl]}</unit_price_tax_incl>
-                        <unit_price_tax_excl>#{order[:unit_price_tax_excl]}</unit_price_tax_excl>
+                        <product_id>#{product_id}</product_id>
+                        <product_attribute_id>#{product_attribute_id}</product_attribute_id>
+                        <product_quantity>#{product_quantity}</product_quantity>
+                        <product_name>#{product_name}</product_name>
+                        <product_reference>#{product_reference}</product_reference>
+                        <product_ean13>#{product_ean13}</product_ean13>
+                        <product_isbn>#{product_isbn}</product_isbn>
+                        <product_upc>#{product_upc}</product_upc>
+                        <product_price>#{product_price}</product_price>
+                        <id_customization>#{id_customization}</id_customization>
+                        <unit_price_tax_incl>#{unit_price_tax_incl}</unit_price_tax_incl>
+                        <unit_price_tax_excl>#{unit_price_tax_excl}</unit_price_tax_excl>
                         </order_row>
                     </order_rows>
                 </associations>
@@ -3157,7 +4208,7 @@ class Presta
         puts ord.body, ord.code
     end
 
-    def self.delete_order(id)
+    def self.delete_order(id:)
       order = HTTParty.delete("#{@api_url}orders/#{id}",
       {
           basic_auth: @auth,
@@ -3169,7 +4220,7 @@ class Presta
       puts order.code
     end
 
-    def self.get_order(id)
+    def self.get_order(id:)
     order = HTTParty.get("#{@api_url}orders/#{id}",
     {
         basic_auth: @auth,
@@ -3183,16 +4234,20 @@ class Presta
 
     ##### PRICE RANGES ####################################################################################################################################################################
 
-    def self.post_price_ranges(price_range)
+    def self.post_price_ranges(
+      id_carrier:,
+      delimiter1:,
+      delimiter2:
+    )
       sup = HTTParty.post("#{@api_url}price_ranges/",
       {
         body:
         "<prestashop>
           <price_range>
             <id></id>
-            <id_carrier>#{price_range[:id_carrier]}</id_carrier>
-            <delimiter1>#{price_range[:delimiter1]}</delimiter1>
-            <delimiter2>#{price_range[:delimiter2]}</delimiter2>
+            <id_carrier>#{id_carrier}</id_carrier>
+            <delimiter1>#{delimiter1}</delimiter1>
+            <delimiter2>#{delimiter2}</delimiter2>
           </price_range>
         </prestashop>",
         basic_auth: @auth,
@@ -3204,16 +4259,21 @@ class Presta
       puts sup.body,sup.code
     end
 
-    def self.update_price_ranges(id,price_range)
+    def self.update_price_ranges(
+      id:,
+      id_carrier:,
+      delimiter1:,
+      delimiter2:
+    )
       sup = HTTParty.put("#{@api_url}price_ranges/#{id}",
       {
         body:
         "<prestashop>
           <price_range>
             <id>#{id}</id>
-            <id_carrier>#{price_range[:id_carrier]}</id_carrier>
-            <delimiter1>#{price_range[:delimiter1]}</delimiter1>
-            <delimiter2>#{price_range[:delimiter2]}</delimiter2>
+            <id_carrier>#{id_carrier}</id_carrier>
+            <delimiter1>#{delimiter1}</delimiter1>
+            <delimiter2>#{delimiter2}</delimiter2>
           </price_range>
         </prestashop>",
         basic_auth: @auth,
@@ -3225,7 +4285,7 @@ class Presta
       puts sup.body,sup.code
     end
 
-    def self.get_price_ranges(id)
+    def self.get_price_ranges(id:)
       sup = HTTParty.get("#{@api_url}price_ranges/#{id}",
       {
         basic_auth: @auth
@@ -3233,7 +4293,7 @@ class Presta
       puts sup.body,sup.code
     end
 
-    def self.delete_price_ranges(id)
+    def self.delete_price_ranges(id:)
       sup = HTTParty.delete("#{@api_url}price_ranges/#{id}",
       {
         basic_auth: @auth
@@ -3243,21 +4303,27 @@ class Presta
 
     ##### PRODUCT CUSTOMIZATION FIELD ###################################################################################################################################
 
-    def self.post_product_customization_field(product_customization_field)
+    def self.post_product_customization_field(
+      id_product:,
+      type:,
+      required:,
+      is_module:0,
+      is_deleted:0,
+      name:
+    )
       prod_cust_field = HTTParty.post("#{@api_url}product_customization_fields/",
       {
           body:
           "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
           <customization_field>
             <id></id>
-            <id_product>#{product_customization_field[:id_product]}</id_product>
-            <type>#{product_customization_field[:type]}</type>
-            <required>#{product_customization_field[:required]}</required>
-            <is_module>#{product_customization_field[:is_module]}</is_module>
-            <is_deleted>#{product_customization_field[:is_deleted]}</is_deleted>
+            <id_product>#{id_product}</id_product>
+            <type>#{type}</type>
+            <required>#{required}</required>
+            <is_module>#{is_module}</is_module>
+            <is_deleted>#{is_deleted}</is_deleted>
             <name>
-              <language id=\"1\">#{product_customization_field[:name]}</language>
-              <language id=\"2\">#{product_customization_field[:name1]}</language>
+              <language id=\"1\">#{name}</language>
             </name>
           </customization_field>
         </prestashop>",
@@ -3271,21 +4337,28 @@ class Presta
     puts prod_cust_field.body,prod_cust_field.code
   end
 
-  def self.update_product_customization_field(id,product_customization_field)
+  def self.update_product_customization_field(
+    id:,
+    id_product:,
+    type:,
+    required:,
+    is_module:0,
+    is_deleted:0,
+    name:
+  )
     prod_cust_field = HTTParty.put("#{@api_url}product_customization_fields/#{id}",
     {
         body:
         "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
         <customization_field>
           <id>#{id}</id>
-          <id_product>#{product_customization_field[:id_product]}</id_product>
-          <type>#{product_customization_field[:type]}</type>
-          <required>#{product_customization_field[:required]}</required>
-          <is_module>#{product_customization_field[:is_module]}</is_module>
-          <is_deleted>#{product_customization_field[:is_deleted]}</is_deleted>
+          <id_product>#{id_product}</id_product>
+          <type>#{type}</type>
+          <required>#{required}</required>
+          <is_module>#{is_module}</is_module>
+          <is_deleted>#{is_deleted}</is_deleted>
           <name>
-            <language id=\"1\">#{product_customization_field[:name]}</language>
-            <language id=\"2\">#{product_customization_field[:name1]}</language>
+            <language id=\"1\">#{name}</language>
           </name>
         </customization_field>
       </prestashop>",
@@ -3299,7 +4372,7 @@ class Presta
   puts prod_cust_field.body,prod_cust_field.code
   end
 
-  def self.delete_product_customization_field(id)
+  def self.delete_product_customization_field(id:)
     prod_cust_field = HTTParty.delete("#{@api_url}product_customization_fields/#{id}",
     {
       basic_auth: @auth
@@ -3307,7 +4380,7 @@ class Presta
     puts prod_cust_field.body,prod_cust_field.code
   end
 
-  def self.get_product_customization_field(id)
+  def self.get_product_customization_field(id:)
     prod_cust_field = HTTParty.get("#{@api_url}product_customization_fields/#{id}",
     {
       basic_auth: @auth
@@ -3317,18 +4390,21 @@ class Presta
 
   ##### PRODUCT FEATURE VALUES #######################################################################################################################################
 
-  def self.post_product_feature_values(product_feature_values)
+  def self.post_product_feature_values(
+    id_feature:,
+    custom:0,
+    value:
+  )
       prod_feat_val = HTTParty.post("#{@api_url}product_feature_values/",
       {
           body:
           "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
           <product_feature_value>
             <id></id>
-            <id_feature>#{product_feature_values[:id_feature]}</id_feature>
-            <custom>#{product_feature_values[:custom]}</custom>
+            <id_feature>#{id_feature}</id_feature>
+            <custom>#{custom}</custom>
             <value>
-              <language id=\"1\">#{product_feature_values[:value]}</language>
-              <language id=\"2\">#{product_feature_values[:value1]}</language>
+              <language id=\"1\">#{value}</language>
             </value>
           </product_feature_value>
         </prestashop>",
@@ -3342,18 +4418,22 @@ class Presta
     puts prod_feat_val.body,prod_feat_val.code
   end
 
-  def self.update_product_feature_values(id,product_feature_values)
+  def self.update_product_feature_values(
+    id:,
+    id_feature:,
+    custom:0,
+    value:
+  )
     prod_feat_val = HTTParty.put("#{@api_url}product_feature_values/#{id}",
     {
         body:
         "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
         <product_feature_value>
           <id>#{id}</id>
-          <id_feature>#{product_feature_values[:id_feature]}</id_feature>
-          <custom>#{product_feature_values[:custom]}</custom>
+          <id_feature>#{id_feature}</id_feature>
+          <custom>#{custom}</custom>
           <value>
-            <language id=\"1\">#{product_feature_values[:value]}</language>
-            <language id=\"2\">#{product_feature_values[:value1]}</language>
+            <language id=\"1\">#{value}</language>
           </value>
         </product_feature_value>
       </prestashop>",
@@ -3367,7 +4447,7 @@ class Presta
     puts prod_feat_val.body,prod_feat_val.code
   end
 
-  def self.delete_product_feature_values(id)
+  def self.delete_product_feature_values(id:)
     prod_feat_val = HTTParty.delete("#{@api_url}product_feature_values/#{id}",
     {
       basic_auth: @auth
@@ -3375,7 +4455,7 @@ class Presta
     puts prod_feat_val.body,prod_feat_val.code
   end
 
-  def self.get_product_feature_values(id)
+  def self.get_product_feature_values(id:)
     prod_feat_val = HTTParty.get("#{@api_url}product_feature_values/#{id}",
     {
       basic_auth: @auth
@@ -3385,17 +4465,19 @@ class Presta
 
   ##### PRODUCT FEATURES #############################################################################################################################################
 
-  def self.post_product_features(product_features)
+  def self.post_product_features(
+    position:0,
+    name:
+  )
       prod_feat = HTTParty.post("#{@api_url}product_features/",
       {
           body:
           "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
           <product_feature>
             <id></id>
-            <position>#{product_features[:position]}</position>
+            <position>#{position}</position>
             <name>
-              <language id=\"1\">#{product_features[:name]}</language>
-              <language id=\"2\">#{product_features[:name1]}</language>
+              <language id=\"1\">#{name}</language>
             </name>
           </product_feature>
         </prestashop>",
@@ -3409,17 +4491,20 @@ class Presta
     puts prod_feat.body,prod_feat.code
   end
 
-  def self.update_product_features(id,product_features)
+  def self.update_product_features(
+    id:,
+    position:0,
+    name:
+  )
     prod_feat = HTTParty.put("#{@api_url}product_features/#{id}",
     {
         body:
         "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
         <product_feature>
           <id>#{id}</id>
-          <position>#{product_features[:position]}</position>
+          <position>#{position}</position>
           <name>
-            <language id=\"1\">#{product_features[:name]}</language>
-            <language id=\"2\">#{product_features[:name1]}</language>
+            <language id=\"1\">#{name}</language>
           </name>
         </product_feature>
       </prestashop>",
@@ -3433,7 +4518,7 @@ class Presta
   puts prod_feat.body,prod_feat.code
   end
 
-  def self.delete_product_features(id)
+  def self.delete_product_features(id:)
     prod_feat = HTTParty.delete("#{@api_url}product_features/#{id}",
     {
       basic_auth: @auth
@@ -3441,7 +4526,7 @@ class Presta
     puts prod_feat.body,prod_feat.code
   end
 
-  def self.get_product_features(id)
+  def self.get_product_features(id:)
     prod_feat = HTTParty.get("#{@api_url}product_features/#{id}",
     {
       basic_auth: @auth
@@ -3451,19 +4536,23 @@ class Presta
 
   ##### PRODUCT OPTIONS VALUES ########################################################################################################################################
 
-  def self.post_product_options_values(product_option_value)
+  def self.post_product_options_values(
+    id_attribute_group:,
+    color:"",
+    position:0,
+    name:
+  )
       prod_opt_val = HTTParty.post("#{@api_url}product_option_values",
       {
           body: 
           "<prestashop>
               <product_option_value>
               <id></id>
-                  <id_attribute_group>#{product_option_value[:id_attribute_group]}</id_attribute_group>
-                  <color>#{product_option_value[:color]}</color>
-                  <position>#{product_option_value[:position]}</position>
+                  <id_attribute_group>#{id_attribute_group}</id_attribute_group>
+                  <color>#{color}</color>
+                  <position>#{position}</position>
                   <name>
-                  <language id=\"1\">#{product_option_value[:name]}</language>
-                  <language id=\"2\">#{product_option_value[:name1]}</language>
+                  <language id=\"1\">#{name}</language>
                   </name>
               </product_option_value>
           </prestashop>",
@@ -3477,19 +4566,24 @@ class Presta
       puts prod_opt_val.body,prod_opt_val.code
   end
 
-  def self.update_product_options_values(id,product_option_value)
+  def self.update_product_options_values(
+    id:,
+    id_attribute_group:,
+    color:"",
+    position:0,
+    name:
+  )
     prod_opt_val = HTTParty.put("#{@api_url}product_option_values/#{id}",
     {
         body: 
         "<prestashop>
             <product_option_value>
             <id>#{id}</id>
-                <id_attribute_group>#{product_option_value[:id_attribute_group]}</id_attribute_group>
-                <color>#{product_option_value[:color]}</color>
-                <position>#{product_option_value[:position]}</position>
+                <id_attribute_group>#{id_attribute_group}</id_attribute_group>
+                <color>#{color}</color>
+                <position>#{position}</position>
                 <name>
-                <language id=\"1\">#{product_option_value[:name]}</language>
-                <language id=\"2\">#{product_option_value[:name1]}</language>
+                <language id=\"1\">#{name}</language>
                 </name>
             </product_option_value>
         </prestashop>",
@@ -3503,7 +4597,7 @@ class Presta
     puts prod_opt_val.body,prod_opt_val.code
   end
 
-  def self.delete_product_options_values(id)
+  def self.delete_product_options_values(id:)
     prod_opt_val = HTTParty.delete("#{@api_url}product_option_values/#{id}",
     {
         basic_auth: @auth
@@ -3511,7 +4605,7 @@ class Presta
     puts prod_opt_val.body,prod_opt_val.code
   end
 
-  def self.get_product_options_values(id)
+  def self.get_product_options_values(id:)
     prod_opt_val = HTTParty.get("#{@api_url}product_option_values/#{id}",
     {
         basic_auth: @auth
@@ -3519,21 +4613,130 @@ class Presta
     puts prod_opt_val.body,prod_opt_val.code
   end
 
+
+   ##### PRODUCTS OPTIONS ###########################################################################################################################################
+
+   def self.post_product_options(
+    is_color_group:0,
+    group_type:,
+    position:0,
+    name:,
+    public_name:,
+    product_option_value_id:0
+   )
+    prod_opt = HTTParty.post("#{@api_url}product_options/",
+    {
+        body:
+        "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
+        <product_option>
+          <id></id>
+          <is_color_group>#{is_color_group}</is_color_group>
+          <group_type>#{group_type}</group_type>
+          <position>#{position}</position>
+          <name>
+            <language id=\"1\">#{name}</language>
+          </name>
+          <public_name>
+            <language id=\"1\">#{public_name}</language>
+          </public_name>
+          <associations>
+            <product_option_values>
+              <product_option_value>
+                <id>#{product_option_value_id}</id>
+              </product_option_value>
+            </product_option_values>
+          </associations>
+        </product_option>
+      </prestashop>",
+      basic_auth: @auth,
+      header: {
+          "Content-Type" => 'text/xml',
+          "charset" => 'utf-8'
+      }
+  })
+  puts prod_opt.body,prod_opt.code
+  end
+
+  def self.update_product_options(
+    id:,
+    is_color_group:0,
+    group_type:,
+    position:0,
+    name:,
+    public_name:,
+    product_option_value_id:0
+  )
+    prod_opt = HTTParty.put("#{@api_url}product_options/#{id}",
+    {
+        body:
+        "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
+        <product_option>
+          <id>#{id}</id>
+          <is_color_group>#{is_color_group}</is_color_group>
+          <group_type>#{group_type}</group_type>
+          <position>#{position}</position>
+          <name>
+            <language id=\"1\">#{name}</language>
+          </name>
+          <public_name>
+            <language id=\"1\">#{public_name}</language>
+          </public_name>
+          <associations>
+            <product_option_values>
+              <product_option_value>
+                <id>#{product_option_value}</id>
+              </product_option_value>
+            </product_option_values>
+          </associations>
+        </product_option>
+      </prestashop>",
+      basic_auth: @auth,
+      header: {
+          "Content-Type" => 'text/xml',
+          "charset" => 'utf-8'
+      }
+  })
+  puts prod_opt.body,prod_opt.code
+  end
+
+  def self.delete_product_options(id:)
+    prod_opt = HTTParty.delete("#{@api_url}product_options/#{id}",
+    {
+      basic_auth: @auth
+  })
+  puts prod_opt.body,prod_opt.code
+  end
+
+  def self.get_product_options(id:)
+    prod_opt = HTTParty.get("#{@api_url}product_options/#{id}",
+    {
+      basic_auth: @auth
+  })
+  puts prod_opt.body,prod_opt.code
+  end
+
   ##### PRODUCT SUPPLIERS #############################################################################################################################################
 
-  def self.post_product_suppliers(product_suppliers)
+  def self.post_product_suppliers(
+    id_product:,
+    id_product_attribute:,
+    id_supplier:,
+    id_currency:1,
+    product_supplier_reference:"",
+    product_supplier_price_te:0
+  )
       prod_sup = HTTParty.post("#{@api_url}product_suppliers/",
       {
           body: 
               "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
               <product_suppliers>
               <id></id>
-              <id_product>#{product_suppliers[:id_product]}</id_product>
-              <id_product_attribute>#{product_suppliers[:id_product_attribute]}</id_product_attribute>
-              <id_supplier>#{product_suppliers[:id_supplier]}</id_supplier>
-              <id_currency>#{product_suppliers[:id_currency]}</id_currency>
-              <product_supplier_reference>#{product_suppliers[:product_supplier_reference]}</product_supplier_reference>
-              <product_supplier_price_te>#{product_suppliers[:product_supplier_price_te]}</product_supplier_price_te>
+              <id_product>#{id_product}</id_product>
+              <id_product_attribute>#{id_product_attribute}</id_product_attribute>
+              <id_supplier>#{id_supplier}</id_supplier>
+              <id_currency>#{id_currency}</id_currency>
+              <product_supplier_reference>#{product_supplier_reference}</product_supplier_reference>
+              <product_supplier_price_te>#{product_supplier_price_te}</product_supplier_price_te>
               </product_suppliers>
           </prestashop>",
           basic_auth: @auth,
@@ -3545,19 +4748,27 @@ class Presta
       puts prod_sup.body,prod_sup.code
   end
 
-  def self.update_product_suppliers(id,product_suppliers)
+  def self.update_product_suppliers(
+    id:,
+    id_product:,
+    id_product_attribute:,
+    id_supplier:,
+    id_currency:1,
+    product_supplier_reference:"",
+    product_supplier_price_te:0
+  )
     prod_sup = HTTParty.put("#{@api_url}product_suppliers/#{id}",
     {
         body: 
             "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
             <product_suppliers>
             <id>#{id}</id>
-            <id_product>#{product_suppliers[:id_product]}</id_product>
-            <id_product_attribute>#{product_suppliers[:id_product_attribute]}</id_product_attribute>
-            <id_supplier>#{product_suppliers[:id_supplier]}</id_supplier>
-            <id_currency>#{product_suppliers[:id_currency]}</id_currency>
-            <product_supplier_reference>#{product_suppliers[:product_supplier_reference]}</product_supplier_reference>
-            <product_supplier_price_te>#{product_suppliers[:product_supplier_price_te]}</product_supplier_price_te>
+            <id_product>#{id_product}</id_product>
+            <id_product_attribute>#{id_product_attribute}</id_product_attribute>
+            <id_supplier>#{id_supplier}</id_supplier>
+            <id_currency>#{id_currency}</id_currency>
+            <product_supplier_reference>#{product_supplier_reference}</product_supplier_reference>
+            <product_supplier_price_te>#{product_supplier_price_te}</product_supplier_price_te>
             </product_suppliers>
         </prestashop>",
         basic_auth: @auth,
@@ -3569,7 +4780,7 @@ class Presta
     puts prod_sup.body,prod_sup.code
   end
 
-  def self.delete_product_suppliers(id)
+  def self.delete_product_suppliers(id:)
     prod_sup = HTTParty.delete("#{@api_url}product_suppliers/#{id}",
     {
         basic_auth: @auth
@@ -3577,7 +4788,7 @@ class Presta
     puts prod_sup.body,prod_sup.code
   end
 
-  def self.get_product_suppliers(id)
+  def self.get_product_suppliers(id:)
     prod_sup = HTTParty.get("#{@api_url}product_suppliers/#{id}",
     {
         basic_auth: @auth
@@ -3585,95 +4796,7 @@ class Presta
     puts prod_sup.body,prod_sup.code
   end
 
-  ##### PRODUCTS OPTIONS ###########################################################################################################################################
 
-  def self.post_product_options(product_options)
-    prod_opt = HTTParty.post("#{@api_url}product_options/",
-    {
-        body:
-        "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
-        <product_option>
-          <id></id>
-          <is_color_group>#{product_options[:is_color_group]}</is_color_group>
-          <group_type>#{product_options[:group_type]}</group_type>
-          <position>#{product_options[:position]}</position>
-          <name>
-            <language id=\"1\">#{product_options[:name]}</language>
-            <language id=\"2\">#{product_options[:name1]}</language>
-          </name>
-          <public_name>
-            <language id=\"1\">#{product_options[:public_name]}</language>
-            <language id=\"2\">#{product_options[:public_name1]}</language>
-          </public_name>
-          <associations>
-            <product_option_values>
-              <product_option_value>
-                <id>#{product_options[:product_option_value]}</id>
-              </product_option_value>
-            </product_option_values>
-          </associations>
-        </product_option>
-      </prestashop>",
-      basic_auth: @auth,
-      header: {
-          "Content-Type" => 'text/xml',
-          "charset" => 'utf-8'
-      }
-  })
-  puts prod_opt.body,prod_opt.code
-  end
-
-  def self.update_product_options(id,product_options)
-    prod_opt = HTTParty.put("#{@api_url}product_options/#{id}",
-    {
-        body:
-        "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
-        <product_option>
-          <id>#{id}</id>
-          <is_color_group>#{product_options[:is_color_group]}</is_color_group>
-          <group_type>#{product_options[:group_type]}</group_type>
-          <position>#{product_options[:position]}</position>
-          <name>
-            <language id=\"1\">#{product_options[:name]}</language>
-            <language id=\"2\">#{product_options[:name1]}</language>
-          </name>
-          <public_name>
-            <language id=\"1\">#{product_options[:public_name]}</language>
-            <language id=\"2\">#{product_options[:public_name1]}</language>
-          </public_name>
-          <associations>
-            <product_option_values>
-              <product_option_value>
-                <id>#{product_options[:product_option_value]}</id>
-              </product_option_value>
-            </product_option_values>
-          </associations>
-        </product_option>
-      </prestashop>",
-      basic_auth: @auth,
-      header: {
-          "Content-Type" => 'text/xml',
-          "charset" => 'utf-8'
-      }
-  })
-  puts prod_opt.body,prod_opt.code
-  end
-
-  def self.delete_product_options(id)
-    prod_opt = HTTParty.delete("#{@api_url}product_options/#{id}",
-    {
-      basic_auth: @auth
-  })
-  puts prod_opt.body,prod_opt.code
-  end
-
-  def self.get_product_options(id)
-    prod_opt = HTTParty.get("#{@api_url}product_options/#{id}",
-    {
-      basic_auth: @auth
-  })
-  puts prod_opt.body,prod_opt.code
-  end
 
   ##### PRODUCT #################################################################################################################################################
 
