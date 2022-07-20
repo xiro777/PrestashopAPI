@@ -305,7 +305,7 @@ class Presta
       grade:0,
       external_module_name:'',
       need_range:0,
-      position:0,
+      position:1,
       delay:
     )
       carr = HTTParty.post("#{@api_url}carriers/",
@@ -369,7 +369,7 @@ class Presta
       grade:0,
       external_module_name:'',
       need_range:0,
-      position:0,
+      position:1,
       delay:
     )
       carr = HTTParty.put("#{@api_url}carriers/#{id}",
@@ -463,7 +463,7 @@ class Presta
       active:0,
       date_add:"",
       date_upd:"",
-      name:,
+      name:
     )
       cart = HTTParty.post("#{@api_url}cart_rules/",
       {
@@ -551,7 +551,7 @@ class Presta
       active:0,
       date_add:"",
       date_upd:"",
-      name:,
+      name:
     )
       cart = HTTParty.put("#{@api_url}cart_rules/#{id}",
       {
@@ -770,7 +770,7 @@ class Presta
         active:,
         id_shop_default: 1,
         is_root_category: 0,
-        position: 0,
+        position:1,
         date_add: "",
         date_upd:"",
         name:,
@@ -844,7 +844,7 @@ class Presta
       active:,
       id_shop_default: 1,
       is_root_category: 0,
-      position: 0,
+      position: 1,
       date_add: "",
       date_upd:"",
       name:,
@@ -1264,7 +1264,7 @@ class Presta
 
     def self.post_content_management_system(
       id_cms_category:0,
-      position:0,
+      position:1,
       indexation:0,
       active:0,
       meta_description:"",
@@ -1316,7 +1316,7 @@ class Presta
     def self.update_content_management_system(
       id:,
       id_cms_category:0,
-      position:0,
+      position:1,
       indexation:0,
       active:0,
       meta_description:"",
@@ -2402,7 +2402,7 @@ class Presta
     show_prices:0,
     date_add:"",
     date_upd:"",
-    name:,
+    name:
   )
     sup = HTTParty.post("#{@api_url}groups/",
     {
@@ -2436,7 +2436,7 @@ class Presta
     show_prices:0,
     date_add:"",
     date_upd:"",
-    name:,
+    name:
   )
     sup = HTTParty.put("#{@api_url}groups/#{id}",
     {
@@ -3802,7 +3802,7 @@ class Presta
       module_name:"",
       invoice:0,
       color:"",
-      logable::0,
+      logable:0,
       shipped:0,
       paid:0,
       pdf_delivery:0,
@@ -3857,7 +3857,7 @@ class Presta
       module_name:"",
       invoice:0,
       color:"",
-      logable::0,
+      logable:0,
       shipped:0,
       paid:0,
       pdf_delivery:0,
@@ -3932,7 +3932,7 @@ class Presta
         id_customer:,
         id_carrier:,
         current_state:0,
-        module:,
+        modulee:,
         invoice_number: 0,
         invoice_date:"",
         delivery_number: 0,
@@ -3997,7 +3997,7 @@ class Presta
                   <id_customer>#{id_customer}</id_customer>
                   <id_carrier>#{id_carrier}</id_carrier>
                   <current_state>#{current_state}</current_state>
-                  <module>#{module}</module>
+                  <module>#{modulee}</module>
                   <invoice_number>#{invoice_number}</invoice_number>
                   <invoice_date>#{invoice_date}</invoice_date>
                   <delivery_number>#{delivery_number}</delivery_number>
@@ -4075,7 +4075,7 @@ class Presta
         id_customer:,
         id_carrier:,
         current_state:0,
-        module:,
+        modulee:,
         invoice_number: 0,
         invoice_date:"",
         delivery_number: 0,
@@ -4140,7 +4140,7 @@ class Presta
                 <id_customer>#{id_customer}</id_customer>
                 <id_carrier>#{id_carrier}</id_carrier>
                 <current_state>#{current_state}</current_state>
-                <module>#{module}</module>
+                <module>#{modulee}</module>
                 <invoice_number>#{invoice_number}</invoice_number>
                 <invoice_date>#{invoice_date}</invoice_date>
                 <delivery_number>#{delivery_number}</delivery_number>
@@ -4466,7 +4466,7 @@ class Presta
   ##### PRODUCT FEATURES #############################################################################################################################################
 
   def self.post_product_features(
-    position:0,
+    position:1,
     name:
   )
       prod_feat = HTTParty.post("#{@api_url}product_features/",
@@ -4493,7 +4493,7 @@ class Presta
 
   def self.update_product_features(
     id:,
-    position:0,
+    position:1,
     name:
   )
     prod_feat = HTTParty.put("#{@api_url}product_features/#{id}",
@@ -4539,7 +4539,7 @@ class Presta
   def self.post_product_options_values(
     id_attribute_group:,
     color:"",
-    position:0,
+    position:1,
     name:
   )
       prod_opt_val = HTTParty.post("#{@api_url}product_option_values",
@@ -4570,7 +4570,7 @@ class Presta
     id:,
     id_attribute_group:,
     color:"",
-    position:0,
+    position:1,
     name:
   )
     prod_opt_val = HTTParty.put("#{@api_url}product_option_values/#{id}",
@@ -4619,7 +4619,7 @@ class Presta
    def self.post_product_options(
     is_color_group:0,
     group_type:,
-    position:0,
+    position:1,
     name:,
     public_name:,
     product_option_value_id:0
@@ -4661,7 +4661,7 @@ class Presta
     id:,
     is_color_group:0,
     group_type:,
-    position:0,
+    position:1,
     name:,
     public_name:,
     product_option_value_id:0
@@ -4810,7 +4810,6 @@ class Presta
         id_default_image:'',
         id_default_combination:0,
         id_tax_rules_group:0,
-        position_in_category: "",
         type:"",
         id_shop_default:1,
         reference: "",
@@ -4900,7 +4899,6 @@ class Presta
                   <id_default_image notFilterable=\"true\">#{id_default_image}</id_default_image>
                   <id_default_combination notFilterable=\"true\">#{id_default_combination}</id_default_combination>
                   <id_tax_rules_group>#{id_tax_rules_group}</id_tax_rules_group>
-                  <position_in_category>#{position_in_category}</position_in_category>
                   <type notFilterable=\"true\">#{type}</type>
                   <id_shop_default>#{id_shop_default}</id_shop_default>
                   <reference>#{reference}</reference>
@@ -4971,7 +4969,7 @@ class Presta
                       <language id=\"1\">#{name}</language>
                   </name>
                   <description>
-                      <language id=\"1\">#{desciption}</language>
+                      <language id=\"1\">#{description}</language>
                   </description>
                   <description_short>
                       <language id=\"1\">#{description_short}</language>
@@ -5218,7 +5216,7 @@ class Presta
                <language id=\"1\">#{name}</language>
            </name>
            <description>
-               <language id=\"1\">#{desciption}</language>
+               <language id=\"1\">#{description}</language>
            </description>
            <description_short>
                <language id=\"1\">#{description_short}</language>
@@ -6438,15 +6436,15 @@ class Presta
   ##### SUPPLIERS ######################################################################################################################################################################
 
   def self.post_supplier(
-    link_rewrite="",
-    name=,
-    active=0,
-    date_add="",
-    date_upd="",
-    description="",
-    meta_title="",
-    meta_description="",
-    meta_keywords=""
+    link_rewrite:"",
+    name:,
+    active:0,
+    date_add:"",
+    date_upd:"",
+    description:"",
+    meta_title:"",
+    meta_description:"",
+    meta_keywords:""
   )
     sup = HTTParty.post("#{@api_url}suppliers/",
     {
@@ -6484,15 +6482,15 @@ class Presta
 
   def self.update_supplier(
     id:,
-    link_rewrite="",
-    name=,
-    active=0,
-    date_add="",
-    date_upd="",
-    description="",
-    meta_title="",
-    meta_description="",
-    meta_keywords=""
+    link_rewrite:"",
+    name:,
+    active:0,
+    date_add:"",
+    date_upd:"",
+    description:"",
+    meta_title:"",
+    meta_description:"",
+    meta_keywords:""
 )
     sup = HTTParty.put("#{@api_url}suppliers/#{id}",
     {
@@ -7940,14 +7938,14 @@ end
 #Presta.post_employee($employee)
 
 #add, edit, delete, get cart
-#Presta.post_carts($cart)
+# Presta.post_carts(**($cart))
 #Presta.update_carts(14,$cart)
 #Presta.delete_carts(6)
 #Presta.get_carts(14)
 
 #TO CREATE ORDER FIRSTLY U HAVE TO CREATE NON ORDERED CART (JUST BY POSTING CART)
 #add, edit, delete, get order
-#Presta.post_order($order)
+Presta.post_order(**($order))
 #Presta.update_order(11,$order)
 #Presta.delete_order(11)
 #Presta.get_order(11)
@@ -8002,7 +8000,7 @@ end
 
 
 #add, edit, delete, get product
-# Presta.post_product($product)
+#  Presta.post_product(**($product))
 # Presta.update_product(24,$product)
 # Presta.get_product(24)
 # Presta.delete_product(24)
@@ -8113,7 +8111,7 @@ end
 
 #Presta.post_stock_availables($stock_available)
 
-Presta.post_address(**($address))
+#Presta.post_address(**($address))
 
 
 # Presta.change_image_api()
