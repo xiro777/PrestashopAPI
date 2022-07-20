@@ -1,4 +1,4 @@
-Installing Prestashop on Docker container
+                                              Installing Prestashop on Docker container
 
 1. Firstly you need to create container. To do this open CMD and move to direction of file Docker-compose.yml
 2. Create container by typing Sudo docker-compose up
@@ -49,10 +49,13 @@ Installing Prestashop on Docker container
 10. Now we have access to localhost:8080/api where username is our generated key and password is blank
 
 
-      How to turn on Debug Mode:
+
+
+                                                     How to turn on Debug Mode:
       
-1. Easiest way to turn on Debug Mode is at admin panel (localhost:8080/admin123) got to 'Advanced Parameters' and then 'Performance', there should be button to turn on Debug Mode.
-2. If after changing Debug Mode in 'back-office' appear error with not finding require file you have to follow succeding steps:
+1- Easiest way to turn on Debug Mode is at admin panel (localhost:8080/admin123) got to 'Advanced Parameters' and then 'Performance', there should be button to turn on Debug Mode.
+
+2- If after changing Debug Mode in 'back-office' appear error with not finding require file you have to follow succeding steps:
    - Open CMD
    - Type 'Sudo docker exec -it presta bash' (this will connect you to container)
    - apt-get update (update packages in container)
@@ -62,5 +65,6 @@ Installing Prestashop on Docker container
    - Find line "define('PS_MODE_DEV', false)" and change it in insert mode (in vim is under 'i') 'false' into 'true'
    - To escape and quit press ESC and type ':wq'
    - To exit container type exit
-3. After this backing to 'Performace' page you should be able to turn on Debug Mode or it will be already turned on
+   
+3- After this backing to 'Performace' page you should be able to turn on Debug Mode or it will be already turned on
 
