@@ -187,7 +187,7 @@ class Presta
       mine:,
       name:,
       description:"",
-      product_id:0
+      product_id:
     )
         attach = HTTParty.post("#{@api_url}attachments/",
         {
@@ -195,20 +195,20 @@ class Presta
             "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
             <attachment>
               <id></id>
-              <file>#{:file]}</file>
-              <file_name>#{:file_name]}</file_name>
-              <file_size>#{:file_size]}</file_size>
-              <mime>#{:mime]}</mime>
+              <file>#{file}</file>
+              <file_name>#{file_name}</file_name>
+              <file_size>#{file_size}</file_size>
+              <mime>#{mime}</mime>
               <name>
-                <language id=\"1\">#{:name]}</language>
+                <language id=\"1\">#{name}</language>
               </name>
               <description>
-                <language id=\"1\">#{:desciption]}</language>
+                <language id=\"1\">#{desciption}</language>
               </description>
               <associations>
                 <products>
                   <product>
-                    <id>#{:product_id]}</id>
+                    <id>#{product_id}</id>
                   </product>
                 </products>
               </associations>
@@ -223,27 +223,38 @@ class Presta
         puts attach.body, attach.code
     end
 
-    def self.update_attachments(id,attachments)
+    def self.update_attachments(
+      id:,
+      file:,
+      file_name:"",
+      file_size:0,
+      mine:,
+      name:,
+      description:"",
+      product_id:
+    )
       attach = HTTParty.put("#{@api_url}attachments/#{id}",
       {
           body:
           "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
           <attachment>
             <id>#{id}</id>
-            <file>#{:file}</file>
-            <file_name>#{:file_name}</file_name>
-            <file_size>#{:file_size}</file_size>
-            <mime>#{:mime}</mime>
+            <file>#{file}</file>
+            <file_name>#{file_name}</file_name>
+            <file_size>#{file_size}</file_size>
+            <mime>#{mime}</mime>
             <name>
-              <language id=\"1\">#{:name}</language>
+              <language id=\"1\">#{name}</language>
+              <language id=\"2\">#{name1}</language>
             </name>
             <description>
-              <language id=\"1\">#{:desciption}</language>
+              <language id=\"1\">#{desciption}</language>
+              <language id=\"2\">#{desciption1}</language>
             </description>
             <associations>
               <products>
                 <product>
-                  <id>#{:product_id}</id>
+                  <id>#{product_id}</id>
                 </product>
               </products>
             </associations>
