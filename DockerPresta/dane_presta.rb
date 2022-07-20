@@ -48,10 +48,21 @@ module PrestaDane
         :date_format_full => "01/01/2022 00:00:00"
     ]
 
+    $stock_available = Hash[
+        :id_product => 20,
+        :id_product_attribute => 0,
+        :id_shop => 1,
+        :id_shop_default =>1,
+        :quantity => 1000,
+        :depends_on_stock => 0,
+        :out_of_stock => 2,
+        :location => ""
+    ]
+
     $order = Hash[
         :id_address_delivery => 5,
         :id_address_invoice => 5,
-        :id_cart => 15,
+        :id_cart => 7,
         :id_currency => 1,
         :id_lang => 1,
         :id_customer => 1,
@@ -95,7 +106,7 @@ module PrestaDane
         :round_type => 0,
         :conversion_rate => 1.000000,
         :reference => "",
-        :product_id => 21,
+        :product_id => 20,
         :product_attribute_id => 1,
         :product_quantity => 1,
         :product_name => "Polska Gurom",
@@ -364,7 +375,7 @@ module PrestaDane
         :id_warehouse =>0,
         :id_country =>21,
         :id_state =>0,
-        :alias =>"KACPER",
+        :aliass =>"KACPER",
         :company =>"KACPER",
         :lastname =>"KACPER",
         :firstname =>"KACPER",

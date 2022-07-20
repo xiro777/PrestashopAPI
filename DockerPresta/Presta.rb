@@ -6,7 +6,7 @@
 #
 #   GITHUB: https://github.com/xiro777
 #
-#   LAST UPDATE: 19.07.2022
+#   LAST UPDATE: 20.07.2022
 #
 #   DESCRIPTION: File contains class with request sent to Prestashop API 
 #
@@ -29,44 +29,67 @@ class Presta
     include PrestaDane
     include Create
 
-    @api_key = 'H8BLS2WJXB6CXN8ZYZ268DMZZGJ1S7A1'
-    @auth = {username: "H8BLS2WJXB6CXN8ZYZ268DMZZGJ1S7A1", password: ""}
+    @api_key = 'F4J6WC94WBJVGSAIH62D2DG8QIVTC93C'
+    @auth = {username: "F4J6WC94WBJVGSAIH62D2DG8QIVTC93C", password: ""}
     @api_url = "http://localhost:8080/api/" 
 
 
 
 
     ##### ADDRESSES  ####################################################################################################################################################
-
-    def self.post_address(address)
+    #def self.post_address(address)
+    def self.post_address(
+      id_customer:,
+      id_manufacturer:0,
+      id_supplier:0,
+      id_warehouse:0,
+      id_country:,
+      id_state:0,
+      aliass:,
+      company:'', 
+      lastname:,
+      firstname:,
+      vat_number:0,
+      address1:,
+      address2:'',
+      postcode:'',
+      city:,
+      other:'',
+      phone:'',
+      phone_mobile:'',
+      dni:'',
+      deleted:'',
+      date_add:'',
+      date_upd:''          
+      )
       add = HTTParty.post("#{@api_url}addresses/",
       {
           body:
           "<prestashop>
             <address>
               <id></id>
-              <id_customer>#{address[:id_customer]}</id_customer>
-              <id_manufacturer>#{address[:id_manufacturer]}</id_manufacturer>
-              <id_supplier>#{address[:id_supplier]}</id_supplier>
-              <id_warehouse>#{address[:id_warehouse]}</id_warehouse>
-              <id_country>#{address[:id_country]}</id_country>
-              <id_state>#{address[:id_state]}</id_state>
-              <alias>#{address[:alias]}</alias>
-              <company>#{address[:company]}</company>
-              <lastname>#{address[:lastname]}</lastname>
-              <firstname>#{address[:firstname]}</firstname>
-              <vat_number>#{address[:vat_number]}</vat_number>
-              <address1>#{address[:address1]}</address1>
-              <address2>#{address[:address2]}</address2>
-              <postcode>#{address[:postcode]}</postcode>
-              <city>#{address[:city]}</city>
-              <other>#{address[:other]}</other>
-              <phone>#{address[:phone]}</phone>
-              <phone_mobile>#{address[:phone_mobile]}</phone_mobile>
-              <dni>#{address[:dni]}</dni>
-              <deleted>#{address[:deleted]}</deleted>
-              <date_add>#{address[:date_add]}</date_add>
-              <date_upd>#{address[:date_upd]}</date_upd>
+              <id_customer>#{id_customer}</id_customer>
+              <id_manufacturer>#{id_manufacturer}</id_manufacturer>
+              <id_supplier>#{id_supplier}</id_supplier>
+              <id_warehouse>#{id_warehouse}</id_warehouse>
+              <id_country>#{id_country}</id_country>
+              <id_state>#{id_state}</id_state>
+              <alias>#{aliass}</alias>
+              <company>#{company}</company>
+              <lastname>#{lastname}</lastname>
+              <firstname>#{firstname}</firstname>
+              <vat_number>#{vat_number}</vat_number>
+              <address1>#{address1}</address1>
+              <address2>#{address2}</address2>
+              <postcode>#{postcode}</postcode>
+              <city>#{city}</city>
+              <other>#{other}</other>
+              <phone>#{phone}</phone>
+              <phone_mobile>#{phone_mobile}</phone_mobile>
+              <dni>#{dni}</dni>
+              <deleted>#{deleted}</deleted>
+              <date_add>#{date_add}</date_add>
+              <date_upd>#{date_upd}</date_upd>
             </address>
           </prestashop>",
           basic_auth: @auth,
@@ -78,37 +101,60 @@ class Presta
       puts add.body, add.code
     end
 
-    def self.update_address(id,address)
+    def self.update_address(
+      id:,
+      id_customer:,
+      id_manufacturer:0,
+      id_supplier:0,
+      id_warehouse:0,
+      id_country:,
+      id_state:0,
+      aliass:,
+      company:'', 
+      lastname:,
+      firstname:,
+      vat_number:0,
+      address1:,
+      address2:'',
+      postcode:'',
+      city:,
+      other:'',
+      phone:'',
+      phone_mobile:'',
+      dni:'',
+      deleted:'',
+      date_add:'',
+      date_upd:''  )
       add = HTTParty.put("#{@api_url}addresses/#{id}",
       {
           body:
           "<prestashop>
-            <address>
-              <id>#{id}</id>
-              <id_customer>#{address[:id_customer]}</id_customer>
-              <id_manufacturer>#{address[:id_manufacturer]}</id_manufacturer>
-              <id_supplier>#{address[:id_supplier]}</id_supplier>
-              <id_warehouse>#{address[:id_warehouse]}</id_warehouse>
-              <id_country>#{address[:id_country]}</id_country>
-              <id_state>#{address[:id_state]}</id_state>
-              <alias>#{address[:alias]}</alias>
-              <company>#{address[:company]}</company>
-              <lastname>#{address[:lastname]}</lastname>
-              <firstname>#{address[:firstname]}</firstname>
-              <vat_number>#{address[:vat_number]}</vat_number>
-              <address1>#{address[:address1]}</address1>
-              <address2>#{address[:address2]}</address2>
-              <postcode>#{address[:postcode]}</postcode>
-              <city>#{address[:city]}</city>
-              <other>#{address[:other]}</other>
-              <phone>#{address[:phone]}</phone>
-              <phone_mobile>#{address[:phone_mobile]}</phone_mobile>
-              <dni>#{address[:dni]}</dni>
-              <deleted>#{address[:deleted]}</deleted>
-              <date_add>#{address[:date_add]}</date_add>
-              <date_upd>#{address[:date_upd]}</date_upd>
-            </address>
-          </prestashop>",
+          <address>
+            <id>#{id}</id>
+            <id_customer>#{id_customer}</id_customer>
+            <id_manufacturer>#{id_manufacturer}</id_manufacturer>
+            <id_supplier>#{id_supplier}</id_supplier>
+            <id_warehouse>#{id_warehouse}</id_warehouse>
+            <id_country>#{id_country}</id_country>
+            <id_state>#{id_state}</id_state>
+            <alias>#{aliass}</alias>
+            <company>#{company}</company>
+            <lastname>#{lastname}</lastname>
+            <firstname>#{firstname}</firstname>
+            <vat_number>#{vat_number}</vat_number>
+            <address1>#{address1}</address1>
+            <address2>#{address2}</address2>
+            <postcode>#{postcode}</postcode>
+            <city>#{city}</city>
+            <other>#{other}</other>
+            <phone>#{phone}</phone>
+            <phone_mobile>#{phone_mobile}</phone_mobile>
+            <dni>#{dni}</dni>
+            <deleted>#{deleted}</deleted>
+            <date_add>#{date_add}</date_add>
+            <date_upd>#{date_upd}</date_upd>
+          </address>
+        </prestashop>",
           basic_auth: @auth,
           header: {
             "Content-Type" => 'text/xml',
@@ -134,29 +180,35 @@ class Presta
 
     ##### ATACHMENTS ###############################################################################################################################################
 
-    def self.post_attachments(attachments)
+    def self.post_attachments(
+      file:,
+      file_name:"",
+      file_size:0,
+      mine:,
+      name:,
+      description:"",
+      product_id:0
+    )
         attach = HTTParty.post("#{@api_url}attachments/",
         {
             body:
             "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
             <attachment>
               <id></id>
-              <file>#{attachments[:file]}</file>
-              <file_name>#{attachments[:file_name]}</file_name>
-              <file_size>#{attachments[:file_size]}</file_size>
-              <mime>#{attachments[:mime]}</mime>
+              <file>#{:file]}</file>
+              <file_name>#{:file_name]}</file_name>
+              <file_size>#{:file_size]}</file_size>
+              <mime>#{:mime]}</mime>
               <name>
-                <language id=\"1\">#{attachments[:name]}</language>
-                <language id=\"2\">#{attachments[:name1]}</language>
+                <language id=\"1\">#{:name]}</language>
               </name>
               <description>
-                <language id=\"1\">#{attachments[:desciption]}</language>
-                <language id=\"2\">#{attachments[:desciption1]}</language>
+                <language id=\"1\">#{:desciption]}</language>
               </description>
               <associations>
                 <products>
                   <product>
-                    <id>#{attachments[:product_id]}</id>
+                    <id>#{:product_id]}</id>
                   </product>
                 </products>
               </associations>
@@ -178,22 +230,20 @@ class Presta
           "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
           <attachment>
             <id>#{id}</id>
-            <file>#{attachments[:file]}</file>
-            <file_name>#{attachments[:file_name]}</file_name>
-            <file_size>#{attachments[:file_size]}</file_size>
-            <mime>#{attachments[:mime]}</mime>
+            <file>#{:file}</file>
+            <file_name>#{:file_name}</file_name>
+            <file_size>#{:file_size}</file_size>
+            <mime>#{:mime}</mime>
             <name>
-              <language id=\"1\">#{attachments[:name]}</language>
-              <language id=\"2\">#{attachments[:name1]}</language>
+              <language id=\"1\">#{:name}</language>
             </name>
             <description>
-              <language id=\"1\">#{attachments[:desciption]}</language>
-              <language id=\"2\">#{attachments[:desciption1]}</language>
+              <language id=\"1\">#{:desciption}</language>
             </description>
             <associations>
               <products>
                 <product>
-                  <id>#{attachments[:product_id]}</id>
+                  <id>#{:product_id}</id>
                 </product>
               </products>
             </associations>
@@ -3616,7 +3666,8 @@ class Presta
 
   ##### PRODUCT #################################################################################################################################################
 
-  def self.post_product(product)
+  # def self.post_product(product)
+  def self.post_product()
       prod = HTTParty.post("#{@api_url}products/",
       {
           body:
@@ -4538,7 +4589,7 @@ class Presta
         <id></id>
         <id_product>#{stock_movement[:id_product]}</id_product>
         <id_product_attribute>#{stock_movement[:id_product_attribute]}</id_product_attribute>
-        <id_warehouse>#{stock_movement[id_warehouse:]}</id_warehouse>
+        <id_warehouse>#{stock_movement[:id_warehouse]}</id_warehouse>
         <id_currency>#{stock_movement[:id_currency]}</id_currency>
         <management_type>#{stock_movement[:management_type]}</management_type>
         <id_employee>#{stock_movement[:id_employee]}</id_employee>
@@ -4579,7 +4630,7 @@ class Presta
         <id>#{id}</id>
         <id_product>#{stock_movement[:id_product]}</id_product>
         <id_product_attribute>#{stock_movement[:id_product_attribute]}</id_product_attribute>
-        <id_warehouse>#{stock_movement[id_warehouse:]}</id_warehouse>
+        <id_warehouse>#{stock_movement[:id_warehouse]}</id_warehouse>
         <id_currency>#{stock_movement[:id_currency]}</id_currency>
         <management_type>#{stock_movement[:management_type]}</management_type>
         <id_employee>#{stock_movement[:id_employee]}</id_employee>
@@ -4596,14 +4647,15 @@ class Presta
         <mpn>#{stock_movement[:mpn]}</mpn>
         <physical_quantity>#{stock_movement[:physical_quantity]}</physical_quantity>
         <sign>#{stock_movement[:sign]}</sign>
-        <last_wa>#{stock_movement[:last_wa]}</last_wa>
+        <last_wa>#{stock_movement[:last_wa]}</last_wa>       
         <current_wa>#{stock_movement[:current_wa]}</current_wa>
         <price_te>#{stock_movement[:price_te]}</price_te>
         <date_add>#{stock_movement[:date_add]}</date_add>
         </stock_mvt>
       </prestashop>",
       basic_auth: @auth,
-      header: {
+      header: 
+      {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
       }
@@ -4651,7 +4703,8 @@ class Presta
         </stock>
       </prestashop>",
       basic_auth: @auth,
-      header: {
+      header: 
+      {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
       }
@@ -4680,7 +4733,8 @@ class Presta
         </stock>
       </prestashop>",
       basic_auth: @auth,
-      header: {
+      header: 
+      {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
       }
@@ -5987,7 +6041,7 @@ class Presta
     end
 
      def self.post_product_image(product_id)
-      img = HTTParty.post("#{@api_url}images/",
+      img = HTTParty.post("#{@api_url}images/products",
       {
       body: {:id_product => product_id,:image_format => 'jpg',:existing_path => "https://www.opengift.pl/plik/f2e4e066fad5cfe8cfd6a4ae622144ac121ad5c2/kaczka-pvc-zolty-full.jpg"},
       basic_auth: @auth,
@@ -6061,7 +6115,7 @@ end
 #add, edit, delete, get cart
 #Presta.post_carts($cart)
 #Presta.update_carts(14,$cart)
-#Presta.delete_carts(14)
+#Presta.delete_carts(6)
 #Presta.get_carts(14)
 
 #TO CREATE ORDER FIRSTLY U HAVE TO CREATE NON ORDERED CART (JUST BY POSTING CART)
@@ -6121,7 +6175,7 @@ end
 
 
 #add, edit, delete, get product
-#Presta.post_product($product)
+# Presta.post_product($product)
 # Presta.update_product(24,$product)
 # Presta.get_product(24)
 # Presta.delete_product(24)
@@ -6230,11 +6284,11 @@ end
 # Presta.get_translated_configurations(432)
 #Presta.delete_translated_configurations(433)
 
+#Presta.post_stock_availables($stock_available)
+
+Presta.post_address(**($address))
 
 
-
-
-
-#Presta.change_image_api()
+# Presta.change_image_api()
 
 #Presta.post_product_image(22)
