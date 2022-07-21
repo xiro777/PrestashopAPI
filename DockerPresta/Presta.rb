@@ -6,7 +6,7 @@
 #                                                                                                                          #
 #   GITHUB: https://github.com/xiro777                                                                                     #
 #                                                                                                                          #
-#   LAST UPDATE: 20.07.2022                                                                                                #
+#   LAST UPDATE: 21.07.2022                                                                                                #
 #                                                                                                                          #
 #   DESCRIPTION: File contains class with request sent to Prestashop API                                                   #
 #                                                                                                                          #
@@ -29,15 +29,18 @@ class Presta
     include PrestaDane
     include Create
 
-    @api_key = 'F4J6WC94WBJVGSAIH62D2DG8QIVTC93C'
-    @auth = {username: "F4J6WC94WBJVGSAIH62D2DG8QIVTC93C", password: ""}
-    @api_url = "http://localhost:8080/api/" 
+    @api_key = 'QE2HQ7VIJ1YTITDIBNIVLFEQDJ9337HC'
+    @api_url = "http://cart.lennylamb.com/api/" 
+    @ws_key = "?ws_key=#{@api_key}"
 
+    def initialize
+      
+    end
 
 
 
     ##### ADDRESSES  ##########################################################################################################
-    #def self.post_address(address)
+
     def self.post_address(
       id_customer:,
       id_manufacturer:0,
@@ -62,7 +65,7 @@ class Presta
       date_add:'',
       date_upd:''          
       )
-      add = HTTParty.post("#{@api_url}addresses/",
+      add = HTTParty.post("#{@api_url}addresses#{@ws_key}",
       {
           body:
           "<prestashop>
@@ -92,7 +95,6 @@ class Presta
               <date_upd>#{date_upd}</date_upd>
             </address>
           </prestashop>",
-          basic_auth: @auth,
           header: {
             "Content-Type" => 'text/xml',
             "charset" => 'utf-8'
@@ -125,7 +127,7 @@ class Presta
       deleted:'',
       date_add:'',
       date_upd:''  )
-      add = HTTParty.put("#{@api_url}addresses/#{id}",
+      add = HTTParty.put("#{@api_url}addresses/#{id}#{@ws_key}",
       {
           body:
           "<prestashop>
@@ -155,7 +157,7 @@ class Presta
             <date_upd>#{date_upd}</date_upd>
           </address>
         </prestashop>",
-          basic_auth: @auth,
+          
           header: {
             "Content-Type" => 'text/xml',
             "charset" => 'utf-8'
@@ -165,20 +167,17 @@ class Presta
     end
 
     def self.getaddresses(id:)
-        address = HTTParty.get("#{@api_url}addresses/#{id}", basic_auth: @auth )
+        address = HTTParty.get("#{@api_url}addresses/#{id}#{@ws_key}")
         puts address.body,address.code
     end
 
     def self.delete_address(id:)
-      add = HTTParty.delete("#{@api_url}addresses/#{id}",
-      {
-          basic_auth: @auth
-      })
+      add = HTTParty.delete("#{@api_url}addresses/#{id}#{@ws_key}")
       puts add.body, add.code
     end
 
 
-    ##### ATACHMENTS ###############################################################################################################################################
+    ##### ATACHMENTS #######################################################################################################
 
     def self.post_attachments(
       file:,
@@ -189,7 +188,7 @@ class Presta
       description:"",
       product_id:
     )
-        attach = HTTParty.post("#{@api_url}attachments/",
+        attach = HTTParty.post("#{@api_url}attachments/{@ws_key}#{@ws_key}",
         {
             body:
             "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
@@ -214,7 +213,7 @@ class Presta
               </associations>
             </attachment>
           </prestashop>",
-            basic_auth: @auth,
+            
             header: {
               "Content-Type" => 'text/xml',
               "charset" => 'utf-8'
@@ -233,7 +232,7 @@ class Presta
       description:"",
       product_id:
     )
-      attach = HTTParty.put("#{@api_url}attachments/#{id}",
+      attach = HTTParty.put("#{@api_url}attachments/#{id}#{@ws_key}",
       {
           body:
           "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
@@ -258,7 +257,7 @@ class Presta
             </associations>
           </attachment>
         </prestashop>",
-          basic_auth: @auth,
+          
           header: {
             "Content-Type" => 'text/xml',
             "charset" => 'utf-8'
@@ -268,18 +267,12 @@ class Presta
     end
 
     def self.delete_attachments(id:)
-      attach = HTTParty.delete("#{@api_url}attachments/#{id}",
-      {
-          basic_auth: @auth
-      })
+      attach = HTTParty.delete("#{@api_url}attachments/#{id}#{@ws_key}")
       puts attach.body, attach.code
     end
 
     def self.get_attachments(id:)
-      attach = HTTParty.get("#{@api_url}attachments/#{id}",
-      {
-          basic_auth: @auth
-      })
+      attach = HTTParty.get("#{@api_url}attachments/#{id}#{@ws_key}")
       puts attach.body, attach.code
     end
 
@@ -308,7 +301,7 @@ class Presta
       position:1,
       delay:
     )
-      carr = HTTParty.post("#{@api_url}carriers/",
+      carr = HTTParty.post("#{@api_url}carriers/{@ws_key}",
       {
           body:
           "<prestashop>
@@ -339,7 +332,6 @@ class Presta
               </delay>
             </carrier>
           </prestashop>",
-          basic_auth: @auth,
           header: {
             "Content-Type" => 'text/xml',
             "charset" => 'utf-8'
@@ -372,7 +364,7 @@ class Presta
       position:1,
       delay:
     )
-      carr = HTTParty.put("#{@api_url}carriers/#{id}",
+      carr = HTTParty.put("#{@api_url}carriers/#{id}#{@ws_key}",
       {
           body:
           "<prestashop>
@@ -403,7 +395,7 @@ class Presta
             </delay>
           </carrier>
         </prestashop>",
-          basic_auth: @auth,
+          
           header: {
             "Content-Type" => 'text/xml',
             "charset" => 'utf-8'
@@ -413,18 +405,12 @@ class Presta
     end
 
     def self.get_carriers(id:)
-      carr = HTTParty.get("#{@api_url}carriers/#{id}",
-      {
-          basic_auth: @auth
-      })
+      carr = HTTParty.get("#{@api_url}carriers/#{id}#{@ws_key}")
       puts carr.body,carr.code
     end
 
     def self.delete_carriers(id:)
-      carr = HTTParty.delete("#{@api_url}carriers/#{id}",
-      {
-          basic_auth: @auth 
-      })
+      carr = HTTParty.delete("#{@api_url}carriers/#{id}#{@ws_key}")
       puts carr.body,carr.code
     end
 
@@ -465,7 +451,7 @@ class Presta
       date_upd:"",
       name:
     )
-      cart = HTTParty.post("#{@api_url}cart_rules/",
+      cart = HTTParty.post("#{@api_url}cart_rules/#{@ws_key}",
       {
           body:
           "<prestashop>
@@ -508,7 +494,7 @@ class Presta
               </name>
             </cart_rule>
           </prestashop>",
-          basic_auth: @auth,
+          
           header: {
             "Content-Type" => 'text/xml',
             "charset" => 'utf-8'
@@ -553,7 +539,7 @@ class Presta
       date_upd:"",
       name:
     )
-      cart = HTTParty.put("#{@api_url}cart_rules/#{id}",
+      cart = HTTParty.put("#{@api_url}cart_rules/#{id}#{@ws_key}",
       {
           body:
           "<prestashop>
@@ -596,7 +582,7 @@ class Presta
             </name>
           </cart_rule>
         </prestashop>",
-          basic_auth: @auth,
+          
           header: {
             "Content-Type" => 'text/xml',
             "charset" => 'utf-8'
@@ -606,18 +592,12 @@ class Presta
     end
 
     def self.get_cart_rules(id:)
-      cart = HTTParty.get("#{@api_url}cart_rules/#{id}",
-      {
-          basic_auth: @auth  
-      })
+      cart = HTTParty.get("#{@api_url}cart_rules/#{id}#{@ws_key}")
       puts cart.body,cart.code
     end
 
     def self.delete_cart_rules(id:)
-      cart = HTTParty.delete("#{@api_url}cart_rules/#{id}",
-      {
-          basic_auth: @auth  
-      })
+      cart = HTTParty.delete("#{@api_url}cart_rules/#{id}#{@ws_key}")
       puts cart.body,cart.code
     end
 
@@ -648,7 +628,7 @@ class Presta
         id_customization: 0,
         quantity: 0
     )
-      cart = HTTParty.post("#{@api_url}carts/",
+      cart = HTTParty.post("#{@api_url}carts/#{@ws_key}",
       {
           body:
           "<prestashop>
@@ -675,7 +655,7 @@ class Presta
               </associations>
             </cart>
           </prestashop>",
-          basic_auth: @auth,
+          
           header: {
             "Content-Type" => 'text/xml',
             "charset" => 'utf-8'
@@ -710,7 +690,7 @@ class Presta
         id_customization: 0,
         quantity: 0
     )
-      cart = HTTParty.put("#{@api_url}carts/#{id}",
+      cart = HTTParty.put("#{@api_url}carts/#{id}#{@ws_key}",
       {
           body:
           "<prestashop>
@@ -737,7 +717,7 @@ class Presta
             </associations>
           </cart>
         </prestashop>",
-          basic_auth: @auth,
+          
           header: {
             "Content-Type" => 'text/xml',
             "charset" => 'utf-8'
@@ -747,18 +727,12 @@ class Presta
     end
 
     def self.delete_carts(id:)
-        carts = HTTParty.delete("#{@api_url}carts/#{id}",
-        {
-            basic_auth: @auth
-        })
+        carts = HTTParty.delete("#{@api_url}carts/#{id}#{@ws_key}")
         puts carts.body,carts.code
     end
 
     def self.get_carts(id:)
-      carts = HTTParty.get("#{@api_url}carts/#{id}",
-      {
-          basic_auth: @auth
-      })
+      carts = HTTParty.get("#{@api_url}carts/#{id}#{@ws_key}")
       puts carts.body,carts.code
     end
 
@@ -782,7 +756,7 @@ class Presta
         id_category: 0,
         id_product:0
     )
-      cat = HTTParty.post("#{@api_url}categories/",
+      cat = HTTParty.post("#{@api_url}categories/#{@ws_key}",
         {
             body:
             "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
@@ -828,7 +802,7 @@ class Presta
             </category>
           </prestashop>
           ",
-          basic_auth: @auth,
+          
           header: {
               "Content-Type" => 'text/xml',
               "charset" => 'utf-8'
@@ -856,7 +830,7 @@ class Presta
       id_category: 0,
       id_product:0
     )
-      cat = HTTParty.put("#{@api_url}categories/#{id}",
+      cat = HTTParty.put("#{@api_url}categories/#{id}#{@ws_key}",
       {
           body:
           "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
@@ -902,7 +876,7 @@ class Presta
           </category>
         </prestashop>
         ",
-        basic_auth: @auth,
+        
         header: {
             "Content-Type" => 'text/xml',
             "charset" => 'utf-8'
@@ -913,18 +887,12 @@ class Presta
     end
 
     def self.delete_categories(id:)
-      cat = HTTParty.delete("#{@api_url}categories/#{id}",
-      {
-        basic_auth: @auth
-      })
+      cat = HTTParty.delete("#{@api_url}categories/#{id}#{@ws_key}")
       puts cat.body,cat.code
     end
 
     def self.get_categories(id:)
-      cat = HTTParty.get("#{@api_url}categories/#{id}",
-      {
-        basic_auth: @auth
-      })
+      cat = HTTParty.get("#{@api_url}categories/#{id}#{@ws_key}")
       puts cat.body,cat.code
     end
 
@@ -955,7 +923,7 @@ class Presta
       id_product_option_value: 0,
       id_image: 0
     )
-      comb = HTTParty.post("#{@api_url}combinations/",
+      comb = HTTParty.post("#{@api_url}combinations/#{@ws_key}",
       {
           body:
           "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
@@ -994,7 +962,7 @@ class Presta
             </associations>
           </combination>
         </prestashop>",
-        basic_auth: @auth,
+        
         header: {
             "Content-Type" => 'text/xml',
             "charset" => 'utf-8'
@@ -1028,7 +996,7 @@ class Presta
       id_product_option_value: 0,
       id_image: 0
   )
-    comb = HTTParty.put("#{@api_url}combinations/#{id}",
+    comb = HTTParty.put("#{@api_url}combinations/#{id}#{@ws_key}",
     {
         body:
         "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
@@ -1067,7 +1035,7 @@ class Presta
           </associations>
         </combination>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
           "Content-Type" => 'text/xml',
           "charset" => 'utf-8'
@@ -1078,18 +1046,12 @@ class Presta
   end
 
   def self.delete_combinations(id:)
-    comb = HTTParty.delete("#{@api_url}combinations/#{id}",
-    {
-      basic_auth: @auth
-    })
+    comb = HTTParty.delete("#{@api_url}combinations/#{id}#{@ws_key}")
   puts comb.body,comb.code
   end
 
   def self.get_combinations(id:)
-    comb = HTTParty.get("#{@api_url}combinations/#{id}",
-    {
-      basic_auth: @auth
-    })
+    comb = HTTParty.get("#{@api_url}combinations/#{id}#{@ws_key}")
   puts comb.body,comb.code
   end
 
@@ -1103,7 +1065,7 @@ class Presta
         date_add:"",
         date_upd:""
   )
-    conf = HTTParty.post("#{@api_url}configurations/",
+    conf = HTTParty.post("#{@api_url}configurations/#{@ws_key}",
         {
             body: 
             "<prestashop>
@@ -1117,7 +1079,7 @@ class Presta
                 <date_upd>#{date_upd}</date_upd>
               </configuration>
             </prestashop>",
-            basic_auth: @auth,
+            
             header: {
               "Content-Type" => 'text/xml',
               "charset" => 'utf-8'
@@ -1136,7 +1098,7 @@ class Presta
     date_add:"",
     date_upd:""
   )
-    conf = HTTParty.put("#{@api_url}configurations/#{id}",
+    conf = HTTParty.put("#{@api_url}configurations/#{id}#{@ws_key}",
         {
             body: 
             "<prestashop>
@@ -1150,7 +1112,7 @@ class Presta
               <date_upd>#{date_upd}</date_upd>
             </configuration>
           </prestashop>",
-            basic_auth: @auth,
+            
             header: {
               "Content-Type" => 'text/xml',
               "charset" => 'utf-8'
@@ -1161,20 +1123,12 @@ class Presta
   end
 
   def self.get_configuration(id:)
-    conf = HTTParty.get("#{@api_url}configurations/#{id}",
-        {
-            basic_auth: @auth,
-        }
-    )
+    conf = HTTParty.get("#{@api_url}configurations/#{id}#{@ws_key}")
     puts conf.body, conf.code 
   end
 
   def self.delete_configuration(id:)
-    conf = HTTParty.delete("#{@api_url}configurations/#{id}",
-        {
-            basic_auth: @auth,
-        }
-    )
+    conf = HTTParty.delete("#{@api_url}configurations/#{id}#{@ws_key}")
     puts conf.body, conf.code 
   end
 
@@ -1187,7 +1141,7 @@ class Presta
       name:,
       desciption:""
     )
-      con = HTTParty.post("#{@api_url}contacts/",
+      con = HTTParty.post("#{@api_url}contacts/#{@ws_key}",
       {
           body:
           "<prestashop>
@@ -1203,7 +1157,7 @@ class Presta
               </description>
             </contact>
           </prestashop>",
-          basic_auth: @auth,
+          
           header: {
             "Content-Type" => 'text/xml',
             "charset" => 'utf-8'
@@ -1219,7 +1173,7 @@ class Presta
       name:,
       desciption:""
     )
-      con = HTTParty.put("#{@api_url}contacts/#{id}",
+      con = HTTParty.put("#{@api_url}contacts/#{id}#{@ws_key}",
       {
           body:
           "<prestashop>
@@ -1235,7 +1189,7 @@ class Presta
               </description>
             </contact>
           </prestashop>",
-          basic_auth: @auth,
+          
           header: {
             "Content-Type" => 'text/xml',
             "charset" => 'utf-8'
@@ -1245,18 +1199,12 @@ class Presta
     end
 
     def self.get_contact(id:)
-      con = HTTParty.get("#{@api_url}contacts/#{id}",
-      {
-          basic_auth: @auth
-      })
+      con = HTTParty.get("#{@api_url}contacts/#{id}#{@ws_key}")
       puts con.body, con.code
     end
 
     def self.delete_contact(id:)
-      con = HTTParty.delete("#{@api_url}contacts/#{id}",
-      {
-          basic_auth: @auth
-      })
+      con = HTTParty.delete("#{@api_url}contacts/#{id}#{@ws_key}")
       puts con.body, con.code
     end
 
@@ -1274,7 +1222,7 @@ class Presta
       link_rewrite:,
       content:""
     )
-      sup = HTTParty.post("#{@api_url}content_management_system/",
+      sup = HTTParty.post("#{@api_url}content_management_system/#{@ws_key}",
       {
         body:
         "<prestashop>
@@ -1304,7 +1252,7 @@ class Presta
             </content>
           </content>
         </prestashop>",
-        basic_auth: @auth,
+        
         header: {
           "Content-Type" => 'text/xml',
           "charset" => 'utf-8'
@@ -1326,7 +1274,7 @@ class Presta
       link_rewrite:,
       content:""
     )
-      sup = HTTParty.put("#{@api_url}content_management_system/#{id}",
+      sup = HTTParty.put("#{@api_url}content_management_system/#{id}#{@ws_key}",
       {
         body:
         "<prestashop>
@@ -1356,7 +1304,7 @@ class Presta
             </content>
           </content>
         </prestashop>",
-        basic_auth: @auth,
+        
         header: {
           "Content-Type" => 'text/xml',
           "charset" => 'utf-8'
@@ -1366,18 +1314,12 @@ class Presta
     end
 
     def self.get_content_management_system(id:)
-      sup = HTTParty.get("#{@api_url}content_management_system/#{id}",
-      {
-        basic_auth: @auth
-      })
+      sup = HTTParty.get("#{@api_url}content_management_system/#{id}#{@ws_key}")
       puts sup.body,sup.code
     end
 
     def self.delete_content_management_system(id:)
-      sup = HTTParty.delete("#{@api_url}content_management_system/#{id}",
-      {
-        basic_auth: @auth
-      })
+      sup = HTTParty.delete("#{@api_url}content_management_system/#{id}#{@ws_key}")
       puts sup.body,sup.code
     end
 
@@ -1396,7 +1338,7 @@ class Presta
       display_tax_label:,
       name:
      )
-      sup = HTTParty.post("#{@api_url}countries/",
+      sup = HTTParty.post("#{@api_url}countries/#{@ws_key}",
       {
         body:
         "<prestashop>
@@ -1417,7 +1359,7 @@ class Presta
           </name>
           </country>
         </prestashop>",
-        basic_auth: @auth,
+        
         header: {
           "Content-Type" => 'text/xml',
           "charset" => 'utf-8'
@@ -1440,7 +1382,7 @@ class Presta
       display_tax_label:,
       name:
     )
-      sup = HTTParty.put("#{@api_url}countries/#{id}",
+      sup = HTTParty.put("#{@api_url}countries/#{id}#{@ws_key}",
       {
         body:
         "<prestashop>
@@ -1461,7 +1403,7 @@ class Presta
           </name>
           </country>
         </prestashop>",
-        basic_auth: @auth,
+        
         header: {
           "Content-Type" => 'text/xml',
           "charset" => 'utf-8'
@@ -1471,18 +1413,12 @@ class Presta
     end
 
     def self.get_country(id:)
-      sup = HTTParty.get("#{@api_url}countries/#{id}",
-      {
-        basic_auth: @auth
-      })
+      sup = HTTParty.get("#{@api_url}countries/#{id}#{@ws_key}")
       puts sup.body,sup.code
     end
 
     def self.delete_country(id:)
-      sup = HTTParty.delete("#{@api_url}countries/#{id}",
-      {
-        basic_auth: @auth
-      })
+      sup = HTTParty.delete("#{@api_url}countries/#{id}#{@ws_key}")
       puts sup.body,sup.code
     end
 
@@ -1502,7 +1438,7 @@ class Presta
       modified:0,
       pattern:0
     )
-      sup = HTTParty.post("#{@api_url}currencies/",
+      sup = HTTParty.post("#{@api_url}currencies/#{@ws_key}",
       {
         body:
         "<prestashop>
@@ -1528,7 +1464,7 @@ class Presta
             </pattern>
           </currency>
         </prestashop>",
-        basic_auth: @auth,
+        
         header: {
           "Content-Type" => 'text/xml',
           "charset" => 'utf-8'
@@ -1552,7 +1488,7 @@ class Presta
       modified:0,
       pattern:0
     )
-      sup = HTTParty.put("#{@api_url}currencies/#{id}",
+      sup = HTTParty.put("#{@api_url}currencies/#{id}#{@ws_key}",
       {
         body:
         "<prestashop>
@@ -1578,7 +1514,7 @@ class Presta
             </pattern>
           </currency>
         </prestashop>",
-        basic_auth: @auth,
+        
         header: {
           "Content-Type" => 'text/xml',
           "charset" => 'utf-8'
@@ -1588,18 +1524,12 @@ class Presta
     end
 
     def self.get_currency(id:)
-      sup = HTTParty.get("#{@api_url}currencies/#{id}",
-      {
-        basic_auth: @auth
-      })
+      sup = HTTParty.get("#{@api_url}currencies/#{id}#{@ws_key}")
       puts sup.body,sup.code
     end
 
     def self.delete_currency(id:)
-      sup = HTTParty.delete("#{@api_url}currencies/#{id}",
-      {
-        basic_auth: @auth
-      })
+      sup = HTTParty.delete("#{@api_url}currencies/#{id}#{@ws_key}")
       puts sup.body,sup.code
     end
 
@@ -1619,7 +1549,7 @@ class Presta
       read:0
 
     )
-      sup = HTTParty.post("#{@api_url}customer_messsages/",
+      sup = HTTParty.post("#{@api_url}customer_messages/#{@ws_key}",
       {
         body:
         "<prestashop>
@@ -1637,7 +1567,7 @@ class Presta
             <read>#{read}</read>
           </customer_message>
         </prestashop>",
-        basic_auth: @auth,
+        
         header: {
           "Content-Type" => 'text/xml',
           "charset" => 'utf-8'
@@ -1659,7 +1589,7 @@ class Presta
       date_upd:"",
       read:0
     )
-      sup = HTTParty.put("#{@api_url}customer_messsages/#{id}",
+      sup = HTTParty.put("#{@api_url}customer_messages/#{id}#{@ws_key}",
       {
         body:
         "<prestashop>
@@ -1677,7 +1607,7 @@ class Presta
             <read>#{read}</read>
           </customer_message>
         </prestashop>",
-        basic_auth: @auth,
+        
         header: {
           "Content-Type" => 'text/xml',
           "charset" => 'utf-8'
@@ -1687,18 +1617,12 @@ class Presta
     end
 
     def self.get_customer_message(id:)
-      sup = HTTParty.get("#{@api_url}customer_messsages/#{id}",
-      {
-        basic_auth: @auth
-      })
+      sup = HTTParty.get("#{@api_url}customer_messages/#{id}#{@ws_key}")
       puts sup.body,sup.code
     end
 
     def self.delete_customer_message(id:)
-      sup = HTTParty.delete("#{@api_url}customer_messsages/#{id}",
-      {
-        basic_auth: @auth
-      })
+      sup = HTTParty.delete("#{@api_url}customer_messages/#{id}#{@ws_key}")
       puts sup.body,sup.code
     end
 
@@ -1718,7 +1642,7 @@ class Presta
       date_upd:"",
       customer_message_id:0
     )
-      sup = HTTParty.post("#{@api_url}customer_threads/",
+      sup = HTTParty.post("#{@api_url}customer_threads/#{@ws_key}",
       {
         body:
         "<prestashop>
@@ -1744,7 +1668,7 @@ class Presta
             </associations>
           </customer_thread>
         </prestashop>",
-        basic_auth: @auth,
+        
         header: {
           "Content-Type" => 'text/xml',
           "charset" => 'utf-8'
@@ -1768,7 +1692,7 @@ class Presta
       date_upd:"",
       customer_message_id:0
     )
-      sup = HTTParty.put("#{@api_url}customer_threads/#{id}",
+      sup = HTTParty.put("#{@api_url}customer_threads/#{id}#{@ws_key}",
       {
         body:
         "<prestashop>
@@ -1794,7 +1718,7 @@ class Presta
             </associations>
           </customer_thread>
         </prestashop>",
-        basic_auth: @auth,
+        
         header: {
           "Content-Type" => 'text/xml',
           "charset" => 'utf-8'
@@ -1804,18 +1728,12 @@ class Presta
     end
 
     def self.get_customer_thread(id:)
-      sup = HTTParty.get("#{@api_url}customer_threads/#{id}",
-      {
-        basic_auth: @auth
-      })
+      sup = HTTParty.get("#{@api_url}customer_threads/#{id}#{@ws_key}")
       puts sup.body,sup.code
     end
 
     def self.delete_customer_thread(id:)
-      sup = HTTParty.delete("#{@api_url}customer_threads/#{id}",
-      {
-        basic_auth: @auth
-      })
+      sup = HTTParty.delete("#{@api_url}customer_threads/#{id}#{@ws_key}")
       puts sup.body,sup.code
     end
 
@@ -1856,7 +1774,7 @@ class Presta
         reset_password_validity:"",                 
         id_group: 0 
     )
-      customer = HTTParty.post("#{@api_url}customers/",{
+      customer = HTTParty.post("#{@api_url}customers/#{@ws_key}",{
           body:
           "<prestashop>
               <customer>
@@ -1902,7 +1820,7 @@ class Presta
                   </associations>
               </customer>
           </prestashop>",
-          basic_auth: @auth,
+          
           header: {
             "Content-Type" => 'text/xml',
             "charset" => 'utf-8'
@@ -1948,7 +1866,7 @@ class Presta
         reset_password_validity:"",                 
         id_group: 0 
   )
-      cust = HTTParty.put("#{@api_url}customers/#{id}",
+      cust = HTTParty.put("#{@api_url}customers/#{id}#{@ws_key}",
       {
           body: 
           "<prestashop>
@@ -1995,7 +1913,7 @@ class Presta
                   </associations>
               </customer>
           </prestashop>",
-          basic_auth: @auth,
+          
           header: {
             "Content-Type" => 'text/xml',
             "charset" => 'utf-8'
@@ -2006,18 +1924,12 @@ class Presta
   end
 
   def self.delete_customer(id:)
-    cust = HTTParty.delete("#{@api_url}customers/#{id}",
-    {
-        basic_auth: @auth       
-    }) 
+    cust = HTTParty.delete("#{@api_url}customers/#{id}#{@ws_key}") 
     puts cust.body, cust.code
   end  
   
   def self.get_customer(id:)
-    cust = HTTParty.get("#{@api_url}customers/#{id}",
-    {
-      basic_auth: @auth              
-    }) 
+    cust = HTTParty.get("#{@api_url}customers/#{id}#{@ws_key}") 
     puts cust.body, cust.code
   end 
 
@@ -2038,7 +1950,7 @@ class Presta
     customized_data_image_id_customization_field:0,
     customized_data_image_value:""
   )
-    sup = HTTParty.post("#{@api_url}customizations/",
+    sup = HTTParty.post("#{@api_url}customizations/#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -2068,7 +1980,7 @@ class Presta
           </associations>
         </customization>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -2092,7 +2004,7 @@ class Presta
     customized_data_image_id_customization_field:0,
     customized_data_image_value:""
   )
-    sup = HTTParty.put("#{@api_url}customizations/#{id}",
+    sup = HTTParty.put("#{@api_url}customizations/#{id}#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -2122,7 +2034,7 @@ class Presta
           </associations>
         </customization>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -2132,18 +2044,12 @@ class Presta
   end
 
   def self.get_customization(id:)
-    sup = HTTParty.get("#{@api_url}customizations/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.get("#{@api_url}customizations/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
   def self.delete_customization(id:)
-    sup = HTTParty.delete("#{@api_url}customizations/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.delete("#{@api_url}customizations/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
@@ -2158,7 +2064,7 @@ class Presta
     id_shop_group:1,
     price:
   )
-    sup = HTTParty.post("#{@api_url}deliveries/",
+    sup = HTTParty.post("#{@api_url}deliveries/#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -2173,7 +2079,7 @@ class Presta
           <price>#{price}</price>
         </delivery>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -2192,7 +2098,7 @@ class Presta
     id_shop_group:1,
     price:
   )
-    sup = HTTParty.put("#{@api_url}deliveries/#{id}",
+    sup = HTTParty.put("#{@api_url}deliveries/#{id}#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -2207,7 +2113,7 @@ class Presta
           <price>#{price}</price>
         </delivery>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -2217,18 +2123,12 @@ class Presta
   end
 
   def self.get_deliveries(id:)
-    sup = HTTParty.put("#{@api_url}deliveries/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.put("#{@api_url}deliveries/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
   def self.delete_deliveries(id:)
-    sup = HTTParty.delete("#{@api_url}deliveries/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.delete("#{@api_url}deliveries/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
@@ -2262,7 +2162,7 @@ class Presta
     reset_password_validity: "",
     has_enabled_gravatar: 0
   )
-    emp = HTTParty.post("#{@api_url}employees/",
+    emp = HTTParty.post("#{@api_url}employees/#{@ws_key}",
     {
       body: 
       "<prestashop>
@@ -2296,7 +2196,7 @@ class Presta
           <has_enabled_gravatar>#{has_enabled_gravatar}</has_enabled_gravatar>
         </employee>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -2334,7 +2234,7 @@ class Presta
     reset_password_validity: "",
     has_enabled_gravatar: 0
   )
-    emp = HTTParty.put("#{@api_url}employees/#{id}",
+    emp = HTTParty.put("#{@api_url}employees/#{id}#{@ws_key}",
     {
       body: 
       "<prestashop>
@@ -2368,7 +2268,7 @@ class Presta
           <has_enabled_gravatar>#{has_enabled_gravatar}</has_enabled_gravatar>
         </employee>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -2378,18 +2278,12 @@ class Presta
   end 
 
   def self.get_employee(id:)
-    emp = HTTParty.get("#{@api_url}employees/#{id}",
-    {
-      basic_auth: @auth       
-    }) 
+    emp = HTTParty.get("#{@api_url}employees/#{id}#{@ws_key}") 
     puts emp.body, emp.code
   end 
 
   def self.delete_employee(id:)
-    emp = HTTParty.delete("#{@api_url}employees/#{id}",
-    {
-      basic_auth: @auth       
-    }) 
+    emp = HTTParty.delete("#{@api_url}employees/#{id}#{@ws_key}") 
     puts emp.body, emp.code
   end 
 
@@ -2404,7 +2298,7 @@ class Presta
     date_upd:"",
     name:
   )
-    sup = HTTParty.post("#{@api_url}groups/",
+    sup = HTTParty.post("#{@api_url}groups/#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -2420,7 +2314,7 @@ class Presta
           </name>
         </group>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -2438,7 +2332,7 @@ class Presta
     date_upd:"",
     name:
   )
-    sup = HTTParty.put("#{@api_url}groups/#{id}",
+    sup = HTTParty.put("#{@api_url}groups/#{id}#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -2454,7 +2348,7 @@ class Presta
           </name>
         </group>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -2464,18 +2358,12 @@ class Presta
   end
 
   def self.get_groups(id:)
-    sup = HTTParty.get("#{@api_url}groups/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.get("#{@api_url}groups/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
   def self.delete_groups(id:)
-    sup = HTTParty.delete("#{@api_url}groups/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.delete("#{@api_url}groups/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
@@ -2499,7 +2387,7 @@ class Presta
     accept_language:"",
     mobile_theme:0
   )
-    sup = HTTParty.post("#{@api_url}guests/",
+    sup = HTTParty.post("#{@api_url}guests/#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -2522,7 +2410,7 @@ class Presta
           <mobile_theme>#{mobile_theme}</mobile_theme>
         </guest>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -2548,7 +2436,7 @@ class Presta
     windows_media:0,
     accept_language:"",
     mobile_theme:0)
-    sup = HTTParty.put("#{@api_url}guests/#{id}",
+    sup = HTTParty.put("#{@api_url}guests/#{id}#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -2571,7 +2459,7 @@ class Presta
           <mobile_theme>#{mobile_theme}</mobile_theme>
         </guest>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -2581,18 +2469,12 @@ class Presta
   end
 
   def self.get_guests(id:)
-    sup = HTTParty.get("#{@api_url}guests/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.get("#{@api_url}guests/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
   def self.delete_guests(id:)
-    sup = HTTParty.delete("#{@api_url}guests/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.delete("#{@api_url}guests/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
@@ -2608,7 +2490,7 @@ class Presta
       date_format_lite:,
       date_format_full:
     )
-        language = HTTParty.post("#{@api_url}languages/",
+        language = HTTParty.post("#{@api_url}languages/#{@ws_key}",
             {
                 body: 
                 "<prestashop>
@@ -2625,7 +2507,7 @@ class Presta
                     </language>
                 </prestashop>",
 
-                basic_auth: @auth,
+                
                 header: {
                   "Content-Type" => 'text/xml',
                   "charset" => 'utf-8'
@@ -2646,7 +2528,7 @@ class Presta
       date_format_lite:,
       date_format_full:
     )
-      language = HTTParty.put("#{@api_url}languages/#{id}",
+      language = HTTParty.put("#{@api_url}languages/#{id}#{@ws_key}",
           {
               body: 
               "<prestashop>
@@ -2663,7 +2545,7 @@ class Presta
                   </language>
               </prestashop>",
 
-              basic_auth: @auth,
+              
               header: {
                 "Content-Type" => 'text/xml',
                 "charset" => 'utf-8'
@@ -2673,20 +2555,12 @@ class Presta
       puts language.body, language.code 
     end
     def self.delete_language(id:)
-      language = HTTParty.delete("#{@api_url}languages/#{id}",
-          {
-              basic_auth: @auth
-          }
-      )
+      language = HTTParty.delete("#{@api_url}languages/#{id}#{@ws_key}")
       puts language.body, language.code 
     end
 
     def self.get_language(id:)
-      language = HTTParty.get("#{@api_url}languages/#{id}",
-          {
-              basic_auth: @auth
-          }
-      )
+      language = HTTParty.get("#{@api_url}languages/#{id}#{@ws_key}")
       puts language.body, language.code 
     end
 
@@ -2705,7 +2579,7 @@ class Presta
       meta_keywords:"",
       address_id:0
     )
-      attach = HTTParty.post("#{@api_url}manufacturers/",
+      attach = HTTParty.post("#{@api_url}manufacturers/#{@ws_key}",
       {
           body:
           "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
@@ -2739,7 +2613,7 @@ class Presta
             </associations>
           </manufacturer>
         </prestashop>",
-          basic_auth: @auth,
+          
           header: {
             "Content-Type" => 'text/xml',
             "charset" => 'utf-8'
@@ -2761,7 +2635,7 @@ class Presta
     meta_keywords:"",
     address_id:0
   )
-    attach = HTTParty.put("#{@api_url}manufacturers/#{id}",
+    attach = HTTParty.put("#{@api_url}manufacturers/#{id}#{@ws_key}",
     {
         body:
         "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
@@ -2795,7 +2669,7 @@ class Presta
           </associations>
         </manufacturer>
       </prestashop>",
-        basic_auth: @auth,
+        
         header: {
           "Content-Type" => 'text/xml',
           "charset" => 'utf-8'
@@ -2805,18 +2679,12 @@ class Presta
   end
 
   def self.delete_manufacturers(id:)
-    attach = HTTParty.delete("#{@api_url}manufacturers/#{id}",
-    {
-        basic_auth: @auth,    
-    })
+    attach = HTTParty.delete("#{@api_url}manufacturers/#{id}#{@ws_key}")
     puts attach.body, attach.code
   end
 
   def self.get_manufacturers(id:)
-    attach = HTTParty.get("#{@api_url}manufacturers/#{id}",
-    {
-        basic_auth: @auth,    
-    })
+    attach = HTTParty.get("#{@api_url}manufacturers/#{id}#{@ws_key}")
     puts attach.body, attach.code
   end
 
@@ -2832,7 +2700,7 @@ class Presta
     private:0,
     date_add:""
    )
-    sup = HTTParty.post("#{@api_url}messages/",
+    sup = HTTParty.post("#{@api_url}messages/#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -2847,7 +2715,7 @@ class Presta
           <date_add>#{date_add}</date_add>
         </message>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -2865,7 +2733,7 @@ class Presta
     message:,
     private:0,
     date_add:"")
-    sup = HTTParty.put("#{@api_url}messages/#{id}",
+    sup = HTTParty.put("#{@api_url}messages/#{id}#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -2880,7 +2748,7 @@ class Presta
           <date_add>#{date_add}</date_add>
         </message>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -2890,18 +2758,12 @@ class Presta
   end
 
   def self.get_messages(id:)
-    sup = HTTParty.get("#{@api_url}messages/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.get("#{@api_url}messages/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
   def self.delete_messages(id:)
-    sup = HTTParty.delete("#{@api_url}messages/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.delete("#{@api_url}messages/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end 
 
@@ -2917,7 +2779,7 @@ class Presta
     tracking_number:0,
     date_add:""
   )
-    ord = HTTParty.post("#{@api_url}order_carriers/",
+    ord = HTTParty.post("#{@api_url}order_carriers/#{@ws_key}",
     {
         body:
         "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
@@ -2933,7 +2795,7 @@ class Presta
             <date_add>#{date_add}</date_add>
           </order_carrier>
         </prestashop>",
-        basic_auth: @auth,
+        
         header: {
           "Content-Type" => 'text/xml',
           "charset" => 'utf-8'
@@ -2953,7 +2815,7 @@ class Presta
       tracking_number:0,
       date_add:""
     )
-    ord = HTTParty.put("#{@api_url}order_carriers/#{id}",
+    ord = HTTParty.put("#{@api_url}order_carriers/#{id}#{@ws_key}",
     {
         body:
         "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
@@ -2969,7 +2831,7 @@ class Presta
             <date_add>#{date_add}</date_add>
           </order_carrier>
         </prestashop>",
-        basic_auth: @auth,
+        
         header: {
           "Content-Type" => 'text/xml',
           "charset" => 'utf-8'
@@ -2979,18 +2841,12 @@ class Presta
     end
 
     def self.delete_order_carriers(id:)
-    ord = HTTParty.delete("#{@api_url}order_carriers/#{id}",
-    {
-        basic_auth: @auth
-    })
+    ord = HTTParty.delete("#{@api_url}order_carriers/#{id}#{@ws_key}")
     puts ord.body,ord.code
     end
 
     def self.get_order_carriers(id:)
-    ord = HTTParty.get("#{@api_url}order_carriers/#{id}",
-    {
-        basic_auth: @auth
-    })
+    ord = HTTParty.get("#{@api_url}order_carriers/#{id}#{@ws_key}")
     puts ord.body,ord.code
     end
 
@@ -3006,7 +2862,7 @@ class Presta
       free_shipping:0,
       deleted:0
     )
-      ord = HTTParty.post("#{@api_url}order_cart_rules/",
+      ord = HTTParty.post("#{@api_url}order_cart_rules/#{@ws_key}",
       {
           body:
           "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
@@ -3022,7 +2878,7 @@ class Presta
             <deleted>#{deleted}</deleted>
             </order_cart_rule>
         </prestashop>",
-          basic_auth: @auth,
+          
           header: {
             "Content-Type" => 'text/xml',
             "charset" => 'utf-8'
@@ -3042,7 +2898,7 @@ class Presta
       free_shipping:0,
       deleted:0
     )
-      ord = HTTParty.put("#{@api_url}order_cart_rules/#{id}",
+      ord = HTTParty.put("#{@api_url}order_cart_rules/#{id}#{@ws_key}",
       {
           body:
           "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
@@ -3058,7 +2914,7 @@ class Presta
             <deleted>#{deleted}</deleted>
             </order_cart_rule>
         </prestashop>",
-          basic_auth: @auth,
+          
           header: {
             "Content-Type" => 'text/xml',
             "charset" => 'utf-8'
@@ -3068,18 +2924,12 @@ class Presta
     end
 
     def self.delete_order_cart_rules(id:)
-      ord = HTTParty.delete("#{@api_url}order_cart_rules/#{id}",
-      {
-          basic_auth: @auth
-      })
+      ord = HTTParty.delete("#{@api_url}order_cart_rules/#{id}#{@ws_key}")
       puts ord.body,ord.code
     end
 
     def self.get_order_cart_rules(id:)
-      ord = HTTParty.get("#{@api_url}order_cart_rules/#{id}",
-      {
-          basic_auth: @auth
-      })
+      ord = HTTParty.get("#{@api_url}order_cart_rules/#{id}#{@ws_key}")
       puts ord.body,ord.code
     end
 
@@ -3134,7 +2984,7 @@ class Presta
       total_refunded_tax_incl:0,
       tax_id:0
     )
-      ord = HTTParty.post("#{@api_url}order_details/",
+      ord = HTTParty.post("#{@api_url}order_details/#{@ws_key}",
       {
           body:
           "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
@@ -3196,7 +3046,7 @@ class Presta
           </order_detail>
         </prestashop>
         ",
-          basic_auth: @auth,
+          
           header: {
             "Content-Type" => 'text/xml',
             "charset" => 'utf-8'
@@ -3255,7 +3105,7 @@ class Presta
       total_refunded_tax_incl:0,
       tax_id:0
     )
-      ord = HTTParty.put("#{@api_url}order_details/#{id}",
+      ord = HTTParty.put("#{@api_url}order_details/#{id}#{@ws_key}",
       {
           body:
           "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
@@ -3317,7 +3167,7 @@ class Presta
           </order_detail>
         </prestashop>
         ",
-          basic_auth: @auth,
+          
           header: {
             "Content-Type" => 'text/xml',
             "charset" => 'utf-8'
@@ -3327,18 +3177,12 @@ class Presta
     end
 
     def self.delete_order_details(id:)
-      ord = HTTParty.delete("#{@api_url}order_details/#{id}",
-      {
-          basic_auth: @auth
-      })
+      ord = HTTParty.delete("#{@api_url}order_details/#{id}#{@ws_key}")
       puts ord.body,ord.code
     end
 
     def self.get_order_details(id:)
-      ord = HTTParty.get("#{@api_url}order_details/#{id}",
-      {
-          basic_auth: @auth
-      })
+      ord = HTTParty.get("#{@api_url}order_details/#{id}#{@ws_key}")
       puts ord.body,ord.code
     end
 
@@ -3350,7 +3194,7 @@ class Presta
       id_order:,
       date_add:""
     )
-      ord = HTTParty.post("#{@api_url}order_histories/",
+      ord = HTTParty.post("#{@api_url}order_histories/#{@ws_key}",
       {
           body:
           "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
@@ -3362,7 +3206,7 @@ class Presta
               <date_add>#{date_add}</date_add>
             </order_history>
            </prestashop>",
-          basic_auth: @auth,
+          
           header: {
             "Content-Type" => 'text/xml',
             "charset" => 'utf-8'
@@ -3378,7 +3222,7 @@ class Presta
       id_order:,
       date_add:""
     )
-      ord = HTTParty.put("#{@api_url}order_histories/#{id}",
+      ord = HTTParty.put("#{@api_url}order_histories/#{id}#{@ws_key}",
       {
           body:
           "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
@@ -3390,7 +3234,7 @@ class Presta
               <date_add>#{date_add}</date_add>
             </order_history>
            </prestashop>",
-          basic_auth: @auth,
+          
           header: {
             "Content-Type" => 'text/xml',
             "charset" => 'utf-8'
@@ -3400,18 +3244,12 @@ class Presta
     end
 
     def self.delete_order_histories(id:)
-      ord = HTTParty.delete("#{@api_url}order_histories/#{id}",
-      {
-          basic_auth: @auth,
-      })
+      ord = HTTParty.delete("#{@api_url}order_histories/#{id}#{@ws_key}")
       puts ord.body,ord.code
     end
 
     def self.get_order_histories(id:)
-      ord = HTTParty.get("#{@api_url}order_histories/#{id}",
-      {
-          basic_auth: @auth,
-      })
+      ord = HTTParty.get("#{@api_url}order_histories/#{id}#{@ws_key}")
       puts ord.body,ord.code
     end
 
@@ -3437,7 +3275,7 @@ class Presta
       note:"",
       date_add:""
     )
-      order = HTTParty.post("#{@api_url}order_invoices/",
+      order = HTTParty.post("#{@api_url}order_invoices/#{@ws_key}",
       {
           body: 
           "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
@@ -3464,7 +3302,7 @@ class Presta
             </order_invoice>
         </prestashop>
         ",
-          basic_auth: @auth,
+          
           header: {
             "Content-Type" => 'text/xml',
             "charset" => 'utf-8'
@@ -3494,7 +3332,7 @@ class Presta
       note:"",
       date_add:""
     )
-      order = HTTParty.put("#{@api_url}order_invoices/#{id}",
+      order = HTTParty.put("#{@api_url}order_invoices/#{id}#{@ws_key}",
       {
           body: 
           "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
@@ -3521,7 +3359,7 @@ class Presta
             </order_invoice>
         </prestashop>
         ",
-          basic_auth: @auth,
+          
           header: {
             "Content-Type" => 'text/xml',
             "charset" => 'utf-8'
@@ -3531,18 +3369,12 @@ class Presta
     end
 
     def self.delete_order_invoice(id:)
-      order = HTTParty.delete("#{@api_url}order_invoices/#{id}",
-      {
-          basic_auth: @auth
-      })
+      order = HTTParty.delete("#{@api_url}order_invoices/#{id}#{@ws_key}")
       puts order.body,order.code
     end
 
     def self.get_order_invoice(id:)
-      order = HTTParty.get("#{@api_url}order_invoices/#{id}",
-      {
-          basic_auth: @auth
-      })
+      order = HTTParty.get("#{@api_url}order_invoices/#{id}#{@ws_key}")
       puts order.body,order.code
     end
 
@@ -3561,7 +3393,7 @@ class Presta
       card_holder:"",
       date_add:""
     )
-      order = HTTParty.post("#{@api_url}order_payments/",
+      order = HTTParty.post("#{@api_url}order_payments/#{@ws_key}",
       {
           body: 
           "<prestashop>
@@ -3580,7 +3412,7 @@ class Presta
                   <date_add>#{date_add}</date_add>
               </order_payment>
           </prestashop>",
-          basic_auth: @auth,
+          
           header: {
             "Content-Type" => 'text/xml',
             "charset" => 'utf-8'
@@ -3603,7 +3435,7 @@ class Presta
       card_holder:"",
       date_add:""
     )
-      order = HTTParty.put("#{@api_url}order_payments/#{id}",
+      order = HTTParty.put("#{@api_url}order_payments/#{id}#{@ws_key}",
       {
           body: 
           "<prestashop>
@@ -3622,7 +3454,7 @@ class Presta
                   <date_add>#{date_add}</date_add>
               </order_payment>
           </prestashop>",
-          basic_auth: @auth,
+          
           header: {
             "Content-Type" => 'text/xml',
             "charset" => 'utf-8'
@@ -3632,18 +3464,12 @@ class Presta
     end
 
     def self.delete_order_payment(id:)
-      order = HTTParty.delete("#{@api_url}order_payments/#{id}",
-      {
-          basic_auth: @auth
-      })
+      order = HTTParty.delete("#{@api_url}order_payments/#{id}#{@ws_key}")
       puts order.body,order.code
     end
 
     def self.get_order_payment(id:)
-      order = HTTParty.get("#{@api_url}order_payments/#{id}",
-      {
-          basic_auth: @auth
-      })
+      order = HTTParty.get("#{@api_url}order_payments/#{id}#{@ws_key}")
       puts order.body,order.code
     end
 
@@ -3670,7 +3496,7 @@ class Presta
       amount_tax_excl:0,
       amount_tax_incl:0
     )
-      ord = HTTParty.post("#{@api_url}order_slip/",
+      ord = HTTParty.post("#{@api_url}order_slip/#{@ws_key}",
       {
         body:
         "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
@@ -3703,7 +3529,7 @@ class Presta
             </associations>
           </order_slip>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -3733,7 +3559,7 @@ class Presta
       amount_tax_excl:0,
       amount_tax_incl:0
     )
-      ord = HTTParty.put("#{@api_url}order_slip/#{id}",
+      ord = HTTParty.put("#{@api_url}order_slip/#{id}#{@ws_key}",
       {
         body:
         "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
@@ -3766,7 +3592,7 @@ class Presta
             </associations>
           </order_slip>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -3776,18 +3602,12 @@ class Presta
     end
 
     def self.delete_order_slip(id:)
-      ord = HTTParty.delete("#{@api_url}order_slip/#{id}",
-      {
-        basic_auth: @auth 
-      })
+      ord = HTTParty.delete("#{@api_url}order_slip/#{id}#{@ws_key}")
       puts ord.body, ord.code
     end
 
     def self.get_order_slip(id:)
-      ord = HTTParty.get("#{@api_url}order_slip/#{id}",
-      {
-        basic_auth: @auth 
-      })
+      ord = HTTParty.get("#{@api_url}order_slip/#{id}#{@ws_key}")
       puts ord.body, ord.code
     end
 
@@ -3811,7 +3631,7 @@ class Presta
       name:,
       template:""
     )
-      ord = HTTParty.post("#{@api_url}order_states/",
+      ord = HTTParty.post("#{@api_url}order_states/#{@ws_key}",
       {
         body:
         "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
@@ -3838,7 +3658,7 @@ class Presta
             </template>
           </order_state>
         </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -3866,7 +3686,7 @@ class Presta
       name:,
       template:""
     )
-      ord = HTTParty.put("#{@api_url}order_states/#{id}",
+      ord = HTTParty.put("#{@api_url}order_states/#{id}#{@ws_key}",
       {
         body:
         "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
@@ -3893,7 +3713,7 @@ class Presta
             </template>
           </order_state>
         </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -3904,19 +3724,13 @@ class Presta
     end
 
     def self.delete_order_states(id:)
-      ord = HTTParty.delete("#{@api_url}order_states/#{id}",
-      {
-        basic_auth: @auth  
-      })
+      ord = HTTParty.delete("#{@api_url}order_states/#{id}#{@ws_key}")
       puts ord.body, ord.code
 
     end
 
     def self.get_order_states(id:)
-      ord = HTTParty.get("#{@api_url}order_states/#{id}",
-      {
-        basic_auth: @auth  
-      })
+      ord = HTTParty.get("#{@api_url}order_states/#{id}#{@ws_key}")
       puts ord.body, ord.code
 
     end
@@ -3983,7 +3797,7 @@ class Presta
         unit_price_tax_incl: "",
         unit_price_tax_excl: ""
     )
-      ord  = HTTParty.post("#{@api_url}orders/",
+      ord  = HTTParty.post("#{@api_url}orders/#{@ws_key}",
           {
               body:
               "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
@@ -4056,7 +3870,7 @@ class Presta
                   </associations>
               </order>
           </prestashop>",
-              basic_auth: @auth,
+              
               header: {
                 "Content-Type" => 'text/xml',
                 "charset" => 'utf-8'
@@ -4126,7 +3940,7 @@ class Presta
         unit_price_tax_incl: "",
         unit_price_tax_excl: ""
     )
-      ord  = HTTParty.put("#{@api_url}orders/#{id}",
+      ord  = HTTParty.put("#{@api_url}orders/#{id}#{@ws_key}",
         {
             body:
             "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
@@ -4199,7 +4013,7 @@ class Presta
                 </associations>
             </order>
         </prestashop>",
-            basic_auth: @auth,
+            
             header: {
               "Content-Type" => 'text/xml',
               "charset" => 'utf-8'
@@ -4209,26 +4023,12 @@ class Presta
     end
 
     def self.delete_order(id:)
-      order = HTTParty.delete("#{@api_url}orders/#{id}",
-      {
-          basic_auth: @auth,
-          header: {
-              "Content-Type" => 'text/xml',
-              "charset" => 'utf-8'
-          }
-      })
+      order = HTTParty.delete("#{@api_url}orders/#{id}#{@ws_key}")
       puts order.code
     end
 
     def self.get_order(id:)
-    order = HTTParty.get("#{@api_url}orders/#{id}",
-    {
-        basic_auth: @auth,
-        header: {
-            "Content-Type" => 'text/xml',
-            "charset" => 'utf-8'
-        }
-    })
+    order = HTTParty.get("#{@api_url}orders/#{id}#{@ws_key}")
     puts order.body, order.code
     end
 
@@ -4239,7 +4039,7 @@ class Presta
       delimiter1:,
       delimiter2:
     )
-      sup = HTTParty.post("#{@api_url}price_ranges/",
+      sup = HTTParty.post("#{@api_url}price_ranges/#{@ws_key}",
       {
         body:
         "<prestashop>
@@ -4250,7 +4050,7 @@ class Presta
             <delimiter2>#{delimiter2}</delimiter2>
           </price_range>
         </prestashop>",
-        basic_auth: @auth,
+        
         header: {
           "Content-Type" => 'text/xml',
           "charset" => 'utf-8'
@@ -4265,7 +4065,7 @@ class Presta
       delimiter1:,
       delimiter2:
     )
-      sup = HTTParty.put("#{@api_url}price_ranges/#{id}",
+      sup = HTTParty.put("#{@api_url}price_ranges/#{id}#{@ws_key}",
       {
         body:
         "<prestashop>
@@ -4276,7 +4076,7 @@ class Presta
             <delimiter2>#{delimiter2}</delimiter2>
           </price_range>
         </prestashop>",
-        basic_auth: @auth,
+        
         header: {
           "Content-Type" => 'text/xml',
           "charset" => 'utf-8'
@@ -4286,18 +4086,12 @@ class Presta
     end
 
     def self.get_price_ranges(id:)
-      sup = HTTParty.get("#{@api_url}price_ranges/#{id}",
-      {
-        basic_auth: @auth
-      })
+      sup = HTTParty.get("#{@api_url}price_ranges/#{id}#{@ws_key}")
       puts sup.body,sup.code
     end
 
     def self.delete_price_ranges(id:)
-      sup = HTTParty.delete("#{@api_url}price_ranges/#{id}",
-      {
-        basic_auth: @auth
-      })
+      sup = HTTParty.delete("#{@api_url}price_ranges/#{id}#{@ws_key}")
       puts sup.body,sup.code
     end
 
@@ -4311,7 +4105,7 @@ class Presta
       is_deleted:0,
       name:
     )
-      prod_cust_field = HTTParty.post("#{@api_url}product_customization_fields/",
+      prod_cust_field = HTTParty.post("#{@api_url}product_customization_fields/#{@ws_key}",
       {
           body:
           "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
@@ -4327,7 +4121,7 @@ class Presta
             </name>
           </customization_field>
         </prestashop>",
-        basic_auth: @auth,
+        
         header: {
             "Content-Type" => 'text/xml',
             "charset" => 'utf-8'
@@ -4346,7 +4140,7 @@ class Presta
     is_deleted:0,
     name:
   )
-    prod_cust_field = HTTParty.put("#{@api_url}product_customization_fields/#{id}",
+    prod_cust_field = HTTParty.put("#{@api_url}product_customization_fields/#{id}#{@ws_key}",
     {
         body:
         "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
@@ -4362,7 +4156,7 @@ class Presta
           </name>
         </customization_field>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
           "Content-Type" => 'text/xml',
           "charset" => 'utf-8'
@@ -4373,18 +4167,12 @@ class Presta
   end
 
   def self.delete_product_customization_field(id:)
-    prod_cust_field = HTTParty.delete("#{@api_url}product_customization_fields/#{id}",
-    {
-      basic_auth: @auth
-    })
+    prod_cust_field = HTTParty.delete("#{@api_url}product_customization_fields/#{id}#{@ws_key}")
     puts prod_cust_field.body,prod_cust_field.code
   end
 
   def self.get_product_customization_field(id:)
-    prod_cust_field = HTTParty.get("#{@api_url}product_customization_fields/#{id}",
-    {
-      basic_auth: @auth
-    })
+    prod_cust_field = HTTParty.get("#{@api_url}product_customization_fields/#{id}#{@ws_key}")
     puts prod_cust_field.body,prod_cust_field.code
   end
 
@@ -4395,7 +4183,7 @@ class Presta
     custom:0,
     value:
   )
-      prod_feat_val = HTTParty.post("#{@api_url}product_feature_values/",
+      prod_feat_val = HTTParty.post("#{@api_url}#{@api_url}product_feature_values/#{@ws_key}",
       {
           body:
           "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
@@ -4408,7 +4196,7 @@ class Presta
             </value>
           </product_feature_value>
         </prestashop>",
-        basic_auth: @auth,
+        
         header: {
             "Content-Type" => 'text/xml',
             "charset" => 'utf-8'
@@ -4424,7 +4212,7 @@ class Presta
     custom:0,
     value:
   )
-    prod_feat_val = HTTParty.put("#{@api_url}product_feature_values/#{id}",
+    prod_feat_val = HTTParty.put("#{@api_url}product_feature_values/#{id}#{@ws_key}",
     {
         body:
         "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
@@ -4437,7 +4225,7 @@ class Presta
           </value>
         </product_feature_value>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
           "Content-Type" => 'text/xml',
           "charset" => 'utf-8'
@@ -4448,18 +4236,12 @@ class Presta
   end
 
   def self.delete_product_feature_values(id:)
-    prod_feat_val = HTTParty.delete("#{@api_url}product_feature_values/#{id}",
-    {
-      basic_auth: @auth
-    })
+    prod_feat_val = HTTParty.delete("#{@api_url}product_feature_values/#{id}#{@ws_key}")
     puts prod_feat_val.body,prod_feat_val.code
   end
 
   def self.get_product_feature_values(id:)
-    prod_feat_val = HTTParty.get("#{@api_url}product_feature_values/#{id}",
-    {
-      basic_auth: @auth
-    })
+    prod_feat_val = HTTParty.get("#{@api_url}product_feature_values/#{id}#{@ws_key}")
     puts prod_feat_val.body,prod_feat_val.code
   end
 
@@ -4469,7 +4251,7 @@ class Presta
     position:1,
     name:
   )
-      prod_feat = HTTParty.post("#{@api_url}product_features/",
+      prod_feat = HTTParty.post("#{@api_url}#{@api_url}product_features/#{@ws_key}",
       {
           body:
           "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
@@ -4481,7 +4263,7 @@ class Presta
             </name>
           </product_feature>
         </prestashop>",
-        basic_auth: @auth,
+        
         header: {
             "Content-Type" => 'text/xml',
             "charset" => 'utf-8'
@@ -4496,7 +4278,7 @@ class Presta
     position:1,
     name:
   )
-    prod_feat = HTTParty.put("#{@api_url}product_features/#{id}",
+    prod_feat = HTTParty.put("#{@api_url}product_features/#{id}#{@ws_key}",
     {
         body:
         "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
@@ -4508,7 +4290,7 @@ class Presta
           </name>
         </product_feature>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
           "Content-Type" => 'text/xml',
           "charset" => 'utf-8'
@@ -4519,18 +4301,12 @@ class Presta
   end
 
   def self.delete_product_features(id:)
-    prod_feat = HTTParty.delete("#{@api_url}product_features/#{id}",
-    {
-      basic_auth: @auth
-    })
+    prod_feat = HTTParty.delete("#{@api_url}product_features/#{id}#{@ws_key}")
     puts prod_feat.body,prod_feat.code
   end
 
   def self.get_product_features(id:)
-    prod_feat = HTTParty.get("#{@api_url}product_features/#{id}",
-    {
-      basic_auth: @auth
-    })
+    prod_feat = HTTParty.get("#{@api_url}product_features/#{id}#{@ws_key}")
     puts prod_feat.body,prod_feat.code
   end
 
@@ -4542,7 +4318,7 @@ class Presta
     position:1,
     name:
   )
-      prod_opt_val = HTTParty.post("#{@api_url}product_option_values",
+      prod_opt_val = HTTParty.post("##{@api_url}#{@api_url}product_option_values/#{@ws_key}",
       {
           body: 
           "<prestashop>
@@ -4556,7 +4332,7 @@ class Presta
                   </name>
               </product_option_value>
           </prestashop>",
-          basic_auth: @auth,
+          
           header: {
               "Content-Type" => 'text/xml',
               "charset" => 'utf-8'
@@ -4573,7 +4349,7 @@ class Presta
     position:1,
     name:
   )
-    prod_opt_val = HTTParty.put("#{@api_url}product_option_values/#{id}",
+    prod_opt_val = HTTParty.put("#{@api_url}#{@api_url}product_option_values/#{id}#{@ws_key}",
     {
         body: 
         "<prestashop>
@@ -4587,7 +4363,7 @@ class Presta
                 </name>
             </product_option_value>
         </prestashop>",
-        basic_auth: @auth,
+        
         header: {
             "Content-Type" => 'text/xml',
             "charset" => 'utf-8'
@@ -4598,18 +4374,12 @@ class Presta
   end
 
   def self.delete_product_options_values(id:)
-    prod_opt_val = HTTParty.delete("#{@api_url}product_option_values/#{id}",
-    {
-        basic_auth: @auth
-    })
+    prod_opt_val = HTTParty.delete("#{@api_url}product_option_values/#{id}#{@ws_key}")
     puts prod_opt_val.body,prod_opt_val.code
   end
 
   def self.get_product_options_values(id:)
-    prod_opt_val = HTTParty.get("#{@api_url}product_option_values/#{id}",
-    {
-        basic_auth: @auth
-    })
+    prod_opt_val = HTTParty.get("#{@api_url}product_option_values/#{id}#{@ws_key}")
     puts prod_opt_val.body,prod_opt_val.code
   end
 
@@ -4624,7 +4394,7 @@ class Presta
     public_name:,
     product_option_value_id:0
    )
-    prod_opt = HTTParty.post("#{@api_url}product_options/",
+    prod_opt = HTTParty.post("#{@api_url}product_options/#{@ws_key}",
     {
         body:
         "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
@@ -4648,7 +4418,7 @@ class Presta
           </associations>
         </product_option>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
           "Content-Type" => 'text/xml',
           "charset" => 'utf-8'
@@ -4666,7 +4436,7 @@ class Presta
     public_name:,
     product_option_value_id:0
   )
-    prod_opt = HTTParty.put("#{@api_url}product_options/#{id}",
+    prod_opt = HTTParty.put("#{@api_url}product_options/#{id}#{@ws_key}",
     {
         body:
         "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
@@ -4690,7 +4460,7 @@ class Presta
           </associations>
         </product_option>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
           "Content-Type" => 'text/xml',
           "charset" => 'utf-8'
@@ -4700,18 +4470,12 @@ class Presta
   end
 
   def self.delete_product_options(id:)
-    prod_opt = HTTParty.delete("#{@api_url}product_options/#{id}",
-    {
-      basic_auth: @auth
-  })
+    prod_opt = HTTParty.delete("#{@api_url}product_options/#{id}#{@ws_key}")
   puts prod_opt.body,prod_opt.code
   end
 
   def self.get_product_options(id:)
-    prod_opt = HTTParty.get("#{@api_url}product_options/#{id}",
-    {
-      basic_auth: @auth
-  })
+    prod_opt = HTTParty.get("#{@api_url}product_options/#{id}#{@ws_key}")
   puts prod_opt.body,prod_opt.code
   end
 
@@ -4725,7 +4489,7 @@ class Presta
     product_supplier_reference:"",
     product_supplier_price_te:0
   )
-      prod_sup = HTTParty.post("#{@api_url}product_suppliers/",
+      prod_sup = HTTParty.post("#{@api_url}product_suppliers/#{@ws_key}",
       {
           body: 
               "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
@@ -4739,7 +4503,7 @@ class Presta
               <product_supplier_price_te>#{product_supplier_price_te}</product_supplier_price_te>
               </product_suppliers>
           </prestashop>",
-          basic_auth: @auth,
+          
           header: {
               "Content-Type" => 'text/xml',
               "charset" => 'utf-8'
@@ -4757,7 +4521,7 @@ class Presta
     product_supplier_reference:"",
     product_supplier_price_te:0
   )
-    prod_sup = HTTParty.put("#{@api_url}product_suppliers/#{id}",
+    prod_sup = HTTParty.put("#{@api_url}product_suppliers/#{id}#{@ws_key}",
     {
         body: 
             "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
@@ -4771,7 +4535,7 @@ class Presta
             <product_supplier_price_te>#{product_supplier_price_te}</product_supplier_price_te>
             </product_suppliers>
         </prestashop>",
-        basic_auth: @auth,
+        
         header: {
             "Content-Type" => 'text/xml',
             "charset" => 'utf-8'
@@ -4781,18 +4545,12 @@ class Presta
   end
 
   def self.delete_product_suppliers(id:)
-    prod_sup = HTTParty.delete("#{@api_url}product_suppliers/#{id}",
-    {
-        basic_auth: @auth
-    })
+    prod_sup = HTTParty.delete("#{@api_url}product_suppliers/#{id}#{@ws_key}")
     puts prod_sup.body,prod_sup.code
   end
 
   def self.get_product_suppliers(id:)
-    prod_sup = HTTParty.get("#{@api_url}product_suppliers/#{id}",
-    {
-        basic_auth: @auth
-    })
+    prod_sup = HTTParty.get("#{@api_url}product_suppliers/#{id}#{@ws_key}")
     puts prod_sup.body,prod_sup.code
   end
 
@@ -4885,7 +4643,7 @@ class Presta
         product_attribute_id:0,
         quantity:0
   )
-      prod = HTTParty.post("#{@api_url}products/",
+      prod = HTTParty.post("#{@api_url}products/#{@ws_key}",
       {
           body:
           "<prestashop xmlns:ns0=\"http://www.w3.org/1999/xlink\">
@@ -5038,7 +4796,7 @@ class Presta
                   </associations>
               </product>
            </prestashop>",
-              basic_auth: @auth,
+              
               header: {
                   "Content-Type" => 'text/xml',
                   "charset" => 'utf-8'
@@ -5133,7 +4891,7 @@ class Presta
     product_attribute_id:0,
     quantity:0
   )
-      prod = HTTParty.put("#{@api_url}products/#{id}",
+      prod = HTTParty.put("#{@api_url}products/#{id}#{@ws_key}",
       {
         body:"<prestashop xmlns:ns0=\"http://www.w3.org/1999/xlink\">
         <product>
@@ -5285,7 +5043,7 @@ class Presta
            </associations>
        </product>
     </prestashop>",
-        basic_auth: @auth,
+        
         header: {
           "Content-Type" => 'text/xml',
           "charset" => 'utf-8'
@@ -5295,14 +5053,13 @@ class Presta
     end
 
     def self.delete_product(id:)
-        prod = HTTParty.delete("#{@api_url}products/#{id}",
-          basic_auth: @auth
+        prod = HTTParty.delete("#{@api_url}products/#{id}#{@ws_key}"
         )
         puts prod.body, prod.code
     end
 
     def self.get_product(id:)
-      prod = HTTParty.get("#{@api_url}products/#{id}", basic_auth: @auth )
+      prod = HTTParty.get("#{@api_url}products/#{id}#{@ws_key}")
       puts prod.body, prod.code
   end
 
@@ -5317,7 +5074,7 @@ class Presta
     active:0,
     deleted:0
   )
-    sup = HTTParty.post("#{@api_url}shop_groups/",
+    sup = HTTParty.post("#{@api_url}shop_groups/#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -5332,7 +5089,7 @@ class Presta
           <deleted>#{deleted}</deleted>
         </shop_group>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -5351,7 +5108,7 @@ class Presta
     active:0,
     deleted:0
   )
-    sup = HTTParty.put("#{@api_url}shop_groups/#{id}",
+    sup = HTTParty.put("#{@api_url}shop_groups/#{id}#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -5366,7 +5123,7 @@ class Presta
           <deleted>#{deleted}</deleted>
         </shop_group>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -5376,18 +5133,12 @@ class Presta
   end
 
   def self.get_shop_groups(id:)
-    sup = HTTParty.get("#{@api_url}shop_groups/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.get("#{@api_url}shop_groups/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
   def self.delete_shop_groups(id:)
-    sup = HTTParty.delete("#{@api_url}shop_groups/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.delete("#{@api_url}shop_groups/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
@@ -5403,7 +5154,7 @@ class Presta
     physical_uri:"",
     virtual_uri:""
   )
-    sup = HTTParty.post("#{@api_url}shop_urls/",
+    sup = HTTParty.post("#{@api_url}shop_urls/#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -5418,7 +5169,7 @@ class Presta
           <virtual_uri>#{virtual_uri}</virtual_uri>
         </shop_url>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -5437,7 +5188,7 @@ class Presta
     physical_uri:"",
     virtual_uri:""
   )
-    sup = HTTParty.put("#{@api_url}shop_urls/#{id}",
+    sup = HTTParty.put("#{@api_url}shop_urls/#{id}#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -5452,7 +5203,7 @@ class Presta
           <virtual_uri>#{virtual_uri}</virtual_uri>
         </shop_url>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -5462,18 +5213,12 @@ class Presta
   end
 
   def self.get_shop_urls(id:)
-    sup = HTTParty.get("#{@api_url}shop_urls/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.get("#{@api_url}shop_urls/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
   def self.delete_shop_urls(id:)
-    sup = HTTParty.delete("#{@api_url}shop_urls/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.delete("#{@api_url}shop_urls/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
@@ -5488,7 +5233,7 @@ class Presta
     color:"",
     theme_name:""
   )
-    sup = HTTParty.post("#{@api_url}shops/",
+    sup = HTTParty.post("#{@api_url}shops/#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -5503,7 +5248,7 @@ class Presta
         <theme_name>#{theme_name}</theme_name>
         </shop>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -5522,7 +5267,7 @@ class Presta
     color:"",
     theme_name:""
   )
-    sup = HTTParty.put("#{@api_url}shops/#{id}",
+    sup = HTTParty.put("#{@api_url}shops/#{id}#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -5537,7 +5282,7 @@ class Presta
         <theme_name>#{theme_name}</theme_name>
         </shop>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -5547,18 +5292,12 @@ class Presta
   end
 
   def self.get_shops(id:)
-    sup = HTTParty.get("#{@api_url}shops/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.get("#{@api_url}shops/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
   def self.delete_shops(id:)
-    sup = HTTParty.delete("#{@api_url}shops/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.delete("#{@api_url}shops/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
@@ -5579,7 +5318,7 @@ class Presta
     from:"",
     to:""
   )
-    sup = HTTParty.post("#{@api_url}specific_price_rules/",
+    sup = HTTParty.post("#{@api_url}specific_price_rules/#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -5599,7 +5338,7 @@ class Presta
           <to>#{to}</to>
         </specific_price_rule>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -5623,7 +5362,7 @@ class Presta
     from:"",
     to:""
   )
-    sup = HTTParty.put("#{@api_url}specific_price_rules/#{id}",
+    sup = HTTParty.put("#{@api_url}specific_price_rules/#{id}#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -5643,7 +5382,7 @@ class Presta
           <to>#{to}</to>
         </specific_price_rule>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -5653,18 +5392,12 @@ class Presta
   end
 
   def self.get_specific_price_rules(id:)
-    sup = HTTParty.get("#{@api_url}specific_price_rules/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.get("#{@api_url}specific_price_rules/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
   def self.delete_specific_price_rules(id:)
-    sup = HTTParty.delete("#{@api_url}specific_price_rules/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.delete("#{@api_url}specific_price_rules/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
@@ -5689,7 +5422,7 @@ class Presta
     from:,
     to:
   )
-    sup = HTTParty.post("#{@api_url}specific_prices/",
+    sup = HTTParty.post("#{@api_url}specific_prices/#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -5714,7 +5447,7 @@ class Presta
           <to>#{to}</to>
         </specific_price>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -5743,7 +5476,7 @@ class Presta
     from:,
     to:
   )
-    sup = HTTParty.put("#{@api_url}specific_prices/#{id}",
+    sup = HTTParty.put("#{@api_url}specific_prices/#{id}#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -5768,7 +5501,7 @@ class Presta
           <to>#{to}</to>
         </specific_price>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -5778,18 +5511,12 @@ class Presta
   end
 
   def self.get_specific_prices(id:)
-    sup = HTTParty.get("#{@api_url}specific_prices/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.get("#{@api_url}specific_prices/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
   def self.delete_specific_prices(id:)
-    sup = HTTParty.delete("#{@api_url}specific_prices/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.delete("#{@api_url}specific_prices/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
@@ -5802,7 +5529,7 @@ class Presta
     name:,
     active:0
    )
-    sup = HTTParty.post("#{@api_url}states/",
+    sup = HTTParty.post("#{@api_url}states/#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -5815,7 +5542,7 @@ class Presta
           <active>#{active}</active>
         </state>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -5832,7 +5559,7 @@ class Presta
     name:,
     active:0
   )
-    sup = HTTParty.put("#{@api_url}states/#{id}",
+    sup = HTTParty.put("#{@api_url}states/#{id}#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -5845,7 +5572,7 @@ class Presta
           <active>#{active}</active>
         </state>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -5855,18 +5582,12 @@ class Presta
   end
 
   def self.get_states(id:)
-    sup = HTTParty.get("#{@api_url}states/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.get("#{@api_url}states/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
   def self.delete_states(id:)
-    sup = HTTParty.delete("#{@api_url}states/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.delete("#{@api_url}states/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
@@ -5882,7 +5603,7 @@ class Presta
     out_of_stock:,
     location:""
    )
-    sup = HTTParty.post("#{@api_url}stock_movements/",
+    sup = HTTParty.post("#{@api_url}stock_movements/#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -5898,7 +5619,7 @@ class Presta
           <location>#{location}</location>
         </stock_available>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -5918,7 +5639,7 @@ class Presta
     out_of_stock:,
     location:""
   )
-    sup = HTTParty.put("#{@api_url}stock_movements/#{id}",
+    sup = HTTParty.put("#{@api_url}stock_movements/#{id}#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -5934,7 +5655,7 @@ class Presta
           <location>#{location}</location>
         </stock_available>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -5944,18 +5665,12 @@ class Presta
   end
 
   def self.get_stock_availables(id:)
-    sup = HTTParty.get("#{@api_url}stock_movements/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.get("#{@api_url}stock_movements/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
   def self.delete_stock_availables(id:)
-    sup = HTTParty.delete("#{@api_url}stock_movements/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.delete("#{@api_url}stock_movements/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
@@ -5968,7 +5683,7 @@ class Presta
     date_upd:"",
     name:
   )
-    sup = HTTParty.post("#{@api_url}stock_movement_reasons/",
+    sup = HTTParty.post("#{@api_url}stock_movement_reasons/#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -5983,7 +5698,7 @@ class Presta
           </name>
         </stock_movement_reason>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -6000,7 +5715,7 @@ class Presta
     date_upd:"",
     name:
   )
-    sup = HTTParty.put("#{@api_url}stock_movement_reasons/#{id}",
+    sup = HTTParty.put("#{@api_url}stock_movement_reasons/#{id}#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -6015,7 +5730,7 @@ class Presta
           </name>
         </stock_movement_reason>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -6025,18 +5740,12 @@ class Presta
   end
 
   def self.get_stock_movement_reasons(id:)
-    sup = HTTParty.get("#{@api_url}stock_movement_reasons/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.get("#{@api_url}stock_movement_reasons/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
   def self.delete_stock_movement_reasons(id:)
-    sup = HTTParty.delete("#{@api_url}stock_movement_reasons/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.delete("#{@api_url}stock_movement_reasons/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
@@ -6065,7 +5774,7 @@ class Presta
     price_te:0,
     date_add:""
   )
-    sup = HTTParty.post("#{@api_url}stock_movements/",
+    sup = HTTParty.post("#{@api_url}stock_movements/#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -6096,7 +5805,7 @@ class Presta
         <date_add>#{date_add}</date_add>
         </stock_mvt>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -6129,7 +5838,7 @@ class Presta
     price_te:0,
     date_add:""
   )
-    sup = HTTParty.put("#{@api_url}stock_movements/#{id}",
+    sup = HTTParty.put("#{@api_url}stock_movements/#{id}#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -6160,7 +5869,7 @@ class Presta
         <date_add>#{date_add}</date_add>
         </stock_mvt>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: 
       {
         "Content-Type" => 'text/xml',
@@ -6171,18 +5880,12 @@ class Presta
   end
 
   def self.get_stock_movements(id:)
-    sup = HTTParty.get("#{@api_url}stock_movements/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.get("#{@api_url}stock_movements/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
   def self.delete_stock_movements(id:)
-    sup = HTTParty.delete("#{@api_url}stock_movements/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.delete("#{@api_url}stock_movements/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
@@ -6202,7 +5905,7 @@ class Presta
     usable_quantity:0,
     price_te:0
   )
-    sup = HTTParty.post("#{@api_url}stocks/",
+    sup = HTTParty.post("#{@api_url}stocks/#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -6221,7 +5924,7 @@ class Presta
         <price_te>#{price_te}<</price_te>
         </stock>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: 
       {
         "Content-Type" => 'text/xml',
@@ -6245,7 +5948,7 @@ class Presta
     usable_quantity:0,
     price_te:0
   )
-    sup = HTTParty.post("#{@api_url}stocks/#{id}",
+    sup = HTTParty.post("#{@api_url}stocks/#{id}#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -6264,7 +5967,7 @@ class Presta
         <price_te>#{price_te}<</price_te>
         </stock>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: 
       {
         "Content-Type" => 'text/xml',
@@ -6275,18 +5978,12 @@ class Presta
   end
 
   def self.get_stocks(id:)
-    sup = HTTParty.get("#{@api_url}stocks/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.get("#{@api_url}stocks/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
   def self.delete_stocks(id:)
-    sup = HTTParty.delete("#{@api_url}stocks/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.delete("#{@api_url}stocks/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
@@ -6310,7 +6007,7 @@ class Presta
     address2:"",
     note:""
   )
-    sup = HTTParty.post("#{@api_url}stores/",
+    sup = HTTParty.post("#{@api_url}stores/#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -6345,7 +6042,7 @@ class Presta
       </note>
       </store>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -6373,7 +6070,7 @@ class Presta
     address2:"",
     note:""
   )
-    sup = HTTParty.put("#{@api_url}stores/#{id}",
+    sup = HTTParty.put("#{@api_url}stores/#{id}#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -6408,7 +6105,7 @@ class Presta
       </note>
       </store>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -6418,18 +6115,12 @@ class Presta
   end
 
   def self.get_stores(id:)
-    sup = HTTParty.get("#{@api_url}stores/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.get("#{@api_url}stores/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
   def self.delete_stores(id:)
-    sup = HTTParty.delete("#{@api_url}stores/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.delete("#{@api_url}stores/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
@@ -6446,7 +6137,7 @@ class Presta
     meta_description:"",
     meta_keywords:""
   )
-    sup = HTTParty.post("#{@api_url}suppliers/",
+    sup = HTTParty.post("#{@api_url}suppliers/#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -6471,7 +6162,7 @@ class Presta
           </meta_keywords>
         </supplier>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -6492,7 +6183,7 @@ class Presta
     meta_description:"",
     meta_keywords:""
 )
-    sup = HTTParty.put("#{@api_url}suppliers/#{id}",
+    sup = HTTParty.put("#{@api_url}suppliers/#{id}#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -6517,7 +6208,7 @@ class Presta
           </meta_keywords>
         </supplier>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -6527,18 +6218,12 @@ class Presta
   end
 
   def self.get_supplier(id:)
-    sup = HTTParty.get("#{@api_url}suppliers/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.get("#{@api_url}suppliers/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
   def self.delete_supplier(id:)
-    sup = HTTParty.delete("#{@api_url}suppliers/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.delete("#{@api_url}suppliers/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
@@ -6568,7 +6253,7 @@ class Presta
     tax_value_with_order_discount:0,
     price_with_order_discount_te:0
   )
-    sup = HTTParty.post("#{@api_url}supply_order_details/",
+    sup = HTTParty.post("#{@api_url}supply_order_details/#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -6599,7 +6284,7 @@ class Presta
           <price_with_order_discount_te>#{price_with_order_discount_te}</price_with_order_discount_te>
         </supply_order_detail>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -6633,7 +6318,7 @@ class Presta
     tax_value_with_order_discount:0,
     price_with_order_discount_te:0
   )
-    sup = HTTParty.put("#{@api_url}supply_order_details/#{id}",
+    sup = HTTParty.put("#{@api_url}supply_order_details/#{id}#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -6664,7 +6349,7 @@ class Presta
           <price_with_order_discount_te>#{price_with_order_discount_te}</price_with_order_discount_te>
         </supply_order_detail>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -6674,18 +6359,12 @@ class Presta
   end
 
   def self.get_supply_order_detail(id:)
-    sup = HTTParty.get("#{@api_url}supply_order_details/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.get("#{@api_url}supply_order_details/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
   def self.delete_supply_order_detail(id:)
-    sup = HTTParty.delete("#{@api_url}supply_order_details/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.delete("#{@api_url}supply_order_details/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
@@ -6699,7 +6378,7 @@ class Presta
     employee_lastname:"",
     date_add:""
   )
-    sup = HTTParty.post("#{@api_url}supply_order_histories/",
+    sup = HTTParty.post("#{@api_url}supply_order_histories/#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -6713,7 +6392,7 @@ class Presta
           <date_add>#{date_add}</date_add>
         </supply_order_history>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -6730,7 +6409,7 @@ class Presta
     employee_firstname:"",
     employee_lastname:"",
     date_add:"")
-    sup = HTTParty.put("#{@api_url}supply_order_histories/#{id}",
+    sup = HTTParty.put("#{@api_url}supply_order_histories/#{id}#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -6744,7 +6423,7 @@ class Presta
           <date_add>#{date_add}</date_add>
         </supply_order_history>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -6754,18 +6433,12 @@ class Presta
   end
 
   def self.get_supply_order_history(id:)
-    sup = HTTParty.get("#{@api_url}supply_order_histories/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.get("#{@api_url}supply_order_histories/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
   def self.delete_supply_order_history(id:)
-    sup = HTTParty.delete("#{@api_url}supply_order_histories/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.delete("#{@api_url}supply_order_histories/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
@@ -6795,7 +6468,7 @@ class Presta
           <date_add>#{date_add}</date_add>
         </supply_order_receipt_history>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -6814,7 +6487,7 @@ class Presta
     quantity:0,
     date_add:""
   )
-    sup = HTTParty.put("#{@api_url}supply_order_receipt_histories/#{id}",
+    sup = HTTParty.put("#{@api_url}supply_order_receipt_histories/#{id}#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -6829,7 +6502,7 @@ class Presta
           <date_add>#{date_add}</date_add>
         </supply_order_receipt_history>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -6839,18 +6512,12 @@ class Presta
   end
 
   def self.get_supply_order_receipt_history(id:)
-    sup = HTTParty.get("#{@api_url}supply_order_receipt_histories/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.get("#{@api_url}supply_order_receipt_histories/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
   def self.delete_supply_order_receipt_history(id:)
-    sup = HTTParty.delete("#{@api_url}supply_order_receipt_histories/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.delete("#{@api_url}supply_order_receipt_histories/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
@@ -6865,7 +6532,7 @@ class Presta
     color:"",
     name:
   )
-    sup = HTTParty.post("#{@api_url}supply_order_states/",
+    sup = HTTParty.post("#{@api_url}supply_order_states/#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -6882,7 +6549,7 @@ class Presta
           </name>
         </supply_order_state>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -6901,7 +6568,7 @@ class Presta
     color:"",
     name:
   )
-    sup = HTTParty.put("#{@api_url}supply_order_states/#{id}",
+    sup = HTTParty.put("#{@api_url}supply_order_states/#{id}#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -6918,7 +6585,7 @@ class Presta
           </name>
         </supply_order_state>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -6928,18 +6595,12 @@ class Presta
   end
 
   def self.get_supply_order_states(id:)
-    sup = HTTParty.get("#{@api_url}supply_order_states/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.get("#{@api_url}supply_order_states/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
   def self.delete_supply_order_states(id:)
-    sup = HTTParty.delete("#{@api_url}supply_order_states/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.delete("#{@api_url}supply_order_states/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
@@ -6969,7 +6630,7 @@ class Presta
     supply_order_detail_supplier_reference:"",
     supply_order_detail_product_name:""
   )
-    sup = HTTParty.post("#{@api_url}supply_orders/",
+    sup = HTTParty.post("#{@api_url}supply_orders/#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -7005,7 +6666,7 @@ class Presta
           </associations>
         </supply_order>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -7039,7 +6700,7 @@ class Presta
     supply_order_detail_supplier_reference:"",
     supply_order_detail_product_name:""
   )
-    sup = HTTParty.put("#{@api_url}supply_orders/#{id}",
+    sup = HTTParty.put("#{@api_url}supply_orders/#{id}#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -7075,7 +6736,7 @@ class Presta
           </associations>
         </supply_order>
       </prestashop>",
-      basic_auth: @auth,
+      
       header: {
         "Content-Type" => 'text/xml',
         "charset" => 'utf-8'
@@ -7085,18 +6746,12 @@ class Presta
   end
 
   def self.get_supply_orders(id:)
-    sup = HTTParty.get("#{@api_url}supply_orders/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.get("#{@api_url}supply_orders/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
   def self.delete_supply_orders(id:)
-    sup = HTTParty.delete("#{@api_url}supply_orders/#{id}",
-    {
-      basic_auth: @auth
-    })
+    sup = HTTParty.delete("#{@api_url}supply_orders/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
@@ -7108,7 +6763,7 @@ class Presta
       id_lang:,
       name:
     )
-        tag = HTTParty.post("#{@api_url}tags/",
+        tag = HTTParty.post("#{@api_url}tags/#{@ws_key}",
         {
             body:
             "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">
@@ -7118,7 +6773,7 @@ class Presta
               <name>#{name}</name>
             </tag>
           </prestashop>",
-          basic_auth: @auth,
+          
           header: {
               "Content-Type" => 'text/xml',
               "charset" => 'utf-8'
@@ -7143,7 +6798,7 @@ class Presta
             <name>#{name}</name>
           </tag>
         </prestashop>",
-        basic_auth: @auth,
+        
         header: {
             "Content-Type" => 'text/xml',
             "charset" => 'utf-8'
@@ -7155,17 +6810,13 @@ class Presta
 
     
     def self.delete_tags(id:)
-      tag = HTTParty.delete("#{@api_url}tags/#{id}",
-        {basic_auth: @auth}
-      )
+      tag = HTTParty.delete("#{@api_url}tags/#{id}#{@ws_key}")
 
     puts tag.body,tag.code
     end
 
     def self.get_tags(id:)
-      tag = HTTParty.get("#{@api_url}tags/#{id}",
-        {basic_auth: @auth}
-      )
+      tag = HTTParty.get("#{@api_url}tags/#{id}#{@ws_key}")
 
     puts tag.body,tag.code
     end
@@ -7180,7 +6831,7 @@ class Presta
       date_add:"",
       date_upd:""
     )
-      t = HTTParty.post("#{@api_url}tax_rule_groups/",
+      t = HTTParty.post("#{@api_url}tax_rule_groups/#{@ws_key}",
       {
         body:
         "<prestashop>
@@ -7193,7 +6844,7 @@ class Presta
             <date_upd>#{date_upd}</date_upd>
           </tax_rule_group>
         </prestashop>",
-        basic_auth: @auth,
+        
         header: {
           "Content-Type" => 'text/xml',
           "charset" => 'utf-8'
@@ -7210,7 +6861,7 @@ class Presta
       date_add:"",
       date_upd:""
     )
-      t = HTTParty.put("#{@api_url}tax_rule_groups/#{id}",
+      t = HTTParty.put("#{@api_url}tax_rule_groups/#{id}#{@ws_key}",
       {
         body:
         "<prestashop>
@@ -7223,7 +6874,7 @@ class Presta
             <date_upd>#{date_upd}</date_upd>
           </tax_rule_group>
         </prestashop>",
-        basic_auth: @auth,
+        
         header: {
           "Content-Type" => 'text/xml',
           "charset" => 'utf-8'
@@ -7233,18 +6884,12 @@ class Presta
     end
 
     def self.get_tax_rule_group(id:)
-      t = HTTParty.get("#{@api_url}tax_rule_groups/#{id}",
-      {
-        basic_auth: @auth
-      })
+      t = HTTParty.get("#{@api_url}tax_rule_groups/#{id}#{@ws_key}")
       puts t.body,t.code
     end
 
     def self.delete_tax_rule_group(id:)
-      t = HTTParty.delete("#{@api_url}tax_rule_groups/#{id}",
-      {
-        basic_auth: @auth
-      })
+      t = HTTParty.delete("#{@api_url}tax_rule_groups/#{id}#{@ws_key}")
       puts t.body,t.code
     end
 
@@ -7262,7 +6907,7 @@ class Presta
       behavior:0,
       description:""
     )
-      t = HTTParty.post("#{@api_url}tax_rules/",
+      t = HTTParty.post("#{@api_url}tax_rules/#{@ws_key}",
       {
         body:
         "<prestashop>
@@ -7278,7 +6923,7 @@ class Presta
             <description>#{description}</description>
           </tax_rule>
         </prestashop>",
-        basic_auth: @auth,
+        
         header: {
           "Content-Type" => 'text/xml',
           "charset" => 'utf-8'
@@ -7298,7 +6943,7 @@ class Presta
       behavior:0,
       description:""
     )
-      t = HTTParty.put("#{@api_url}tax_rules/#{id}",
+      t = HTTParty.put("#{@api_url}tax_rules/#{id}#{@ws_key}",
       {
         body:
         "<prestashop>
@@ -7314,7 +6959,7 @@ class Presta
             <description>#{description}</description>
           </tax_rule>
         </prestashop>",
-        basic_auth: @auth,
+        
         header: {
           "Content-Type" => 'text/xml',
           "charset" => 'utf-8'
@@ -7324,18 +6969,12 @@ class Presta
     end
 
     def self.get_tax_rule(id:)
-      t = HTTParty.get("#{@api_url}tax_rules/#{id}",
-      {
-        basic_auth: @auth
-      })
+      t = HTTParty.get("#{@api_url}tax_rules/#{id}#{@ws_key}")
       puts t.body,t.code
     end
 
     def self.delete_tax_rule(id:)
-      t = HTTParty.delete("#{@api_url}tax_rules/#{id}",
-      {
-        basic_auth: @auth
-      })
+      t = HTTParty.delete("#{@api_url}tax_rules/#{id}#{@ws_key}")
       puts t.body,t.code
     end
 
@@ -7347,7 +6986,7 @@ class Presta
       deleted:0,
       name:
     )
-      t = HTTParty.post("#{@api_url}taxes/",
+      t = HTTParty.post("#{@api_url}taxes/#{@ws_key}",
       {
         body:
         "<prestashop>
@@ -7361,7 +7000,7 @@ class Presta
             </name>
           </tax>
         </prestashop>",
-        basic_auth: @auth,
+        
         header: {
           "Content-Type" => 'text/xml',
           "charset" => 'utf-8'
@@ -7377,7 +7016,7 @@ class Presta
       deleted:0,
       name:
     )
-      t = HTTParty.put("#{@api_url}taxes/#{id}",
+      t = HTTParty.put("#{@api_url}taxes/#{id}#{@ws_key}",
       {
         body:
         "<prestashop>
@@ -7391,7 +7030,7 @@ class Presta
             </name>
           </tax>
         </prestashop>",
-        basic_auth: @auth,
+        
         header: {
           "Content-Type" => 'text/xml',
           "charset" => 'utf-8'
@@ -7401,18 +7040,12 @@ class Presta
     end
 
     def self.get_tax(id:)
-      t = HTTParty.get("#{@api_url}taxes/#{id}",
-      {
-        basic_auth: @auth
-      })
+      t = HTTParty.get("#{@api_url}taxes/#{id}#{@ws_key}")
       puts t.body,t.code
     end
 
     def self.delete_tax(id:)
-      t = HTTParty.delete("#{@api_url}taxes/#{id}",
-      {
-        basic_auth: @auth
-      })
+      t = HTTParty.delete("#{@api_url}taxes/#{id}#{@ws_key}")
       puts t.body,t.code
     end
 
@@ -7426,7 +7059,7 @@ class Presta
       id_shop_group:1,
       id_shop:1
     )
-      t = HTTParty.post("#{@api_url}translated_configurations/",
+      t = HTTParty.post("#{@api_url}translated_configurations/#{@ws_key}",
       {
         body:
         "<prestashop>
@@ -7442,7 +7075,7 @@ class Presta
             <id_shop>#{id_shop}</id_shop>
           </translated_configuration>
         </prestashop>",
-        basic_auth: @auth,
+        
         header: {
           "Content-Type" => 'text/xml',
           "charset" => 'utf-8'
@@ -7460,7 +7093,7 @@ class Presta
       id_shop_group:1,
       id_shop:1
     )
-      t = HTTParty.put("#{@api_url}translated_configurations/#{id}",
+      t = HTTParty.put("#{@api_url}translated_configurations/#{id}#{@ws_key}",
       {
         body:
         "<prestashop>
@@ -7476,7 +7109,7 @@ class Presta
             <id_shop>#{id_shop}</id_shop>
           </translated_configuration>
         </prestashop>",
-        basic_auth: @auth,
+        
         header: {
           "Content-Type" => 'text/xml',
           "charset" => 'utf-8'
@@ -7486,18 +7119,12 @@ class Presta
     end
 
     def self.get_translated_configurations(id:)
-      t = HTTParty.get("#{@api_url}translated_configurations/#{id}",
-      {
-        basic_auth: @auth
-      })
+      t = HTTParty.get("#{@api_url}translated_configurations/#{id}#{@ws_key}")
       puts t.body,t.code
     end
 
     def self.delete_translated_configurations(id:)
-      t = HTTParty.delete("#{@api_url}translated_configurations/#{id}",
-      {
-        basic_auth: @auth
-      })
+      t = HTTParty.delete("#{@api_url}translated_configurations/#{id}#{@ws_key}")
       puts t.body,t.code
     end
  
@@ -7509,7 +7136,7 @@ class Presta
       id_warehouse:,
       location:""
      )
-      war = HTTParty.post("#{@api_url}warehouse_product_locations/",
+      war = HTTParty.post("#{@api_url}warehouse_product_locations/#{@ws_key}",
       {
         body:
         "<prestashop>
@@ -7521,7 +7148,7 @@ class Presta
             <location>#{location}</location>
           </warehouse_product_location>
         </prestashop>",
-        basic_auth: @auth,
+        
         header: {
           "Content-Type" => 'text/xml',
           "charset" => 'utf-8'
@@ -7537,7 +7164,7 @@ class Presta
       id_warehouse:,
       location:""
     )
-      war = HTTParty.put("#{@api_url}warehouse_product_locations/#{id}",
+      war = HTTParty.put("#{@api_url}warehouse_product_locations/#{id}#{@ws_key}",
       {
         body:
         "<prestashop>
@@ -7549,7 +7176,7 @@ class Presta
             <location>#{location}</location>
           </warehouse_product_location>
         </prestashop>",
-        basic_auth: @auth,
+        
         header: {
           "Content-Type" => 'text/xml',
           "charset" => 'utf-8'
@@ -7559,18 +7186,12 @@ class Presta
     end
 
     def self.get_warehouse_product_locations(id:)
-      war = HTTParty.get("#{@api_url}warehouse_product_locations/#{id}",
-      {
-        basic_auth: @auth
-      })
+      war = HTTParty.get("#{@api_url}warehouse_product_locations/#{id}#{@ws_key}")
       puts war.body,war.code
     end
 
     def self.delete_warehouse_product_locations(id:)
-      war = HTTParty.delete("#{@api_url}warehouse_product_locations/#{id}",
-      {
-        basic_auth: @auth
-      })
+      war = HTTParty.delete("#{@api_url}warehouse_product_locations/#{id}#{@ws_key}")
       puts war.body,war.code
     end
 
@@ -7589,7 +7210,7 @@ class Presta
       shop_id:0,
       shop_name:""
     )
-      war = HTTParty.post("#{@api_url}warehouses/",
+      war = HTTParty.post("#{@api_url}warehouses/#{@ws_key}",
       {
         body:
         "<prestashop>
@@ -7622,7 +7243,7 @@ class Presta
             </associations>
           </warehouse>
         </prestashop>",
-        basic_auth: @auth,
+        
         header: {
           "Content-Type" => 'text/xml',
           "charset" => 'utf-8'
@@ -7645,7 +7266,7 @@ class Presta
       shop_id:0,
       shop_name:""
     )
-      war = HTTParty.put("#{@api_url}warehouses/#{id}",
+      war = HTTParty.put("#{@api_url}warehouses/#{id}#{@ws_key}",
       {
         body:
         "<prestashop>
@@ -7678,7 +7299,7 @@ class Presta
             </associations>
           </warehouse>
         </prestashop>",
-        basic_auth: @auth,
+        
         header: {
           "Content-Type" => 'text/xml',
           "charset" => 'utf-8'
@@ -7688,18 +7309,12 @@ class Presta
     end
 
     def self.get_warehouse(id:)
-      war = HTTParty.get("#{@api_url}warehouses/#{id}",
-      {
-        basic_auth: @auth
-      })
+      war = HTTParty.get("#{@api_url}warehouses/#{id}#{@ws_key}")
       puts war.body,war.code
     end
 
     def self.delete_warehouse(id:)
-      war = HTTParty.delete("#{@api_url}warehouses/#{id}",
-      {
-        basic_auth: @auth
-      })
+      war = HTTParty.delete("#{@api_url}warehouses/#{id}#{@ws_key}")
       puts war.body,war.code
     end
 
@@ -7711,7 +7326,7 @@ class Presta
       delimiter1:,
       delimiter2:
     )
-      w = HTTParty.post("#{@api_url}weight_ranges/",
+      w = HTTParty.post("#{@api_url}weight_ranges/#{@ws_key}",
       {
         body:
         "<prestashop>
@@ -7722,7 +7337,7 @@ class Presta
             <delimiter2>#{delimiter2}</delimiter2>
           </weight_range>
         </prestashop>",
-        basic_auth: @auth,
+        
         header: {
           "Content-Type" => 'text/xml',
           "charset" => 'utf-8'
@@ -7737,7 +7352,7 @@ class Presta
       delimiter1:,
       delimiter2:
     )
-      w = HTTParty.put("#{@api_url}weight_ranges/#{id}",
+      w = HTTParty.put("#{@api_url}weight_ranges/#{id}#{@ws_key}",
       {
         body:
         "<prestashop>
@@ -7748,7 +7363,7 @@ class Presta
             <delimiter2>#{delimiter2}</delimiter2>
           </weight_range>
         </prestashop>",
-        basic_auth: @auth,
+        
         header: {
           "Content-Type" => 'text/xml',
           "charset" => 'utf-8'
@@ -7758,18 +7373,12 @@ class Presta
     end
 
     def self.get_weight_range(id:)
-      w = HTTParty.get("#{@api_url}weight_ranges/#{id}",
-      {
-        basic_auth: @auth
-      })
+      w = HTTParty.get("#{@api_url}weight_ranges/#{id}#{@ws_key}")
       puts w.body,w.code
     end
 
     def self.delete_weight_range(id:)
-      w = HTTParty.delete("#{@api_url}weight_ranges/#{id}",
-      {
-        basic_auth: @auth
-      })
+      w = HTTParty.delete("#{@api_url}weight_ranges/#{id}#{@ws_key}")
       puts w.body,w.code
     end
 
@@ -7779,7 +7388,7 @@ class Presta
       name:,
       active:0
     )
-      z = HTTParty.post("#{@api_url}zones/",
+      z = HTTParty.post("#{@api_url}zones/#{@ws_key}",
       {
         body:
         "<prestashop>
@@ -7789,7 +7398,7 @@ class Presta
             <active>#{active}</active>
           </zone>
         </prestashop>",
-        basic_auth: @auth,
+        
         header: {
           "Content-Type" => 'text/xml',
           "charset" => 'utf-8'
@@ -7803,7 +7412,7 @@ class Presta
       name:,
       active:0
     )
-      z = HTTParty.put("#{@api_url}zones/#{id}",
+      z = HTTParty.put("#{@api_url}zones/#{id}#{@ws_key}",
       {
         body:
         "<prestashop>
@@ -7813,7 +7422,7 @@ class Presta
             <active>#{active}</active>
           </zone>
         </prestashop>",
-        basic_auth: @auth,
+        
         header: {
           "Content-Type" => 'text/xml',
           "charset" => 'utf-8'
@@ -7823,18 +7432,12 @@ class Presta
     end
 
     def self.get_zone(id:)
-      z = HTTParty.get("#{@api_url}zones/#{id}",
-      {
-        basic_auth: @auth
-      })
+      z = HTTParty.get("#{@api_url}zones/#{id}#{@ws_key}")
       puts z.body,z.code
     end
 
     def self.delete_zone(id:)
-      z = HTTParty.delete("#{@api_url}zones/#{id}",
-      {
-        basic_auth: @auth
-      })
+      z = HTTParty.delete("#{@api_url}zones/#{id}#{@ws_key}")
       puts z.body,z.code
     end
 
@@ -7856,7 +7459,7 @@ class Presta
             <customizations xlink:href=\"http://localhost:8080/api/images/customizations\" get=\"true\" put=\"true\" post=\"true\" delete=\"true\" head=\"true\" upload_allowed_mimetypes=\"image/gif, image/jpg, image/jpeg, image/pjpeg, image/png, image/x-png\"/>
           </image_types>
         </prestashop>",
-        basic_auth: @auth,
+        
         header: {
           "Content-Type" => 'text/xml',
           "charset" => 'utf-8'
@@ -7866,12 +7469,19 @@ class Presta
     end
 
      def self.post_product_image(product_id)
-      img = HTTParty.post("#{@api_url}images/products",
+      img = HTTParty.post("#{@api_url}images/products/#{product_id}/",
       {
-      body: {:id_product => product_id,:image_format => 'jpg',:existing_path => "https://www.opengift.pl/plik/f2e4e066fad5cfe8cfd6a4ae622144ac121ad5c2/kaczka-pvc-zolty-full.jpg"},
-      basic_auth: @auth,
+      body: 
+      "<form enctype=\"multipart/form-data\" method=\"POST\" action=\"#{@api_url}images/products/#{product_id}\">
+        <fieldset>
+          <legend></legend>
+          <input type=\"file\" name=\"/var/www/html/img/p/2/2/22-home_default.jpg\">
+          <input type=\"submit\" value=\"Execute\">
+        </fieldset>
+      </form>",
+      
       header: {
-        "Content-Type" => 'text/html',
+        "Content-Type" => 'image/jpg',
         "charset" => 'utf-8'
       }
       })
@@ -7891,7 +7501,7 @@ end
 
 
 #add, edit, delete, get addresses
-# Presta.post_address($address)
+ Presta.post_address(**($address))
 #Presta.update_address(7,$address)
 #Presta.getaddresses(7)
 # Presta.delete_address(7)
@@ -7945,7 +7555,7 @@ end
 
 #TO CREATE ORDER FIRSTLY U HAVE TO CREATE NON ORDERED CART (JUST BY POSTING CART)
 #add, edit, delete, get order
-Presta.post_order(**($order))
+#Presta.post_order(**($order))
 #Presta.update_order(11,$order)
 #Presta.delete_order(11)
 #Presta.get_order(11)
@@ -8114,6 +7724,6 @@ Presta.post_order(**($order))
 #Presta.post_address(**($address))
 
 
-# Presta.change_image_api()
+#Presta.change_image_api()
 
-#Presta.post_product_image(22)
+#Presta.post_product_image(1)
