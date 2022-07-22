@@ -20,12 +20,15 @@
 
 
 require 'httparty'
+require 'nokogiri'
+#require 'nokogiri/class_resolver'
 require_relative 'dane_presta.rb'
 require_relative 'creating_hashes.rb'
 
 class Presta
     
     include HTTParty
+    #include Nokogiri
     include PrestaDane
     include Create
 
@@ -633,7 +636,7 @@ class Presta
           body:
           "<prestashop>
             <cart>
-              <id/>
+              <id></id>
               <id_address_delivery>#{id_address_delivery}</id_address_delivery>
               <id_address_invoice>#{id_address_invoice}</id_address_invoice>
               <id_currency>#{id_currency}</id_currency>
@@ -662,7 +665,10 @@ class Presta
           }     
       })
       puts cart.body,cart.code
-    end
+      doc = Nokogiri::XML(cart.body)
+      id  =  doc.at('id').text    
+      return id
+    end  
 
     def self.update_carts(
         id:,
@@ -734,6 +740,7 @@ class Presta
     def self.get_carts(id:)
       carts = HTTParty.get("#{@api_url}carts/#{id}#{@ws_key}")
       puts carts.body,carts.code
+      return id
     end
 
 
@@ -1814,7 +1821,7 @@ class Presta
                   <associations>
                       <groups nodeType=\"group\" api=\"groups\">
                       <group href=\"http://localhost:8080/api/groups/\">
-                      <id>#{id}</id>
+                      <id>#{id_group}</id>
                       </group>
                       </groups>
                   </associations>
@@ -3253,6 +3260,14 @@ class Presta
       puts ord.body,ord.code
     end
 
+    def self.get_order_histories_by_order_id(order_id:)
+      ord = HTTParty.get("#{@api_url}order_histories/#{@ws_key}&filter[id_order]=#{order_id}")
+      doc = Nokogiri::XML(ord.body)
+      id = doc.css("//order_history/@id")
+      return id
+      
+    end
+
     ##### ORDER INVOICE ###############################################################################################################################################
 
     def self.post_order_invoice(
@@ -3612,7 +3627,7 @@ class Presta
     end
 
 
-    ##### ORDER_STATES ############################################################################################################################################
+    ##### ORDER STATES ############################################################################################################################################
 
     def self.post_order_states(
       unremovable:0,
@@ -3745,7 +3760,7 @@ class Presta
         id_lang:,
         id_customer:,
         id_carrier:,
-        current_state:0,
+        current_state: 1,
         modulee:,
         invoice_number: 0,
         invoice_date:"",
@@ -3869,14 +3884,13 @@ class Presta
                       </order_rows>
                   </associations>
               </order>
-          </prestashop>",
-              
+          </prestashop>",   
               header: {
                 "Content-Type" => 'text/xml',
                 "charset" => 'utf-8'
                }
           })
-          puts ord.body, ord.code
+          puts ord.body,ord.code
     end
 
     def self.update_order(
@@ -4030,7 +4044,17 @@ class Presta
     def self.get_order(id:)
     order = HTTParty.get("#{@api_url}orders/#{id}#{@ws_key}")
     puts order.body, order.code
+    return id
     end
+
+    def self.get_order_by_cart_id(id_cart:)
+      order = HTTParty.get("#{@api_url}orders/#{@ws_key}&filter[id_cart]=#{id_cart}")
+      doc = Nokogiri::XML(order.body)
+      id = doc.css("//order/@id")
+      return id
+    end
+
+
 
     ##### PRICE RANGES ####################################################################################################################################################################
 
@@ -4776,11 +4800,6 @@ class Presta
                           <id_product_attribute>#{stock_available_id_product_attribute}</id_product_attribute>
                         </stock_available>
                       </stock_availables>
-                      <attachments nodeType=\"attachment\" api=\"attachments\">
-                        <attachment>
-                          <id>#{attachment_id}</id>
-                        </attachment>
-                      </attachments>
                       <accessories nodeType=\"product\" api=\"products\">
                         <product>
                           <id>#{product_accessories_id}</id>
@@ -5023,11 +5042,6 @@ class Presta
                    <id_product_attribute>#{stock_available_id_product_attribute}</id_product_attribute>
                  </stock_available>
                </stock_availables>
-               <attachments nodeType=\"attachment\" api=\"attachments\">
-                 <attachment>
-                   <id>#{attachment_id}</id>
-                 </attachment>
-               </attachments>
                <accessories nodeType=\"product\" api=\"products\">
                  <product>
                    <id>#{product_accessories_id}</id>
@@ -5603,7 +5617,7 @@ class Presta
     out_of_stock:,
     location:""
    )
-    sup = HTTParty.post("#{@api_url}stock_movements/#{@ws_key}",
+    sup = HTTParty.post("#{@api_url}stock_availables/#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -5639,7 +5653,7 @@ class Presta
     out_of_stock:,
     location:""
   )
-    sup = HTTParty.put("#{@api_url}stock_movements/#{id}#{@ws_key}",
+    sup = HTTParty.put("#{@api_url}stock_availables/#{id}#{@ws_key}",
     {
       body:
       "<prestashop>
@@ -5665,12 +5679,12 @@ class Presta
   end
 
   def self.get_stock_availables(id:)
-    sup = HTTParty.get("#{@api_url}stock_movements/#{id}#{@ws_key}")
+    sup = HTTParty.get("#{@api_url}stock_availables/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
   def self.delete_stock_availables(id:)
-    sup = HTTParty.delete("#{@api_url}stock_movements/#{id}#{@ws_key}")
+    sup = HTTParty.delete("#{@api_url}stock_availables/#{id}#{@ws_key}")
     puts sup.body,sup.code
   end
 
@@ -7444,6 +7458,17 @@ class Presta
 
     #####################################################################################################################################################################################
 
+
+    def self.insert_order()
+      cart_i = Presta.post_carts(**($cart))
+      Presta.post_order(id_cart:cart_i,**($order))
+      order_i = Presta.get_order_by_cart_id(id_cart:cart_i)
+      hist_id = Presta.get_order_histories_by_order_id(order_id:order_i)
+      Presta.delete_order_histories(id:hist_id)
+      Presta.update_order(id:order_i,id_cart:cart_i,**($order))
+
+    end
+
     def self.change_image_api()
       img = HTTParty.post("#{@api_url}images/",
       {
@@ -7501,7 +7526,7 @@ end
 
 
 #add, edit, delete, get addresses
- Presta.post_address(**($address))
+#  Presta.post_address(**($address))
 #Presta.update_address(7,$address)
 #Presta.getaddresses(7)
 # Presta.delete_address(7)
@@ -7539,26 +7564,33 @@ end
 
 
 #add, edit, delete, get customer
-#Presta.post_customer($customer1)
+# Presta.post_customer(**($customer1))
 #Presta.update_customer(4,$customer1)
-#Presta.delete_customer(4)
+# Presta.delete_customer(id:3)
 #Presta.get_customer(2)
 
 #add, edit, delete, get employees
 #Presta.post_employee($employee)
 
+#add, edit, delete, get product
+#Presta.post_product(**($product))
+# Presta.update_product(24,$product)
+# Presta.get_product(24)
+#Presta.delete_product(id:21)
+
+
 #add, edit, delete, get cart
-# Presta.post_carts(**($cart))
+#Presta.post_carts(**($cart))
 #Presta.update_carts(14,$cart)
-#Presta.delete_carts(6)
+# Presta.delete_carts(id:15)
 #Presta.get_carts(14)
 
 #TO CREATE ORDER FIRSTLY U HAVE TO CREATE NON ORDERED CART (JUST BY POSTING CART)
 #add, edit, delete, get order
 #Presta.post_order(**($order))
-#Presta.update_order(11,$order)
-#Presta.delete_order(11)
-#Presta.get_order(11)
+#Presta.update_order(**($order_update))
+#Presta.delete_order(id:25)
+#Presta.get_order(id:19)
 
 #add, edit, delete, get order_states
 #Presta.post_order_states($order_states)
@@ -7609,11 +7641,7 @@ end
 # Presta.delete_order_carriers(12)
 
 
-#add, edit, delete, get product
-#  Presta.post_product(**($product))
-# Presta.update_product(24,$product)
-# Presta.get_product(24)
-# Presta.delete_product(24)
+
 
 
 #add, edit, delete, get tags
@@ -7727,3 +7755,46 @@ end
 #Presta.change_image_api()
 
 #Presta.post_product_image(1)
+
+
+# Presta.update_stock_availables(
+#   id:63,
+#   id_product:22,
+#   id_product_attribute:1,
+#   id_shop:1,
+#   id_shop_group:1,
+#   quantity:100,
+#   depends_on_stock:0,
+#   out_of_stock:5,
+#   location:""
+# )
+
+# Presta.post_order_states(
+#   unremovable:0,
+#   delivery:0,
+#   hidden:0,
+#   send_email:1,
+#   module_name:"",
+#   invoice:1,
+#   color:"#FFFFFF",
+#   logable:0,
+#   shipped:0,
+#   paid:0,
+#   pdf_delivery:0,
+#   pdf_invoice:0,
+#   deleted:0,
+#   name:"test",
+#   template:"test"
+# )
+
+
+# Presta.post_order_histories(
+#   id_employee:1,
+#   id_order_state:10,
+#   id_order:22,
+#   date_add:""
+# )
+
+
+
+Presta.insert_order()
