@@ -1,0 +1,22 @@
+version: '3.9'
+
+services:
+  db:
+    image: mysql:5.7
+    container_name: rails-presta-db
+    volumes:
+      - ./tmp/db:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: db
+      MYSQL_DATABASE_PASSWORD: rails
+      MYSQL_ROOT_PASSWORD: rails
+
+  web:
+    build: .
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+    - .:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
