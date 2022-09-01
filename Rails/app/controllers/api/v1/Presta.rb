@@ -6,7 +6,7 @@
 #                                                                                                                          #
 #   GITHUB: https://github.com/xiro777                                                                                     #
 #                                                                                                                          #
-#   LAST UPDATE: 26.08.2022                                                                                                #
+#   LAST UPDATE: 01.09.2022                                                                                                #
 #                                                                                                                          #
 #   DESCRIPTION: File contains class with request sent to Prestashop API                                                   #
 #                                                                                                                          #
@@ -190,6 +190,14 @@ class Presta
       add = HTTParty.get("#{@api_url}addresses#{@ws_key}&filter[id_country]=#{id_country}&filter[address1]=#{address1}&filter[city]=#{city}&filter[postcode]=#{postcode}&filter[alias]=#{aliass}&filter[firstname]=#{firstname}&filter[lastname]=#{lastname}&filter[phone_mobile]=#{phone_mobile}")
       doc = Nokogiri::XML(add.body)
       id = doc.css("//address/@id").first
+      return id.to_s
+    end
+
+    def self.get_address_country(id:)
+      add = HTTParty.get("#{@api_url}addresses/#{id}#{@ws_key}")
+      puts add.body
+      doc = Nokogiri::XML(add.body)
+      id = doc.at("id_country").text
       return id.to_s
     end
 
@@ -1589,6 +1597,7 @@ class Presta
       id = doc.css("//currency/@id")
       return id
     end
+
 
     def self.get_converison_rate_by_id(id:)
       sup = HTTParty.get("#{@api_url}currencies/#{id}#{@ws_key}")
@@ -7719,30 +7728,3 @@ end
 
 
 
-# def fun(h:)
-#   puts h.to_s
-#   puts "next "
-#   if h.is_a?(Hash)
-#   h.map{|a| puts "Hash_item "+ a.to_s}
-#   puts "next"
-  
-#   h.keys.map{|k| puts "key: #{k}   value: #{h[k]}\"\n\"" } 
-#   else
-#   puts h[0]
-#   end
-# end
-  
-#   fun(h:{:a=>1,:b=>2})
-#   fun(h:"zzz")
-
-# Presta.post_carriers(name:"CARRIER",is_free:0,delay:"CARRIER")
-# x= 1
-# while x < 9
-#   Presta.post_deliveries(id_carrier:106,id_range_price:1,id_range_weight:1,id_zone:x,price:25.0)#warehouse_note["shipping_price"])
-#   x = x + 1
-# end
-x = 91
-while x < 170
-  Presta.delete_address(id:x)
-  x = x + 1
-end

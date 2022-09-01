@@ -73,7 +73,8 @@ class Api::V1::PrestaController < ApplicationController
             )
         
         end
-
+        #Powinno dzialac
+        # curr_id = Presta.get_currency_by_iso_code(iso_code:warehouse["currency"])
        curr_id = 4
         
         #POST CARTS
