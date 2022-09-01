@@ -15,7 +15,7 @@ class Api::V1::PrestaController < ApplicationController
         warehouse_note_items = parse['warehouse_note_items'] 
         warehouse_note_items0 = warehouse_note_items[0]
         shipping_addr = warehouse_note['data']['shipping_address']
-        render :plain => parse
+        #render :plain => parse
 
         country = Presta.get_country_by_country_name(name:shipping_addr['country_code'])
         name = shipping_addr['contact_person'].split
@@ -44,23 +44,6 @@ class Api::V1::PrestaController < ApplicationController
         else
             addr_id = exist_add    
         end
-
-    #     # POST CARRIERS
-
-        # free = 0
-        # if (warehouse_note["shipping_price"] == nil)
-        #     free = 1
-        # else
-        #     free = 0
-        # end
-        # carrier_id = Presta.post_carriers(name:"test1",is_free:0,delay:"nazwa wysylki")
-        # x= 1
-        # while x < 9
-        #   Presta.post_deliveries(id_carrier:carrier_id,id_range_price:1,id_range_weight:1,id_zone:x,price:10.0)#warehouse_note["shipping_price"])
-        #   x = x + 1
-        # end
-        # Presta.sending_query(id_carrier:carrier_id)
-
 
         # # ## POSTING PRODUCT
         tax_id = Presta.get_tax_rule_group_by_name(iso_code:shipping_addr["state_province_code"],vat:(warehouse_note_items0["vat_rate"].to_f * 100).to_i)
@@ -97,7 +80,7 @@ class Api::V1::PrestaController < ApplicationController
         cart_id = Presta.post_carts(
             id_address_delivery:addr_id,
             id_address_invoice:addr_id,
-            id_carrier:107,
+            id_carrier:1,
             id_currency:curr_id,
             products:products
         )
@@ -106,40 +89,40 @@ class Api::V1::PrestaController < ApplicationController
         
         ## POSTING ORDER           
         conv_rate = Presta.get_converison_rate_by_id(id:curr_id)
-        # if warehouse_note["paid"]==true
-        #     Presta.post_order(
-        #         id_address_delivery:addr_id,
-        #         id_address_invoice:addr_id,
-        #         id_cart:cart_id,
-        #         id_currency:curr_id,
-        #         id_carrier:carrier_id,
-        #         current_state:9,
-        #         shipping_number:warehouse_note["package_number"],
-        #         total_products:warehouse_note_items0["net_price"],
-        #         total_products_wt:warehouse_note_items0["price"],
-        #         total_paid:0,
-        #         total_paid_real:0,       
-        #         note:warehouse_note["internal_comments"],
-        #         conversion_rate:conv_rate,
-        #         products:products
-        #     )
-        #     #methods create to avoid settting current state in "error"(bez tego stworzy sie zamowienie z statusem blad)
-        #     order_id = Presta.get_order_by_cart_id(id_cart:cart_id)
-        #     hist_id = Presta.get_order_histories_by_order_id(order_id:order_id)
-        #     Presta.delete_order_histories(id:hist_id)
-        #     Presta.update_order_body(id:order_id,current_state:9,id_carrier:73)
-
-        #     #methods created to remove payment with amount 0(przy utworzeniu zamowienia trzeba podac total paid pomimo ze zamowienie nie jest oplacone i wyswietla zaplate 0zl)
-        #     order_reference_ids = Presta.get_order_reference(order_id:order_id)
-        #     payment_order_id = Presta.get_order_payment_by_reference(reference:order_reference_ids)
-        #     Presta.delete_order_payment(id:payment_order_id)
-        # else
+        if warehouse_note["paid"]==true
             Presta.post_order(
                 id_address_delivery:addr_id,
                 id_address_invoice:addr_id,
                 id_cart:cart_id,
                 id_currency:curr_id,
-                id_carrier:107,
+                id_carrier:1,
+                current_state:9,
+                shipping_number:warehouse_note["package_number"],
+                total_products:warehouse_note_items0["net_price"],
+                total_products_wt:warehouse_note_items0["price"],
+                total_paid:0,
+                total_paid_real:0,       
+                note:warehouse_note["internal_comments"],
+                conversion_rate:conv_rate,
+                products:products
+            )
+           
+            order_id = Presta.get_order_by_cart_id(id_cart:cart_id)
+            hist_id = Presta.get_order_histories_by_order_id(order_id:order_id)
+            Presta.delete_order_histories(id:hist_id)
+            Presta.update_order_body(id:order_id,current_state:9,id_carrier:73)
+
+            
+            order_reference_ids = Presta.get_order_reference(order_id:order_id)
+            payment_order_id = Presta.get_order_payment_by_reference(reference:order_reference_ids)
+            Presta.delete_order_payment(id:payment_order_id)
+        else
+            Presta.post_order(
+                id_address_delivery:addr_id,
+                id_address_invoice:addr_id,
+                id_cart:cart_id,
+                id_currency:curr_id,
+                id_carrier:1,
                 current_state:1,
                 shipping_number:warehouse_note["package_number"],
                 total_products:warehouse_note_items0["net_price"],
@@ -150,18 +133,20 @@ class Api::V1::PrestaController < ApplicationController
                 conversion_rate:conv_rate,
                 products:products
             )
+             #methods create to avoid settting current state in "error"(bez tego stworzy sie zamowienie z statusem blad)
             order_id = Presta.get_order_by_cart_id(id_cart:cart_id)
             hist_id = Presta.get_order_histories_by_order_id(order_id:order_id)
             Presta.delete_order_histories(id:hist_id)
-            Presta.update_order_body(id:order_id,current_state:1,carrier_id:107)
+            Presta.update_order_body(id:order_id,current_state:1,carrier_id:1)
 
+            #methods created to remove payment with amount 0(przy utworzeniu zamowienia trzeba podac total paid pomimo ze zamowienie nie jest oplacone i wyswietla zaplate 0zl)
             order_reference_ids = Presta.get_order_reference(order_id:order_id)
             payment_order_id = Presta.get_order_payment_by_reference(reference:order_reference_ids)
             Presta.delete_order_payment(id:payment_order_id)
 
             #SETTING SHIPPING PRICE
-            Presta.query_insert_shipping(id_order:order_id,shipping_price:warehouse_note["shipping_price"])
-       #end
+            Presta.query_insert_shipping(id_order:order_id,shipping_price:10.0)
+       end
 
 
       end

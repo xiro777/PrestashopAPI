@@ -104,7 +104,6 @@ class Presta
             "charset" => 'utf-8'
           }
       })
-      puts add.body, add.code
       doc = Nokogiri::XML(add.body)
       id  =  doc.at('id').text    
       return id
@@ -662,14 +661,8 @@ class Presta
       date_add: "",
       date_upd: "",
       products:{}
-      # id_product:{},
-      # id_product_attribute: {},
-      # id_address_delivery1: {},
-      # id_customization: {},
-      # quantity:{}
-
-      
   )
+
   body = "<prestashop>
   <cart>
     <id></id>
@@ -708,7 +701,7 @@ class Presta
           "charset" => 'utf-8'
         }     
     })
-    puts cart.body,cart.code
+    #puts cart.body,cart.code
     doc = Nokogiri::XML(cart.body)
     id  =  doc.css("id").text 
     return id
@@ -1599,7 +1592,7 @@ class Presta
 
     def self.get_converison_rate_by_id(id:)
       sup = HTTParty.get("#{@api_url}currencies/#{id}#{@ws_key}")
-      puts sup.body,sup.code
+      #puts sup.body,sup.code
       doc = Nokogiri::XML(sup.body)
       id  =  doc.at('conversion_rate').text    
       return id
@@ -3398,7 +3391,7 @@ class Presta
 
     def self.delete_order_histories(id:)
       ord = HTTParty.delete("#{@api_url}order_histories/#{id}#{@ws_key}")
-      puts ord.body,ord.code
+      #puts ord.body,ord.code
     end
 
     def self.get_order_histories(id:)
@@ -3643,7 +3636,7 @@ class Presta
 
     def self.delete_order_payment(id:)
       order = HTTParty.delete("#{@api_url}order_payments/#{id}#{@ws_key}")
-      puts order.body,order.code
+      #puts order.body,order.code
     end
 
     def self.get_order_payment(id:)
@@ -4049,7 +4042,7 @@ class Presta
                 "charset" => 'utf-8'
                }
           })
-          puts ord.body,ord.code
+          #puts ord.body,ord.code
     end 
 
     def self.update_order(
@@ -4213,12 +4206,12 @@ class Presta
           "charset" => 'utf-8'
         }
       })
-      puts order1.code,order1.body
+      #puts order1.code,order1.body
     end
 
     def self.get_order_reference(order_id:)
       order = HTTParty.get("#{@api_url}orders/#{order_id}&#{@ws_key}")
-      puts order.body
+      #puts order.body
       doc = Nokogiri::XML(order.body)
       reference = doc.at("reference").text
       return reference.to_s
@@ -4773,7 +4766,6 @@ class Presta
 
   ##### PRODUCTS #################################################################################################################################################
 
-  # def self.post_product(product)
   def self.post_product(
         id_manufacturer: 0,
         id_supplier: 0,
@@ -5012,7 +5004,7 @@ class Presta
                   "charset" => 'utf-8'
               }
       })
-      puts prod.body, prod.code
+      #puts prod.body, prod.code
       doc = Nokogiri::XML(prod.body)
       id  =  doc.at('id').text    
       return id.to_s
@@ -5878,7 +5870,7 @@ class Presta
         "charset" => 'utf-8'
       }
     })
-    puts sup.body,sup.code
+    #puts sup.body,sup.code
   end
 
   def self.get_stock_availables(id:)
@@ -5888,7 +5880,7 @@ class Presta
 
   def self.get_stock_availables_by_product_id(id_product:)
     sup = HTTParty.get("#{@api_url}stock_availables/#{@ws_key}&filter[id_product]=#{id_product}")
-    puts sup.body,sup.code
+    #puts sup.body,sup.code
     doc = Nokogiri::XML(sup.body)
     id = doc.css("//stock_available/@id")
     return id
@@ -7749,7 +7741,8 @@ end
 #   Presta.post_deliveries(id_carrier:106,id_range_price:1,id_range_weight:1,id_zone:x,price:25.0)#warehouse_note["shipping_price"])
 #   x = x + 1
 # end
-#Presta.sending_query(id_carrier:106))
-
-
-Presta.query_insert_shipping(id_order:217,shipping_price:10.0)
+x = 91
+while x < 170
+  Presta.delete_address(id:x)
+  x = x + 1
+end
